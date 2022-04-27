@@ -1,7 +1,7 @@
 # Проект «Киноман»
 
 * Студент: [Ирина Рамицан](https://up.htmlacademy.ru/ecmascript/17/user/877447).
-* Наставник: `Неизвестно`.
+* Наставник: [Сергей Рожков](https://htmlacademy.ru/profile/id1069033).
 
 ---
 
