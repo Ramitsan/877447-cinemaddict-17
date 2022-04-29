@@ -1,10 +1,12 @@
 import FiltersView from './view/filters-view.js';
-import FilmCardView from './view/film-card-view.js';
-import SortingView from './view/sorting-view';
+import SortingView from './view/sorting-view.js';
 import {render} from './render.js';
+import BoardPresenter from './presenter/board-presenter.js';
 
 const siteMainElement = document.querySelector('.main');
+const boardPresenter = new BoardPresenter();
 
 render(new FiltersView(), siteMainElement);
 render(new SortingView(), siteMainElement);
-render(new FilmCardView(), siteMainElement);
+
+boardPresenter.init(siteMainElement);
