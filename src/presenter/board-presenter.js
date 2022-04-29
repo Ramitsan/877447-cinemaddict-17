@@ -3,6 +3,7 @@ import FilmsListView from '../view/films-list-view.js';
 import FilmsListTitleView from '../view/films-list-title-view.js';
 import FilmsListContainerView from '../view/films-list-container-view.js';
 import FilmCardView from '../view/film-card-view.js';
+import ShowMoreButtonView from '../view/show-more-button-view.js';
 import { render } from '../render.js';
 
 const cardCount = 5;
@@ -23,5 +24,6 @@ export default class BoardPresenter {
     for (let i = 0; i < cardCount; i++) {
       render(new FilmCardView(), this.FilmsListContainerComponent.getElement());
     }
+    render(new ShowMoreButtonView(), this.FilmsListComponent.getElement());
   };
 }
