@@ -1,6 +1,6 @@
 import { createElement } from '../render.js';
 
-const createFilmsCountTemplate = () => `<p>130 291 movies inside</p>`;
+const createFilmsCountTemplate = () => (`<p>130 291 movies inside</p>`);
 
 export default class FilmsCountView {
   getTemplate() {
