@@ -13,16 +13,20 @@ export default class BoardPresenter {
   FilmsListComponent = new FilmsListView();
   FilmsListContainerComponent = new FilmsListContainerView();
 
-  init = (boardContainer) => {
+  init = (boardContainer, cardsModel) => {
     this.boardContainer = boardContainer;
+    this.cardsModel = cardsModel;
+    this.boardCards = [...this.cardsModel.getCards()];
+
+    console.log(this.boardCards);
 
     render(this.FilmsSectionComponent, this.boardContainer);
     render(this.FilmsListComponent, this.FilmsSectionComponent.getElement());
     render(new FilmsListTitleView(), this.FilmsListComponent.getElement());
     render(this.FilmsListContainerComponent, this.FilmsListComponent.getElement());
 
-    for (let i = 0; i < cardCount; i++) {
-      render(new FilmCardView(), this.FilmsListContainerComponent.getElement());
+    for (let i = 0; i < this.boardCards.length; i++) {
+      render(new FilmCardView(this.boardCards[i]), this.FilmsListContainerComponent.getElement());
     }
     render(new ShowMoreButtonView(), this.FilmsListComponent.getElement());
   };
