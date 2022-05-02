@@ -14,7 +14,7 @@ const FILM_DIRECTORS = ['Anthony Mann', 'Tom Ford'];
 const FILM_WRITERS = ['Anne Wigton', 'Heinz Herald', 'Richard Weil', 'Takeshi Kitano'];
 const FILM_ACTORS = ['Morgan Freeman', 'Erich von Stroheim', 'Mary Beth Hughes', 'Dan Duryea'];
 const FILM_RELEASE_COUNTRIES = ['USA', 'France', 'Great Britain', 'Finland', 'Canada'];
-const FILM_GENRES = ['Drama', 'Cartoon', 'Western', 'Musical', 'Mystery'];
+const FILM_GENRES = ['Drama', 'Cartoon', 'Western'];
 const FILM_DESCRIPTIONS = ['Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquet varius magna, non porta ligula feugiat eget. ',
     'Fusce tristique felis at fermentum pharetra. Aliquam id orci ut lectus varius viverra. Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante. Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum. Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui. ',
     'Sed sed nisi sed augue convallis suscipit in sed felis. Aliquam erat volutpat. Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus.',
@@ -28,7 +28,7 @@ const MIN_RATING = 1;
 const MAX_RATING = 10;
 
 const generateCardFilmElement = (arr) => {
-  let index = getRandomInteger(0, arr.length);
+  let index = getRandomInteger(0, arr.length - 1);
   return arr[index];
 };
 
