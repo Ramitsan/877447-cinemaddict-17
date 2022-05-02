@@ -17,6 +17,6 @@ render(new UserProfileView(), headerElement);
 render(new FiltersView(), siteMainElement);
 render(new SortingView(), siteMainElement);
 render(new FooterStatisticsView(), footerElement);
-// render(new PopupView(), footerElement, RenderPosition.AFTEREND);
+render(new PopupView(), footerElement, RenderPosition.AFTEREND);
 
 boardPresenter.init(siteMainElement, cardsModel);
