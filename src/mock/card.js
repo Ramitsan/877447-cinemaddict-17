@@ -1,9 +1,15 @@
 import { getRandomInteger, getRandomArray } from "../utils";
 
 const FILM_TITLES = ['Popeye the Sailor Meets Sindbad the Sailor', 'Sagebrush Trail', 'The Dance of Life', 'The Man with the Golden Arm', 'The Great Flamarion'];
-const FILM_ALTERNATIVE_TITLES = ['Laziness Who Sold Themselves', 'Lorem ipsum dolor sit amet', 'Fusce tristique felis at fermentum pharetra'];
+const FILM_ALTERNATIVE_TITLES = ['Laziness Who Sold Themselves', 
+                                 'Lorem ipsum dolor sit amet', 
+                                 'Fusce tristique felis at fermentum pharetra'];
 const FILM_AGE_RATING = [0, 6, 12, 16, 18];
-const FILM_POSTERS = ['./images/posters/popeye-meets-sinbad.png', './images/posters/sagebrush-trail.jpg', './images/posters/the-dance-of-life.jpg', './images/posters/the-man-with-the-golden-arm.jpg', './images/posters/the-great-flamarion.jpg'];
+const FILM_POSTERS = ['./images/posters/popeye-meets-sinbad.png', 
+                      './images/posters/sagebrush-trail.jpg', 
+                      './images/posters/the-dance-of-life.jpg', 
+                      './images/posters/the-man-with-the-golden-arm.jpg', 
+                      './images/posters/the-great-flamarion.jpg'];
 const FILM_DIRECTORS = ['Anthony Mann', 'Tom Ford'];
 const FILM_WRITERS = ['Anne Wigton', 'Heinz Herald', 'Richard Weil', 'Takeshi Kitano'];
 const FILM_ACTORS = ['Morgan Freeman', 'Erich von Stroheim', 'Mary Beth Hughes', 'Dan Duryea'];
@@ -30,6 +36,10 @@ const generateTotalRating = (min, max) => {
   return (Math.random(min, max) * 10).toFixed(1);
 };
 
+const generateBooleanValue = () => {
+  return Boolean(getRandomInteger(0, 1));
+}
+
 export const generateCard = () => ({
   "id": getRandomInteger(0, totalCardCount),
   "film_info": {
@@ -50,9 +60,9 @@ export const generateCard = () => ({
     "description": generateCardFilmElement(FILM_DESCRIPTIONS)
   },
   "user_details": {
-    "watchlist": false,
-    "already_watched": true,
+    "watchlist": generateBooleanValue(),
+    "already_watched": generateBooleanValue(),
     "watching_date": "2019-04-12T16:12:32.554Z",
-    "favorite": false
+    "favorite": generateBooleanValue()
   }
 });
