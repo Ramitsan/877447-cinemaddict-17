@@ -1,4 +1,4 @@
-import { getRandomInteger, getRandomArray } from "../utils";
+import { getRandomInteger, getRandomArray, humanizeDate } from "../utils";
 
 const FILM_TITLES = ['Popeye the Sailor Meets Sindbad the Sailor', 'Sagebrush Trail', 'The Dance of Life', 'The Man with the Golden Arm', 'The Great Flamarion'];
 const FILM_ALTERNATIVE_TITLES = ['Laziness Who Sold Themselves', 
@@ -14,6 +14,7 @@ const FILM_DIRECTORS = ['Anthony Mann', 'Tom Ford'];
 const FILM_WRITERS = ['Anne Wigton', 'Heinz Herald', 'Richard Weil', 'Takeshi Kitano'];
 const FILM_ACTORS = ['Morgan Freeman', 'Erich von Stroheim', 'Mary Beth Hughes', 'Dan Duryea'];
 const FILM_RELEASE_COUNTRIES = ['USA', 'France', 'Great Britain', 'Finland', 'Canada'];
+const FILM_DATES_RELISES = ['1975-08-11T00:00:00.000Z', '1936-10-03T00:00:00.000Z', '1965-09-25T00:00:00.000Z', '1971-03-08T00:00:00.000Z', '1948-12-31T00:00:00.000Z'];
 const FILM_GENRES = ['Drama', 'Cartoon', 'Western'];
 const FILM_DESCRIPTIONS = ['Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquet varius magna, non porta ligula feugiat eget. ',
     'Fusce tristique felis at fermentum pharetra. Aliquam id orci ut lectus varius viverra. Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante. Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum. Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui. ',
@@ -52,7 +53,7 @@ export const generateCard = () => ({
     "writers": getRandomArray(FILM_WRITERS),
     "actors": getRandomArray(FILM_ACTORS),
     "release": {
-      "date": "2019-05-11T00:00:00.000Z",
+      "date": generateCardFilmElement(FILM_DATES_RELISES),
       "release_country":generateCardFilmElement(FILM_RELEASE_COUNTRIES)
     },
     "runtime": getRandomInteger(MIN_RUNTIME, MAX_RUNTIME),

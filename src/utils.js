@@ -1,3 +1,5 @@
+import dayjs from 'dayjs';
+
 // генерация случайного числа в заданном интервале, включительно
 const getRandomInteger = (a = 0, b = 1) => {
   const lower = Math.ceil(Math.min(a, b));
@@ -21,4 +23,7 @@ const getRandomArray = (arr) => {
   return shuffle(newArray).splice(0, getRandomInteger(1, newArray.length + 1));
 }
 
-export { getRandomInteger, getRandomArray };
+// функция отображения дат в человекочитаемом формате
+const humanizeDate = (date) => dayjs(date).format('D MMMM YYYY');
+
+export { getRandomInteger, getRandomArray, humanizeDate };

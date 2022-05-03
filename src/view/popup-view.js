@@ -1,7 +1,11 @@
 import { createElement } from '../render.js';
+import { humanizeDate } from "../utils";
+
 
 const createPopupTemplate = (card) => {
-  const { film_info: { title, total_rating, poster, age_rating, director, writers, actors, release: {release_country}, genre, runtime, description} } = card; 
+  const { film_info: { title, total_rating, poster, age_rating, director, writers, actors, release: { date, release_country}, genre, runtime, description} } = card; 
+
+  const filmReleaseDate = date !== null ? humanizeDate(date) : '';
 
   return (
     `<section class="film-details">
@@ -44,7 +48,7 @@ const createPopupTemplate = (card) => {
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Release Date</td>
-                  <td class="film-details__cell">30 March 1945</td>
+                  <td class="film-details__cell">${filmReleaseDate}</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Runtime</td>
@@ -57,9 +61,9 @@ const createPopupTemplate = (card) => {
                 <tr class="film-details__row">
                   <td class="film-details__term">Genres</td>
                   <td class="film-details__cell">
-                    <span class="film-details__genre">Drama</span>
-                    <span class="film-details__genre">Film-Noir</span>
-                    <span class="film-details__genre">Mystery</span></td>
+                    <span class="film-details__genre">${genre[0]}</span>
+                    <span class="film-details__genre">${genre[1]}</span>
+                    <span class="film-details__genre">${genre[2]}</span></td>
                 </tr>
               </table>
     
