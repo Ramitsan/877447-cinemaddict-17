@@ -2,7 +2,7 @@ import { createElement } from '../render.js';
 import { humanizeDate } from "../utils";
 
 
-const createPopupTemplate = (card) => {
+const createPopupTemplate = (card, comment) => {
   const { film_info: { title, total_rating, poster, age_rating, director, writers, actors, release: { date, release_country}, genre, runtime, description} } = card; 
 
   const filmReleaseDate = date !== null ? humanizeDate(date) : '';
@@ -18,7 +18,7 @@ const createPopupTemplate = (card) => {
             <div class="film-details__poster">
               <img class="film-details__poster-img" src="${poster}" alt="">
     
-              <p class="film-details__age">${age_rating}+</p>
+              <p class="film-details__age">${age_rating}</p>
             </div>
     
             <div class="film-details__info">

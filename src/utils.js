@@ -23,7 +23,18 @@ const getRandomArray = (arr) => {
   return shuffle(newArray).splice(0, getRandomInteger(1, newArray.length + 1));
 }
 
+// генерация случайного элемента из массива
+const generateRandomElement = (arr) => {
+  let index = getRandomInteger(0, arr.length - 1);
+  return arr[index];
+};
+
+//генерация случайного булева значения
+const generateBooleanValue = () => {
+  return Boolean(getRandomInteger(0, 1));
+}
+
 // функция отображения дат в человекочитаемом формате
 const humanizeDate = (date) => dayjs(date).format('D MMMM YYYY');
 
-export { getRandomInteger, getRandomArray, humanizeDate };
+export { getRandomInteger, getRandomArray, generateRandomElement, generateBooleanValue, humanizeDate };

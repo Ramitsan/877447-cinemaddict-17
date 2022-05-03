@@ -1,10 +1,11 @@
-import { getRandomInteger, getRandomArray, humanizeDate } from "../utils";
+import { getRandomInteger, getRandomArray, generateRandomElement, generateBooleanValue } from "../utils";
+import { generateComment } from "./comment";
 
 const FILM_TITLES = ['Popeye the Sailor Meets Sindbad the Sailor', 'Sagebrush Trail', 'The Dance of Life', 'The Man with the Golden Arm', 'The Great Flamarion'];
 const FILM_ALTERNATIVE_TITLES = ['Laziness Who Sold Themselves', 
                                  'Lorem ipsum dolor sit amet', 
                                  'Fusce tristique felis at fermentum pharetra'];
-const FILM_AGE_RATING = [0, 6, 12, 16, 18];
+const FILM_AGE_RATING = ['0+', '6+', '12+', '16+', '18+'];
 const FILM_POSTERS = ['./images/posters/popeye-meets-sinbad.png', 
                       './images/posters/sagebrush-trail.jpg', 
                       './images/posters/the-dance-of-life.jpg', 
@@ -28,37 +29,30 @@ const MAX_RUNTIME = 120;
 const MIN_RATING = 1;
 const MAX_RATING = 10;
 
-const generateCardFilmElement = (arr) => {
-  let index = getRandomInteger(0, arr.length - 1);
-  return arr[index];
-};
-
 const generateTotalRating = (min, max) => {
   return (Math.random(min, max) * 10).toFixed(1);
 };
 
-const generateBooleanValue = () => {
-  return Boolean(getRandomInteger(0, 1));
-}
 
 export const generateCard = () => ({
   "id": getRandomInteger(0, totalCardCount),
+  "comments": [],
   "film_info": {
-    "title": generateCardFilmElement(FILM_TITLES),
-    "alternative_title": generateCardFilmElement(FILM_ALTERNATIVE_TITLES),
+    "title": generateRandomElement(FILM_TITLES),
+    "alternative_title": generateRandomElement(FILM_ALTERNATIVE_TITLES),
     "total_rating": generateTotalRating(MIN_RATING, MAX_RATING),
-    "poster": generateCardFilmElement(FILM_POSTERS),
-    "age_rating": generateCardFilmElement(FILM_AGE_RATING),
-    "director": generateCardFilmElement(FILM_DIRECTORS),
+    "poster": generateRandomElement(FILM_POSTERS),
+    "age_rating": generateRandomElement(FILM_AGE_RATING),
+    "director": generateRandomElement(FILM_DIRECTORS),
     "writers": getRandomArray(FILM_WRITERS),
     "actors": getRandomArray(FILM_ACTORS),
     "release": {
-      "date": generateCardFilmElement(FILM_DATES_RELISES),
-      "release_country":generateCardFilmElement(FILM_RELEASE_COUNTRIES)
+      "date": generateRandomElement(FILM_DATES_RELISES),
+      "release_country":generateRandomElement(FILM_RELEASE_COUNTRIES)
     },
     "runtime": getRandomInteger(MIN_RUNTIME, MAX_RUNTIME),
     "genre": getRandomArray(FILM_GENRES),
-    "description": generateCardFilmElement(FILM_DESCRIPTIONS)
+    "description": generateRandomElement(FILM_DESCRIPTIONS)
   },
   "user_details": {
     "watchlist": generateBooleanValue(),
