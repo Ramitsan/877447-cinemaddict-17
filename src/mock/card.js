@@ -28,36 +28,49 @@ const MIN_RUNTIME = 30;
 const MAX_RUNTIME = 120;
 const MIN_RATING = 1;
 const MAX_RATING = 10;
+const MIN_COUNT_COMMENTS = 1;
+const MAX_COUNT_COMMENTS = 7;
 
 const generateTotalRating = (min, max) => {
   return (Math.random(min, max) * 10).toFixed(1);
 };
 
-
-export const generateCard = () => ({
-  "id": getRandomInteger(0, totalCardCount),
-  "comments": [],
-  "film_info": {
-    "title": generateRandomElement(FILM_TITLES),
-    "alternative_title": generateRandomElement(FILM_ALTERNATIVE_TITLES),
-    "total_rating": generateTotalRating(MIN_RATING, MAX_RATING),
-    "poster": generateRandomElement(FILM_POSTERS),
-    "age_rating": generateRandomElement(FILM_AGE_RATING),
-    "director": generateRandomElement(FILM_DIRECTORS),
-    "writers": getRandomArray(FILM_WRITERS),
-    "actors": getRandomArray(FILM_ACTORS),
-    "release": {
-      "date": generateRandomElement(FILM_DATES_RELISES),
-      "release_country":generateRandomElement(FILM_RELEASE_COUNTRIES)
-    },
-    "runtime": getRandomInteger(MIN_RUNTIME, MAX_RUNTIME),
-    "genre": getRandomArray(FILM_GENRES),
-    "description": generateRandomElement(FILM_DESCRIPTIONS)
-  },
-  "user_details": {
-    "watchlist": generateBooleanValue(),
-    "already_watched": generateBooleanValue(),
-    "watching_date": "2019-04-12T16:12:32.554Z",
-    "favorite": generateBooleanValue()
+export const generateCard = (cardsModel, commentsModel) => {
+  const COMMENTS_COUNT = getRandomInteger(MIN_COUNT_COMMENTS, MAX_COUNT_COMMENTS);
+  const comments2 = [];
+  for (let i = 0; i < COMMENTS_COUNT; i++) {
+    let comment = generateComment();
+    comments2.push(comment.id);
+    commentsModel.addComment(comment);
   }
-});
+
+  const card = {
+    "id": getRandomInteger(0, totalCardCount),
+    "comments": comments2, 
+    "film_info": {
+      "title": generateRandomElement(FILM_TITLES),
+      "alternative_title": generateRandomElement(FILM_ALTERNATIVE_TITLES),
+      "total_rating": generateTotalRating(MIN_RATING, MAX_RATING),
+      "poster": generateRandomElement(FILM_POSTERS),
+      "age_rating": generateRandomElement(FILM_AGE_RATING),
+      "director": generateRandomElement(FILM_DIRECTORS),
+      "writers": getRandomArray(FILM_WRITERS),
+      "actors": getRandomArray(FILM_ACTORS),
+      "release": {
+        "date": generateRandomElement(FILM_DATES_RELISES),
+        "release_country":generateRandomElement(FILM_RELEASE_COUNTRIES)
+      },
+      "runtime": getRandomInteger(MIN_RUNTIME, MAX_RUNTIME),
+      "genre": getRandomArray(FILM_GENRES),
+      "description": generateRandomElement(FILM_DESCRIPTIONS)
+    },
+    "user_details": {
+      "watchlist": generateBooleanValue(),
+      "already_watched": generateBooleanValue(),
+      "watching_date": "2019-04-12T16:12:32.554Z",
+      "favorite": generateBooleanValue()
+    }
+  }
+
+  cardsModel.addCard(card);
+};

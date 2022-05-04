@@ -1,7 +1,9 @@
 import { generateCard } from '../mock/card'; 
 
 export default class CardsModel {
-  cards = Array.from({length: 5}, generateCard);
+  cards = [];
 
   getCards = () => this.cards;
+  setCards = (cards) => this.cards = cards;
+  addCard = (card) => this.cards.push(card);
 }

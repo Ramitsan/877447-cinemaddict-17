@@ -3,6 +3,7 @@ import { humanizeDate } from "../utils";
 
 const createFilmCardTemplate = (card) => {
   const { film_info: { title, total_rating, poster, release: {date}, genre, runtime, description} } = card;
+  const commentsCount = card.comments.length;
 
   const filmReleaseDate = date !== null ? humanizeDate(date) : '';
 
@@ -18,7 +19,7 @@ const createFilmCardTemplate = (card) => {
       </p>
       <img src="${poster}" alt="" class="film-card__poster">
       <p class="film-card__description">${description}</p>
-      <span class="film-card__comments">0 comments</span>
+      <span class="film-card__comments">${commentsCount} comments</span>
     </a>
     <div class="film-card__controls">
       <button class="film-card__controls-item film-card__controls-item--add-to-watchlist film-card__controls-item--active" type="button">Add to watchlist</button>
@@ -30,7 +31,7 @@ const createFilmCardTemplate = (card) => {
 }
 
 export default class FilmCardView {
-  constructor(card) {
+  constructor(card, comment) {
     this.card = card;
   }
   getTemplate() {

@@ -2,10 +2,34 @@ import { createElement } from '../render.js';
 import { humanizeDate } from "../utils";
 
 
-const createPopupTemplate = (card, comment) => {
-  const { film_info: { title, total_rating, poster, age_rating, director, writers, actors, release: { date, release_country}, genre, runtime, description} } = card; 
+const createPopupTemplate = (card) => {
+  const { comments, film_info: { title, total_rating, poster, age_rating, director, writers, actors, release: { date, release_country }, genre, runtime, description } } = card;
+  const commentsCount = comments.length;
 
-  const filmReleaseDate = date !== null ? humanizeDate(date) : '';
+   const filmReleaseDate = date !== null ? humanizeDate(date) : '';
+
+  const createFilmGenresTemplate = (genre) => genre.map((elem) => `<span class="film-details__genre">${elem}</span>`).join('');
+  const filmGenresTemplate = createFilmGenresTemplate(genre);
+
+  const filmComments = comments.filter((comment) => comments.includes(comment.id));
+  const createCommentsTempalte = (comments) => {
+    comments.map(({author, comment, date, emotion}) => (
+      `<li class="film-details__comment">
+        <span class="film-details__comment-emoji">
+          <img src="./images/emoji/${emotion}.png" width="55" height="55" alt="emoji-smile">
+        </span>
+        <div>
+          <p class="film-details__comment-text">${comment}</p>
+          <p class="film-details__comment-info">    
+            <span class="film-details__comment-author">${author}</span>
+            <span class="film-details__comment-day">2019/12/31 23:59</span>
+            <button class="film-details__comment-delete">Delete</button>
+          </p>
+        </div>
+      </li>`
+      ))
+  }
+  const CommentsTemplate = createCommentsTempalte(filmComments);
 
   return (
     `<section class="film-details">
@@ -61,9 +85,8 @@ const createPopupTemplate = (card, comment) => {
                 <tr class="film-details__row">
                   <td class="film-details__term">Genres</td>
                   <td class="film-details__cell">
-                    <span class="film-details__genre">${genre[0]}</span>
-                    <span class="film-details__genre">${genre[1]}</span>
-                    <span class="film-details__genre">${genre[2]}</span></td>
+                  ${filmGenresTemplate}
+                  </td>
                 </tr>
               </table>
     
@@ -80,61 +103,10 @@ const createPopupTemplate = (card, comment) => {
     
         <div class="film-details__bottom-container">
           <section class="film-details__comments-wrap">
-            <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">4</span></h3>
+            <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${commentsCount}</span></h3>
     
             <ul class="film-details__comments-list">
-              <li class="film-details__comment">
-                <span class="film-details__comment-emoji">
-                  <img src="./images/emoji/smile.png" width="55" height="55" alt="emoji-smile">
-                </span>
-                <div>
-                  <p class="film-details__comment-text">Interesting setting and a good cast</p>
-                  <p class="film-details__comment-info">
-                    <span class="film-details__comment-author">Tim Macoveev</span>
-                    <span class="film-details__comment-day">2019/12/31 23:59</span>
-                    <button class="film-details__comment-delete">Delete</button>
-                  </p>
-                </div>
-              </li>
-              <li class="film-details__comment">
-                <span class="film-details__comment-emoji">
-                  <img src="./images/emoji/sleeping.png" width="55" height="55" alt="emoji-sleeping">
-                </span>
-                <div>
-                  <p class="film-details__comment-text">Booooooooooring</p>
-                  <p class="film-details__comment-info">
-                    <span class="film-details__comment-author">John Doe</span>
-                    <span class="film-details__comment-day">2 days ago</span>
-                    <button class="film-details__comment-delete">Delete</button>
-                  </p>
-                </div>
-              </li>
-              <li class="film-details__comment">
-                <span class="film-details__comment-emoji">
-                  <img src="./images/emoji/puke.png" width="55" height="55" alt="emoji-puke">
-                </span>
-                <div>
-                  <p class="film-details__comment-text">Very very old. Meh</p>
-                  <p class="film-details__comment-info">
-                    <span class="film-details__comment-author">John Doe</span>
-                    <span class="film-details__comment-day">2 days ago</span>
-                    <button class="film-details__comment-delete">Delete</button>
-                  </p>
-                </div>
-              </li>
-              <li class="film-details__comment">
-                <span class="film-details__comment-emoji">
-                  <img src="./images/emoji/angry.png" width="55" height="55" alt="emoji-angry">
-                </span>
-                <div>
-                  <p class="film-details__comment-text">Almost two hours? Seriously?</p>
-                  <p class="film-details__comment-info">
-                    <span class="film-details__comment-author">John Doe</span>
-                    <span class="film-details__comment-day">Today</span>
-                    <button class="film-details__comment-delete">Delete</button>
-                  </p>
-                </div>
-              </li>
+            ${CommentsTemplate}              
             </ul>
     
             <div class="film-details__new-comment">
@@ -174,8 +146,9 @@ const createPopupTemplate = (card, comment) => {
 }
 
 export default class PopupView {
-  constructor(card) {
+  constructor(card, comment) {
     this.card = card;
+    this.comment = comment;
   }
   getTemplate() {
     return createPopupTemplate(this.card);
