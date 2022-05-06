@@ -3,17 +3,19 @@ import { humanizeDate } from "../utils";
 
 
 const createPopupTemplate = (card) => {
-  const { comments, film_info: { title, total_rating, poster, age_rating, director, writers, actors, release: { date, release_country }, genre, runtime, description } } = card;
-  const commentsCount = comments.length;
+  const { comments: commentsId, film_info: { title, total_rating, poster, age_rating, director, writers, actors, release: { date, release_country }, genre, runtime, description } } = card;
+  const commentsCount = commentsId.length;
 
-   const filmReleaseDate = date !== null ? humanizeDate(date) : '';
+  const filmReleaseDate = date !== null ? humanizeDate(date) : '';
 
   const createFilmGenresTemplate = (genre) => genre.map((elem) => `<span class="film-details__genre">${elem}</span>`).join('');
   const filmGenresTemplate = createFilmGenresTemplate(genre);
 
-  const filmComments = comments.filter((comment) => comments.includes(comment.id));
+
+  const filmComments = commentsId.filter((comment) => commentsId.includes(comment.id));
+
   const createCommentsTempalte = (comments) => {
-    comments.map(({author, comment, date, emotion}) => (
+    comments.map(({author, comment, emotion}) => (
       `<li class="film-details__comment">
         <span class="film-details__comment-emoji">
           <img src="./images/emoji/${emotion}.png" width="55" height="55" alt="emoji-smile">
@@ -146,9 +148,9 @@ const createPopupTemplate = (card) => {
 }
 
 export default class PopupView {
-  constructor(card, comment) {
+  constructor(card, comments) {
     this.card = card;
-    this.comment = comment;
+    this.comments = comments;
   }
   getTemplate() {
     return createPopupTemplate(this.card);

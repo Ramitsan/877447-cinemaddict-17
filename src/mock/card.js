@@ -37,16 +37,17 @@ const generateTotalRating = (min, max) => {
 
 export const generateCard = (cardsModel, commentsModel) => {
   const COMMENTS_COUNT = getRandomInteger(MIN_COUNT_COMMENTS, MAX_COUNT_COMMENTS);
-  const comments2 = [];
+  const commentsId = [];
   for (let i = 0; i < COMMENTS_COUNT; i++) {
     let comment = generateComment();
-    comments2.push(comment.id);
+    commentsId.push(comment.id);
     commentsModel.addComment(comment);
+    commentsModel.getComments();
   }
 
   const card = {
     "id": getRandomInteger(0, totalCardCount),
-    "comments": comments2, 
+    "comments": commentsId, 
     "film_info": {
       "title": generateRandomElement(FILM_TITLES),
       "alternative_title": generateRandomElement(FILM_ALTERNATIVE_TITLES),
