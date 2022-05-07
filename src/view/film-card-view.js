@@ -1,11 +1,12 @@
 import { createElement } from '../render.js';
-import { humanizeDate } from "../utils";
+import { humanizeDateReleaseForCard, getFilmDuration } from "../utils";
 
 const createFilmCardTemplate = (card) => {
   const { film_info: { title, total_rating, poster, release: {date}, genre, runtime, description} } = card;
   const commentsCount = card.comments.length;
 
-  const filmReleaseDate = date !== null ? humanizeDate(date) : '';
+  const filmReleaseDate = date !== null ? humanizeDateReleaseForCard(date) : '';
+  const filmRuntime = getFilmDuration(runtime);
 
   return (
     `<article class="film-card">
@@ -14,7 +15,7 @@ const createFilmCardTemplate = (card) => {
       <p class="film-card__rating">${total_rating}</p>
       <p class="film-card__info">
         <span class="film-card__year">${filmReleaseDate}</span>
-        <span class="film-card__duration">${runtime}m</span>
+        <span class="film-card__duration">${filmRuntime}</span>
         <span class="film-card__genre">${genre}</span>
       </p>
       <img src="${poster}" alt="" class="film-card__poster">

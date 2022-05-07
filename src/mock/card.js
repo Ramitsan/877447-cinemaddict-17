@@ -15,13 +15,21 @@ const FILM_DIRECTORS = ['Anthony Mann', 'Tom Ford'];
 const FILM_WRITERS = ['Anne Wigton', 'Heinz Herald', 'Richard Weil', 'Takeshi Kitano'];
 const FILM_ACTORS = ['Morgan Freeman', 'Erich von Stroheim', 'Mary Beth Hughes', 'Dan Duryea'];
 const FILM_RELEASE_COUNTRIES = ['USA', 'France', 'Great Britain', 'Finland', 'Canada'];
-const FILM_DATES_RELISES = ['1975-08-11T00:00:00.000Z', '1936-10-03T00:00:00.000Z', '1965-09-25T00:00:00.000Z', '1971-03-08T00:00:00.000Z', '1948-12-31T00:00:00.000Z'];
+const FILM_DATES_RELISES = ['1975-08-11T00:00:00.000Z', 
+                            '1936-10-03T00:00:00.000Z', 
+                            '1965-09-25T00:00:00.000Z', 
+                            '1971-03-08T00:00:00.000Z', 
+                            '1948-12-31T00:00:00.000Z'];
 const FILM_GENRES = ['Drama', 'Cartoon', 'Western'];
 const FILM_DESCRIPTIONS = ['Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquet varius magna, non porta ligula feugiat eget. ',
     'Fusce tristique felis at fermentum pharetra. Aliquam id orci ut lectus varius viverra. Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante. Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum. Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui. ',
     'Sed sed nisi sed augue convallis suscipit in sed felis. Aliquam erat volutpat. Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus.',
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquet varius magna, non porta ligula feugiat eget. Fusce tristique felis at fermentum pharetra. Aliquam id orci ut lectus varius viverra. Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante. Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum. Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui. Sed sed nisi sed augue convallis suscipit in sed felis.',
     'Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum. Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui. Sed sed nisi sed augue convallis suscipit in sed felis. Aliquam erat volutpat. Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus.'];
+const FILM_DATES_WATCHING = ['2019-04-12T16:12:32.554Z',
+                             '2015-08-23T15:20:35.554Z',
+                             '2020-10-30T20:15:45.554Z'];
+
 
 const totalCardCount = 10;
 const MIN_RUNTIME = 30;
@@ -69,7 +77,7 @@ export const generateCard = (cardsModel, commentsModel) => {
     "user_details": {
       "watchlist": generateBooleanValue(),
       "already_watched": generateBooleanValue(),
-      "watching_date": "2019-04-12T16:12:32.554Z",
+      "watching_date": generateRandomElement(FILM_DATES_WATCHING),
       "favorite": generateBooleanValue()
     }
   }

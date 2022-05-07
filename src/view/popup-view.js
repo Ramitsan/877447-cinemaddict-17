@@ -1,11 +1,13 @@
 import { createElement } from '../render.js';
-import { humanizeDate } from "../utils";
+import { humanizeDateReleaseForPopup,  getFilmDuration} from "../utils";
 
 const createPopupTemplate = (card) => {
   const { comments: commentsId, film_info: { title, total_rating, poster, age_rating, director, writers, actors, release: { date, release_country }, genre, runtime, description } } = card;
   const commentsCount = commentsId.length;
 
-  const filmReleaseDate = date !== null ? humanizeDate(date) : '';
+  const filmReleaseDate = date !== null ? humanizeDateReleaseForPopup(date) : '';
+  const filmRuntime = getFilmDuration(runtime);
+
 
   const createFilmGenresTemplate = (genre) => genre.map((elem) => `<span class="film-details__genre">${elem}</span>`).join('');
   const filmGenresTemplate = createFilmGenresTemplate(genre);
@@ -55,7 +57,7 @@ const createPopupTemplate = (card) => {
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Runtime</td>
-                  <td class="film-details__cell">1h 18m</td>
+                  <td class="film-details__cell">${filmRuntime}</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Country</td>

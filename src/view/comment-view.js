@@ -1,7 +1,9 @@
 import { createElement } from '../render.js';
+import { humanizeDateComment} from '../utils.js';
 
 const createCommentTemplate = (comment) => {
-  const { author, comment: commentText, date: dateComments, emotion } = comment;
+  const { author, comment: commentText, date, emotion } = comment;
+  const commentDate = date !== null ? humanizeDateComment(date) : '';
 
   return (
     `<li class="film-details__comment">
@@ -12,7 +14,7 @@ const createCommentTemplate = (comment) => {
        <p class="film-details__comment-text">${commentText}</p>
        <p class="film-details__comment-info">    
          <span class="film-details__comment-author">${author}</span>
-          <span class="film-details__comment-day">${dateComments}</span>
+          <span class="film-details__comment-day">${commentDate}</span>
           <button class="film-details__comment-delete">Delete</button>
         </p>
       </div>

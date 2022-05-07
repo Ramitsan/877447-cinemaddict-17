@@ -35,6 +35,22 @@ const generateBooleanValue = () => {
 }
 
 // функция отображения дат в человекочитаемом формате
-const humanizeDate = (date) => dayjs(date).format('D MMMM YYYY');
+const humanizeDateReleaseForCard = (date) => dayjs(date).format('YYYY');
+const humanizeDateReleaseForPopup = (date) => dayjs(date).format('D MMMM YYYY');
+const humanizeDateComment = (date) => dayjs(date).format('YYYY/mm/DD hh:mm');
 
-export { getRandomInteger, getRandomArray, generateRandomElement, generateBooleanValue, humanizeDate };
+// функция перевода минут в часы и минуты
+const getFilmDuration = (duration) => {
+  const hours = Math.floor(duration / 60);
+  const minutes = duration % 60; 
+  return hours >= 1 ? `${hours}h ${minutes}m` : `${minutes}m`;
+};
+
+export { getRandomInteger, 
+        getRandomArray, 
+        generateRandomElement, 
+        generateBooleanValue, 
+        humanizeDateReleaseForCard,
+        humanizeDateReleaseForPopup,
+        humanizeDateComment,
+        getFilmDuration };
