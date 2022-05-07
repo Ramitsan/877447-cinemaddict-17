@@ -1,15 +1,15 @@
 import { createElement } from '../render.js';
-import { humanizeDateReleaseForPopup,  getFilmDuration} from "../utils";
+import { humanizeDateReleaseForPopup,  getFilmDuration} from '../utils';
 
 const createPopupTemplate = (card) => {
-  const { comments: commentsId, film_info: { title, total_rating, poster, age_rating, director, writers, actors, release: { date, release_country }, genre, runtime, description } } = card;
+  const { comments: commentsId, filmInfo: { title, totalRating, poster, ageRating, director, writers, actors, release: { date, releaseCountry }, genre, runtime, description } } = card;
   const commentsCount = commentsId.length;
 
   const filmReleaseDate = date !== null ? humanizeDateReleaseForPopup(date) : '';
   const filmRuntime = getFilmDuration(runtime);
 
 
-  const createFilmGenresTemplate = (genre) => genre.map((elem) => `<span class="film-details__genre">${elem}</span>`).join('');
+  const createFilmGenresTemplate = (arr) => arr.map((elem) => `<span class="film-details__genre">${elem}</span>`).join('');
   const filmGenresTemplate = createFilmGenresTemplate(genre);
 
   return (
@@ -23,7 +23,7 @@ const createPopupTemplate = (card) => {
             <div class="film-details__poster">
               <img class="film-details__poster-img" src="${poster}" alt="">
     
-              <p class="film-details__age">${age_rating}</p>
+              <p class="film-details__age">${ageRating}</p>
             </div>
     
             <div class="film-details__info">
@@ -34,7 +34,7 @@ const createPopupTemplate = (card) => {
                 </div>
     
                 <div class="film-details__rating">
-                  <p class="film-details__total-rating">${total_rating}</p>
+                  <p class="film-details__total-rating">${totalRating}</p>
                 </div>
               </div>
     
@@ -61,7 +61,7 @@ const createPopupTemplate = (card) => {
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Country</td>
-                  <td class="film-details__cell">${release_country}</td>
+                  <td class="film-details__cell">${releaseCountry}</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Genres</td>
@@ -123,12 +123,13 @@ const createPopupTemplate = (card) => {
       </form>
     </section>`
   );
-}
+};
 
 export default class PopupView {
   constructor(card) {
     this.card = card;
   }
+
   getTemplate() {
     return createPopupTemplate(this.card);
   }

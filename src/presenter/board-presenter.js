@@ -1,6 +1,6 @@
 import FilmsSectionView from '../view/films-section-view.js';
 import FilmsListView from '../view/films-list-view.js';
-import FilmsListExtraView from '../view/films-list-extra-view.js'
+import FilmsListExtraView from '../view/films-list-extra-view.js';
 import FilmsListContainerView from '../view/films-list-container-view.js';
 import FilmCardView from '../view/film-card-view.js';
 import ShowMoreButtonView from '../view/show-more-button-view.js';
@@ -9,7 +9,6 @@ import { RenderPosition, render } from '../render.js';
 import CommentView from '../view/comment-view.js';
 
 const footerElement = document.querySelector('.footer');
-const cardCount = 5;
 
 export default class BoardPresenter {
   filmsSectionComponent = new FilmsSectionView();
@@ -32,9 +31,6 @@ export default class BoardPresenter {
     this.commentsModel = commentsModel;
     this.boardComments = [...this.commentsModel.getComments()];
 
-    console.log(this.boardFilmsCards);
-    console.log(this.boardComments);
-   
     //отрисовка карточек в основном блоке
     render(this.filmsSectionComponent, this.boardContainer);
     render(this.filmsListComponent, this.filmsSectionComponent.getElement());
@@ -61,7 +57,7 @@ export default class BoardPresenter {
     //отрисовка попапа
     render(new PopupView(this.boardFilmsCards[0], this.boardComments), footerElement, RenderPosition.AFTEREND);
     const commentsList = document.querySelector('.film-details__comments-list');
- 
+     
     for (let i = 0; i < this.boardFilmsCards[0].comments.length; i++) {      
       render(new CommentView(this.boardComments[i]), commentsList);
     }

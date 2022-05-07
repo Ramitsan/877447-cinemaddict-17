@@ -1,5 +1,3 @@
-import { generateCard } from '../mock/card'; 
-
 export default class CardsModel {
   cards = [];
 

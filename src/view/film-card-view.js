@@ -1,8 +1,8 @@
 import { createElement } from '../render.js';
-import { humanizeDateReleaseForCard, getFilmDuration } from "../utils";
+import { humanizeDateReleaseForCard, getFilmDuration } from '../utils';
 
 const createFilmCardTemplate = (card) => {
-  const { film_info: { title, total_rating, poster, release: {date}, genre, runtime, description} } = card;
+  const { filmInfo: { title, totalRating, poster, release: {date}, genre, runtime, description} } = card;
   const commentsCount = card.comments.length;
 
   const filmReleaseDate = date !== null ? humanizeDateReleaseForCard(date) : '';
@@ -12,7 +12,7 @@ const createFilmCardTemplate = (card) => {
     `<article class="film-card">
     <a class="film-card__link">
       <h3 class="film-card__title">${title}</h3>
-      <p class="film-card__rating">${total_rating}</p>
+      <p class="film-card__rating">${totalRating}</p>
       <p class="film-card__info">
         <span class="film-card__year">${filmReleaseDate}</span>
         <span class="film-card__duration">${filmRuntime}</span>
@@ -29,12 +29,13 @@ const createFilmCardTemplate = (card) => {
     </div>
   </article>`
   );
-}
+};
 
 export default class FilmCardView {
-  constructor(card, comment) {
+  constructor(card) {
     this.card = card;
   }
+
   getTemplate() {
     return createFilmCardTemplate(this.card);
   }
