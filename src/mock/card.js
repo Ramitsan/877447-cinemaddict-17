@@ -38,6 +38,7 @@ const generateTotalRating = (min, max) => {
 export const generateCard = (cardsModel, commentsModel) => {
   const COMMENTS_COUNT = getRandomInteger(MIN_COUNT_COMMENTS, MAX_COUNT_COMMENTS);
   const commentsId = [];
+
   for (let i = 0; i < COMMENTS_COUNT; i++) {
     let comment = generateComment();
     commentsId.push(comment.id);

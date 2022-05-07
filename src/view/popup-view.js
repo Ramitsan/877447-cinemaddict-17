@@ -1,7 +1,6 @@
 import { createElement } from '../render.js';
 import { humanizeDate } from "../utils";
 
-
 const createPopupTemplate = (card) => {
   const { comments: commentsId, film_info: { title, total_rating, poster, age_rating, director, writers, actors, release: { date, release_country }, genre, runtime, description } } = card;
   const commentsCount = commentsId.length;
@@ -10,28 +9,6 @@ const createPopupTemplate = (card) => {
 
   const createFilmGenresTemplate = (genre) => genre.map((elem) => `<span class="film-details__genre">${elem}</span>`).join('');
   const filmGenresTemplate = createFilmGenresTemplate(genre);
-
-
-  const filmComments = commentsId.filter((comment) => commentsId.includes(comment.id));
-
-  const createCommentsTempalte = (comments) => {
-    comments.map(({author, comment, emotion}) => (
-      `<li class="film-details__comment">
-        <span class="film-details__comment-emoji">
-          <img src="./images/emoji/${emotion}.png" width="55" height="55" alt="emoji-smile">
-        </span>
-        <div>
-          <p class="film-details__comment-text">${comment}</p>
-          <p class="film-details__comment-info">    
-            <span class="film-details__comment-author">${author}</span>
-            <span class="film-details__comment-day">2019/12/31 23:59</span>
-            <button class="film-details__comment-delete">Delete</button>
-          </p>
-        </div>
-      </li>`
-      ))
-  }
-  const CommentsTemplate = createCommentsTempalte(filmComments);
 
   return (
     `<section class="film-details">
@@ -107,8 +84,7 @@ const createPopupTemplate = (card) => {
           <section class="film-details__comments-wrap">
             <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${commentsCount}</span></h3>
     
-            <ul class="film-details__comments-list">
-            ${CommentsTemplate}              
+            <ul class="film-details__comments-list">                
             </ul>
     
             <div class="film-details__new-comment">
@@ -148,9 +124,8 @@ const createPopupTemplate = (card) => {
 }
 
 export default class PopupView {
-  constructor(card, comments) {
+  constructor(card) {
     this.card = card;
-    this.comments = comments;
   }
   getTemplate() {
     return createPopupTemplate(this.card);
