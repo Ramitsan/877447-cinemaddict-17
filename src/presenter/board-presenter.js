@@ -57,8 +57,8 @@ export default class BoardPresenter {
     //отрисовка попапа
     render(new PopupView(this.boardFilmsCards[0], this.boardComments), footerElement, RenderPosition.AFTEREND);
     const commentsList = document.querySelector('.film-details__comments-list');
-     
-    for (let i = 0; i < this.boardFilmsCards[0].comments.length; i++) {      
+
+    for (let i = 0; i < this.boardFilmsCards[0].comments.length; i++) {
       render(new CommentView(this.boardComments[i]), commentsList);
     }
   };

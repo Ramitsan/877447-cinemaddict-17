@@ -10,7 +10,7 @@ export default class FilmsListExtraView {
   constructor(heading) {
     this.heading = heading;
   }
-  
+
   getTemplate() {
     return createFilmsListExtraTemplate(this.heading);
   }

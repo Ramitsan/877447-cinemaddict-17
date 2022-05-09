@@ -20,13 +20,13 @@ const createCommentTemplate = (comment) => {
       </div>
     </li>`
   );
-}
+};
 
 export default class CommentView {
   constructor(comment) {
     this.comment = comment;
   }
-  
+
   getTemplate() {
     return createCommentTemplate(this.comment);
   }

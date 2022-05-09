@@ -26,7 +26,7 @@ const MAX_RATING = 10;
 const MIN_COUNT_COMMENTS = 1;
 const MAX_COUNT_COMMENTS = 7;
 
-const generateTotalRating = (min, max) => (Math.random(min, max) * 10).toFixed(1);
+const generateTotalRating = () => (Math.random() * 10).toFixed(1);
 
 export const generateCard = (cardsModel, commentsModel) => {
   const COMMENTS_COUNT = getRandomInteger(MIN_COUNT_COMMENTS, MAX_COUNT_COMMENTS);
@@ -36,7 +36,6 @@ export const generateCard = (cardsModel, commentsModel) => {
     const comment = generateComment();
     commentsId.push(comment.id);
     commentsModel.addComment(comment);
-    commentsModel.getComments();
   }
 
   const card = {
