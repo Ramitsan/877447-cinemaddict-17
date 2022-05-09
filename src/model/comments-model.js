@@ -1,11 +1,13 @@
 export default class CommentsModel {
-  comments = [];
+  #comments = [];
 
-  setComments = (arr) => {
-    this.comments = arr;
-  };
+  set comments(arr) {
+    this.#comments = arr;
+  }
 
-  getComments = () => this.comments;
+  get comments() {
+    return this.#comments;
+  }
 
   addComment = (comment) => {
     this.comments.push(comment);

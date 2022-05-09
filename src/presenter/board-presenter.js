@@ -11,55 +11,63 @@ import CommentView from '../view/comment-view.js';
 const footerElement = document.querySelector('.footer');
 
 export default class BoardPresenter {
-  filmsSectionComponent = new FilmsSectionView();
-  filmsListComponent = new FilmsListView();
-  filmsListContainerComponent = new FilmsListContainerView();
+  #boardContainer = null;
+  #cardsModel = null;
+  #commentsModel = null;
+  #boardFilmsCards = [];
+  #ratedFilmsCards = [];
+  #commentedFilmsCards = [];
+  #boardComments = [];
 
-  filmsListExtraRated = new FilmsListExtraView('Top rated');
-  filmsListExtraRatedContainerComponent = new FilmsListContainerView();
+  #filmsSectionComponent = new FilmsSectionView();
+  #filmsListComponent = new FilmsListView();
+  #filmsListContainerComponent = new FilmsListContainerView();
 
-  filmsListExtraCommented = new FilmsListExtraView('Most commented');
-  filmsListExtraCommentedContainerComponent = new FilmsListContainerView();
+  #filmsListExtraRated = new FilmsListExtraView('Top rated');
+  #filmsListExtraRatedContainerComponent = new FilmsListContainerView();
+
+  #filmsListExtraCommented = new FilmsListExtraView('Most commented');
+  #filmsListExtraCommentedContainerComponent = new FilmsListContainerView();
 
   init = (boardContainer, cardsModel, commentsModel) => {
-    this.boardContainer = boardContainer;
-    this.cardsModel = cardsModel;
-    this.boardFilmsCards = [...this.cardsModel.getCards()];
-    this.ratedFilmsCards = [...this.cardsModel.getCards()].slice(0, 2);
-    this.commentedFilmsCards = [...this.cardsModel.getCards()].slice(2, 4);
+    this.#boardContainer = boardContainer;
+    this.#cardsModel = cardsModel;
+    this.#boardFilmsCards = [...this.#cardsModel.cards];
+    this.#ratedFilmsCards = [...this.#cardsModel.cards].slice(0, 2);
+    this.#commentedFilmsCards = [...this.#cardsModel.cards].slice(2, 4);
 
-    this.commentsModel = commentsModel;
-    this.boardComments = [...this.commentsModel.getComments()];
+    this.#commentsModel = commentsModel;
+    this.#boardComments = [...this.#commentsModel.comments];
 
     //отрисовка карточек в основном блоке
-    render(this.filmsSectionComponent, this.boardContainer);
-    render(this.filmsListComponent, this.filmsSectionComponent.getElement());
-    render(this.filmsListContainerComponent, this.filmsListComponent.getElement());
-    for (let i = 0; i < this.boardFilmsCards.length; i++) {
-      render(new FilmCardView(this.boardFilmsCards[i]), this.filmsListContainerComponent.getElement());
+    render(this.#filmsSectionComponent, this.#boardContainer);
+    render(this.#filmsListComponent, this.#filmsSectionComponent.element);
+    render(this.#filmsListContainerComponent, this.#filmsListComponent.element);
+    for (let i = 0; i < this.#boardFilmsCards.length; i++) {
+      render(new FilmCardView(this.#boardFilmsCards[i]), this.#filmsListContainerComponent.element);
     }
-    render(new ShowMoreButtonView(), this.filmsListComponent.getElement());
+    render(new ShowMoreButtonView(), this.#filmsListComponent.element);
 
     //отрисовка карточек в блоке "Top rated"
-    render(this.filmsListExtraRated, this.filmsSectionComponent.getElement());
-    render(this.filmsListExtraRatedContainerComponent, this.filmsListExtraRated.getElement());
+    render(this.#filmsListExtraRated, this.#filmsSectionComponent.element);
+    render(this.#filmsListExtraRatedContainerComponent, this.#filmsListExtraRated.element);
     for (let i = 0; i < 2; i++) {
-      render(new FilmCardView(this.ratedFilmsCards[i]), this.filmsListExtraRatedContainerComponent.getElement());
+      render(new FilmCardView(this.#ratedFilmsCards[i]), this.#filmsListExtraRatedContainerComponent.element);
     }
 
     //отрисовка карточек в блоке "Most commented"
-    render(this.filmsListExtraCommented, this.filmsSectionComponent.getElement());
-    render(this.filmsListExtraCommentedContainerComponent, this.filmsListExtraCommented.getElement());
+    render(this.#filmsListExtraCommented, this.#filmsSectionComponent.element);
+    render(this.#filmsListExtraCommentedContainerComponent, this.#filmsListExtraCommented.element);
     for (let i = 0; i < 2; i++) {
-      render(new FilmCardView(this.commentedFilmsCards[i]), this.filmsListExtraCommentedContainerComponent.getElement());
+      render(new FilmCardView(this.#commentedFilmsCards[i]), this.#filmsListExtraCommentedContainerComponent.element);
     }
 
     //отрисовка попапа
-    render(new PopupView(this.boardFilmsCards[0], this.boardComments), footerElement, RenderPosition.AFTEREND);
+    render(new PopupView(this.#boardFilmsCards[0], this.#boardComments), footerElement, RenderPosition.AFTEREND);
     const commentsList = document.querySelector('.film-details__comments-list');
 
-    for (let i = 0; i < this.boardFilmsCards[0].comments.length; i++) {
-      render(new CommentView(this.boardComments[i]), commentsList);
+    for (let i = 0; i < this.#boardFilmsCards[0].comments.length; i++) {
+      render(new CommentView(this.#boardComments[i]), commentsList);
     }
   };
 }

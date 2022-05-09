@@ -1,11 +1,13 @@
 export default class CardsModel {
-  cards = [];
+  #cards = [];
 
-  getCards = () => this.cards;
+  get cards() {
+    return this.#cards;
+  }
 
-  setCards = (cards) => {
-    this.cards = cards;
-  };
+  set cards (cards) {
+    this.#cards = cards;
+  }
 
-  addCard = (card) => this.cards.push(card);
+  addCard = (card) => this.#cards.push(card);
 }
