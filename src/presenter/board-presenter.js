@@ -5,10 +5,10 @@ import FilmsListContainerView from '../view/films-list-container-view.js';
 import FilmCardView from '../view/film-card-view.js';
 import ShowMoreButtonView from '../view/show-more-button-view.js';
 import PopupView from '../view/popup-view.js';
-import { RenderPosition, render } from '../render.js';
+import { render } from '../render.js';
 import CommentView from '../view/comment-view.js';
 
-const footerElement = document.querySelector('.footer');
+// const footerElement = document.querySelector('.footer');
 const bodyElement = document.querySelector('body');
 
 export default class BoardPresenter {
@@ -70,7 +70,6 @@ export default class BoardPresenter {
     // for (let i = 0; i < this.#boardFilmsCards[0].comments.length; i++) {
     //   render(new CommentView(this.#boardComments[0]), commentsList);
     // }
-
   };
 
   #renderCard = (card) => {
@@ -78,9 +77,14 @@ export default class BoardPresenter {
     const popupComponent = new PopupView(card);
 
     const commentsList = popupComponent.element.querySelector('.film-details__comments-list');
- 
+    this.#boardComments = new Set(this.#boardComments);
+
     for (const comment of this.#boardComments) {
-      render(new CommentView(comment), commentsList);
+      for (const cardCommentId of card.comments) {
+        if (comment.id === cardCommentId) {
+          render(new CommentView(comment), commentsList);
+        }
+      }
     }
 
     const openPopup = () => {
