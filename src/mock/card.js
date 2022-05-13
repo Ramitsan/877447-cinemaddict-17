@@ -21,12 +21,12 @@ const FILM_DATES_WATCHING = ['2019-04-12T16:12:32.554Z', '2015-08-23T15:20:35.55
 const totalCardCount = 10;
 const MIN_RUNTIME = 30;
 const MAX_RUNTIME = 120;
-const MIN_RATING = 1;
-const MAX_RATING = 10;
+// const MIN_RATING = 1;
+// const MAX_RATING = 10;
 const MIN_COUNT_COMMENTS = 1;
 const MAX_COUNT_COMMENTS = 7;
 
-const generateTotalRating = (min, max) => (Math.random(min, max) * 10).toFixed(1);
+const generateTotalRating = () => (Math.random() * 10).toFixed(1);
 
 export const generateCard = (cardsModel, commentsModel) => {
   const COMMENTS_COUNT = getRandomInteger(MIN_COUNT_COMMENTS, MAX_COUNT_COMMENTS);
@@ -36,7 +36,6 @@ export const generateCard = (cardsModel, commentsModel) => {
     const comment = generateComment();
     commentsId.push(comment.id);
     commentsModel.addComment(comment);
-    commentsModel.getComments();
   }
 
   const card = {
@@ -45,7 +44,7 @@ export const generateCard = (cardsModel, commentsModel) => {
     'filmInfo': {
       'title': generateRandomElement(FILM_TITLES),
       'alternativeTitle': generateRandomElement(FILM_ALTERNATIVE_TITLES),
-      'totalRating': generateTotalRating(MIN_RATING, MAX_RATING),
+      'totalRating': generateTotalRating(),
       'poster': generateRandomElement(FILM_POSTERS),
       'ageRating': generateRandomElement(FILM_AGE_RATING),
       'director': generateRandomElement(FILM_DIRECTORS),
