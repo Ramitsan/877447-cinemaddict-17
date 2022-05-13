@@ -8,6 +8,7 @@ import PopupView from '../view/popup-view.js';
 import { render } from '../render.js';
 import CommentView from '../view/comment-view.js';
 
+const CARD_COUNT_PER_STEP = 5;
 const bodyElement = document.querySelector('body');
 
 export default class BoardPresenter {
@@ -18,6 +19,7 @@ export default class BoardPresenter {
   #ratedFilmsCards = [];
   #commentedFilmsCards = [];
   #boardComments = [];
+  #renderedCardsCount = CARD_COUNT_PER_STEP;
 
   #filmsSectionComponent = new FilmsSectionView();
   #filmsListComponent = new FilmsListView();
@@ -28,6 +30,7 @@ export default class BoardPresenter {
 
   #filmsListExtraCommented = new FilmsListExtraView('Most commented');
   #filmsListExtraCommentedContainerComponent = new FilmsListContainerView();
+  #showMoreButtonComponent =  new ShowMoreButtonView();
 
   init = (boardContainer, cardsModel, commentsModel) => {
     this.#boardContainer = boardContainer;
@@ -43,10 +46,16 @@ export default class BoardPresenter {
     render(this.#filmsSectionComponent, this.#boardContainer);
     render(this.#filmsListComponent, this.#filmsSectionComponent.element);
     render(this.#filmsListContainerComponent, this.#filmsListComponent.element);
-    for (let i = 0; i < this.#boardFilmsCards.length; i++) {
+    for (let i = 0; i < Math.min(this.#boardFilmsCards.length, CARD_COUNT_PER_STEP); i++) {
       this.#renderCard(this.#boardFilmsCards[i]);
     }
-    render(new ShowMoreButtonView(), this.#filmsListComponent.element);
+
+    //показ кнопки "Show More"
+    if (this.#boardFilmsCards.length > CARD_COUNT_PER_STEP) {
+      render(this.#showMoreButtonComponent, this.#filmsListComponent.element);
+
+      this.#showMoreButtonComponent.element.addEventListener('click', this.#showMoreButtonClickHandler);
+    }
 
     //отрисовка карточек в блоке "Top rated"
     render(this.#filmsListExtraRated, this.#filmsSectionComponent.element);
@@ -60,6 +69,17 @@ export default class BoardPresenter {
     render(this.#filmsListExtraCommentedContainerComponent, this.#filmsListExtraCommented.element);
     for (let i = 0; i < 2; i++) {
       render(new FilmCardView(this.#commentedFilmsCards[i]), this.#filmsListExtraCommentedContainerComponent.element);
+    }
+  };
+
+  #showMoreButtonClickHandler = (evt) => {
+    evt.preventDefault();
+    this.#boardFilmsCards.slice(this.#renderedCardsCount, this.#renderedCardsCount + CARD_COUNT_PER_STEP).forEach((card) => this.#renderCard(card));
+    this.#renderedCardsCount += CARD_COUNT_PER_STEP;
+
+    if (this.#renderedCardsCount >= this.#boardFilmsCards.length) {
+      this.#showMoreButtonComponent.element.remove();
+      this.#showMoreButtonComponent.removeElement();
     }
   };
 

@@ -20,7 +20,7 @@ render(new FiltersView(), siteMainElement);
 render(new SortingView(), siteMainElement);
 render(new FooterStatisticsView(), footerElement);
 
-for (let i = 0; i < 5; i++) {
+for (let i = 0; i < 23; i++) {
   generateCard(cardsModel, commentsModel);
 }
 
