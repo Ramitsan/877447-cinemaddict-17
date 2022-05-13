@@ -8,7 +8,6 @@ import PopupView from '../view/popup-view.js';
 import { render } from '../render.js';
 import CommentView from '../view/comment-view.js';
 
-// const footerElement = document.querySelector('.footer');
 const bodyElement = document.querySelector('body');
 
 export default class BoardPresenter {
@@ -62,14 +61,6 @@ export default class BoardPresenter {
     for (let i = 0; i < 2; i++) {
       render(new FilmCardView(this.#commentedFilmsCards[i]), this.#filmsListExtraCommentedContainerComponent.element);
     }
-
-    // //отрисовка попапа
-    // render(new PopupView(this.#boardFilmsCards[0], this.#boardComments), footerElement, RenderPosition.AFTEREND);
-    // const commentsList = document.querySelector('.film-details__comments-list');
-
-    // for (let i = 0; i < this.#boardFilmsCards[0].comments.length; i++) {
-    //   render(new CommentView(this.#boardComments[0]), commentsList);
-    // }
   };
 
   #renderCard = (card) => {
@@ -77,12 +68,16 @@ export default class BoardPresenter {
     const popupComponent = new PopupView(card);
 
     const commentsList = popupComponent.element.querySelector('.film-details__comments-list');
-    this.#boardComments = new Set(this.#boardComments);
 
-    for (const comment of this.#boardComments) {
+    const filmComments = new Map();
+    for (const item of this.#boardComments) {
+      filmComments.set(item.id, item);
+    }
+
+    for (const key of filmComments.keys()) {
       for (const cardCommentId of card.comments) {
-        if (comment.id === cardCommentId) {
-          render(new CommentView(comment), commentsList);
+        if (key === cardCommentId) {
+          render(new CommentView(filmComments.get(key)), commentsList);
         }
       }
     }
