@@ -1,15 +1,19 @@
 import { createElement } from '../render.js';
 
-const createFilmsListTemplate = () => (
-  `<section class="films-list">    
-  </section>`
+const createHeadingTemplate = (heading) => (
+  `<h2 class="films-list__title visually-hidden">${heading}</h2>`
 );
 
-export default class FilmsListView {
+export default class HeadingView {
   #element = null;
+  #heading = null;
+
+  constructor(heading) {
+    this.#heading = heading;
+  }
 
   get template() {
-    return createFilmsListTemplate();
+    return createHeadingTemplate(this.#heading);
   }
 
   get element() {

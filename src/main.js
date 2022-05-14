@@ -15,12 +15,14 @@ const cardsModel = new CardsModel();
 const commentsModel = new CommentsModel();
 const boardPresenter = new BoardPresenter();
 
+const cardCount = 23;
+
 render(new UserProfileView(), headerElement);
 render(new FiltersView(), siteMainElement);
 render(new SortingView(), siteMainElement);
 render(new FooterStatisticsView(), footerElement);
 
-for (let i = 0; i < 23; i++) {
+for (let i = 0; i < cardCount; i++) {
   generateCard(cardsModel, commentsModel);
 }
 
