@@ -11,6 +11,7 @@ import CommentView from '../view/comment-view.js';
 import noCardsHeadingView from '../view/no-cards-heading-view.js';
 
 const CARD_COUNT_PER_STEP = 5;
+const CARD_COUNT_IN_EXTRA = 2;
 const bodyElement = document.querySelector('body');
 
 export default class BoardPresenter {
@@ -37,21 +38,23 @@ export default class BoardPresenter {
 
   #noCardsHeadingComponent = new noCardsHeadingView('There are no movies in our database');
 
-  init = (boardContainer, cardsModel, commentsModel) => {
+  constructor(boardContainer, cardsModel, commentsModel) {
     this.#boardContainer = boardContainer;
     this.#cardsModel = cardsModel;
+    this.#commentsModel = commentsModel;
+  }
+
+  init = () => {
     this.#boardFilmsCards = [...this.#cardsModel.cards];
     this.#ratedFilmsCards = [...this.#cardsModel.cards].slice(0, 2);
     this.#commentedFilmsCards = [...this.#cardsModel.cards].slice(2, 4);
-
-    this.#commentsModel = commentsModel;
     this.#boardComments = [...this.#commentsModel.comments];
 
     //отрисовка карточек в основном блоке
     render(this.#filmsSectionComponent, this.#boardContainer);
     render(this.#filmsListComponent, this.#filmsSectionComponent.element);
 
-    if (this.#boardFilmsCards.length === 0) {
+    if (!this.#boardFilmsCards.length) {
       render(this.#noCardsHeadingComponent, this.#filmsListComponent.element);
     } else {
       render(this.#headingComponent, this.#filmsListComponent.element);
@@ -59,27 +62,33 @@ export default class BoardPresenter {
       for (let i = 0; i < Math.min(this.#boardFilmsCards.length, CARD_COUNT_PER_STEP); i++) {
         this.#renderCard(this.#boardFilmsCards[i]);
       }
+      this.#renderShowMoreButton(this.#boardFilmsCards);
+      this.#renderTopRatedBlock(this.#ratedFilmsCards);
+      this.#renderMostCommentedBlock(this.#commentedFilmsCards);
+    }
+  };
 
-      //показ кнопки "Show More"
-      if (this.#boardFilmsCards.length > CARD_COUNT_PER_STEP) {
-        render(this.#showMoreButtonComponent, this.#filmsListComponent.element);
+  #renderTopRatedBlock = (arr) => {
+    render(this.#filmsListExtraRated, this.#filmsSectionComponent.element);
+    render(this.#filmsListExtraRatedContainerComponent, this.#filmsListExtraRated.element);
+    for (let i = 0; i < CARD_COUNT_IN_EXTRA; i++) {
+      render(new FilmCardView(arr[i]), this.#filmsListExtraRatedContainerComponent.element);
+    }
+  };
 
-        this.#showMoreButtonComponent.element.addEventListener('click', this.#showMoreButtonClickHandler);
-      }
+  #renderMostCommentedBlock = (arr) => {
+    render(this.#filmsListExtraCommented, this.#filmsSectionComponent.element);
+    render(this.#filmsListExtraCommentedContainerComponent, this.#filmsListExtraCommented.element);
+    for (let i = 0; i < CARD_COUNT_IN_EXTRA; i++) {
+      render(new FilmCardView(arr[i]), this.#filmsListExtraCommentedContainerComponent.element);
+    }
+  };
 
-      //отрисовка карточек в блоке "Top rated"
-      render(this.#filmsListExtraRated, this.#filmsSectionComponent.element);
-      render(this.#filmsListExtraRatedContainerComponent, this.#filmsListExtraRated.element);
-      for (let i = 0; i < 2; i++) {
-        render(new FilmCardView(this.#ratedFilmsCards[i]), this.#filmsListExtraRatedContainerComponent.element);
-      }
+  #renderShowMoreButton = (arr) => {
+    if (arr.length > CARD_COUNT_PER_STEP) {
+      render(this.#showMoreButtonComponent, this.#filmsListComponent.element);
 
-      //отрисовка карточек в блоке "Most commented"
-      render(this.#filmsListExtraCommented, this.#filmsSectionComponent.element);
-      render(this.#filmsListExtraCommentedContainerComponent, this.#filmsListExtraCommented.element);
-      for (let i = 0; i < 2; i++) {
-        render(new FilmCardView(this.#commentedFilmsCards[i]), this.#filmsListExtraCommentedContainerComponent.element);
-      }
+      this.#showMoreButtonComponent.element.addEventListener('click', this.#showMoreButtonClickHandler);
     }
   };
 
@@ -92,6 +101,16 @@ export default class BoardPresenter {
       this.#showMoreButtonComponent.element.remove();
       this.#showMoreButtonComponent.removeElement();
     }
+  };
+
+  #openPopup = (element, cssClassName) => {
+    bodyElement.appendChild(element);
+    bodyElement.classList.add(cssClassName);
+  };
+
+  #closePopup = (element, cssClassName) => {
+    bodyElement.removeChild(element);
+    bodyElement.classList.remove(cssClassName);
   };
 
   #renderCard = (card) => {
@@ -113,31 +132,21 @@ export default class BoardPresenter {
       }
     }
 
-    const openPopup = () => {
-      bodyElement.appendChild(popupComponent.element);
-      bodyElement.classList.add('hide-overflow');
-    };
-
-    const closePopup = () => {
-      bodyElement.removeChild(popupComponent.element);
-      bodyElement.classList.remove('hide-overflow');
-    };
-
     const onEscKeyDown = (evt) => {
       if (evt.key === 'Escape' || evt.key === 'Esc') {
         evt.preventDefault();
-        closePopup();
+        this.#closePopup(popupComponent.element,'hide-overflow');
         document.removeEventListener('keydown', onEscKeyDown);
       }
     };
 
     filmCardComponent.element.querySelector('.film-card__poster').addEventListener('click', () => {
-      openPopup();
+      this.#openPopup(popupComponent.element, 'hide-overflow');
       document.addEventListener('keydown', onEscKeyDown);
     });
 
     popupComponent.element.querySelector('.film-details__close-btn').addEventListener('click', () => {
-      closePopup();
+      this.#closePopup(popupComponent.element, 'hide-overflow');
       document.removeEventListener('keydown', onEscKeyDown);
     });
 
