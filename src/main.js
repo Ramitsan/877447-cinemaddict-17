@@ -13,15 +13,17 @@ const siteMainElement = document.querySelector('.main');
 const footerElement = document.querySelector('.footer');
 const cardsModel = new CardsModel();
 const commentsModel = new CommentsModel();
-const boardPresenter = new BoardPresenter();
+const boardPresenter = new BoardPresenter(siteMainElement, cardsModel, commentsModel);
+
+const CARD_COUNT = 23;
 
 render(new UserProfileView(), headerElement);
 render(new FiltersView(), siteMainElement);
 render(new SortingView(), siteMainElement);
 render(new FooterStatisticsView(), footerElement);
 
-for (let i = 0; i < 5; i++) {
+for (let i = 0; i < CARD_COUNT; i++) {
   generateCard(cardsModel, commentsModel);
 }
 
-boardPresenter.init(siteMainElement, cardsModel, commentsModel);
+boardPresenter.init();

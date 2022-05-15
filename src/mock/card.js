@@ -4,7 +4,7 @@ import { generateComment } from './comment';
 const FILM_TITLES = ['Popeye the Sailor Meets Sindbad the Sailor', 'Sagebrush Trail', 'The Dance of Life', 'The Man with the Golden Arm', 'The Great Flamarion'];
 const FILM_ALTERNATIVE_TITLES = ['Laziness Who Sold Themselves', 'Lorem ipsum dolor sit amet', 'Fusce tristique felis at fermentum pharetra'];
 const FILM_AGE_RATING = ['0+', '6+', '12+', '16+', '18+'];
-const FILM_POSTERS = ['./images/posters/popeye-meets-sinbad.png', './images/posters/sagebrush-trail.jpg', './images/posters/the-dance-of-life.jpg', './images/posters/the-man-with-the-golden-arm.jpg', './images/posters/the-great-flamarion.jpg'];
+const FILM_POSTERS = ['12chairs.jpg', '12night.jpg', 'afonya.jpg', 'assa.jpg', 'avengers.jpg', 'ballada.jpg', 'captive.jpg', 'garage.jpg', 'gentlemen.jpg', 'girl-without-adress.jpg', 'intractable.jpg', 'irony-of-fate.jpg', 'iwalk.jpg', 'kapucin.jpg', 'miror.jpg', 'moscu.jpg', 'ostrov.jpg', 'reb.jpg', 'sadko.jpg', 'solaris.jpg', 'stalker.jpg', 'the-diamond-arm.jpg', 'tigers.jpg', 'welcome.jpg', 'white-nights.jpg', 'white-sun.jpg', 'сinderella.jpg', 'popeye-meets-sinbad.png', 'sagebrush-trail.jpg', 'the-dance-of-life.jpg', 'the-man-with-the-golden-arm.jpg', 'the-great-flamarion.jpg', 'made-for-each-other.png', 'santa-claus-conquers-the-martians.jpg'];
 const FILM_DIRECTORS = ['Anthony Mann', 'Tom Ford'];
 const FILM_WRITERS = ['Anne Wigton', 'Heinz Herald', 'Richard Weil', 'Takeshi Kitano'];
 const FILM_ACTORS = ['Morgan Freeman', 'Erich von Stroheim', 'Mary Beth Hughes', 'Dan Duryea'];
