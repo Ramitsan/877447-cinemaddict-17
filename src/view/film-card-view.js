@@ -2,7 +2,9 @@ import { createElement } from '../render.js';
 import { humanizeDateReleaseForCard, getFilmDuration } from '../utils';
 
 const createFilmCardTemplate = (card) => {
-  const { filmInfo: { title, totalRating, poster, release: {date}, genre, runtime, description} } = card;
+  const { filmInfo } = card;
+  const { title, totalRating, poster, release, genre, runtime, description} = filmInfo;
+  const { date } = release;
   const commentsCount = card.comments.length;
 
   const filmReleaseDate = date !== null ? humanizeDateReleaseForCard(date) : '';

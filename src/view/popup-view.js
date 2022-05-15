@@ -2,7 +2,9 @@ import { createElement } from '../render.js';
 import { humanizeDateReleaseForPopup,  getFilmDuration} from '../utils';
 
 const createPopupTemplate = (card) => {
-  const { comments: commentsId, filmInfo: { title, totalRating, poster, ageRating, director, writers, actors, release: { date, releaseCountry }, genre, runtime, description } } = card;
+  const { comments: commentsId, filmInfo } = card;
+  const { title, totalRating, poster, ageRating, director, writers, actors, release, genre, runtime, description } = filmInfo;
+  const { date, releaseCountry } = release;
   const commentsCount = commentsId.length;
 
   const filmReleaseDate = date !== null ? humanizeDateReleaseForPopup(date) : '';
