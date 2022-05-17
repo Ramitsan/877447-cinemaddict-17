@@ -1,3 +1,4 @@
+import { render } from '../framework/render.js';
 import FilmsSectionView from '../view/films-section-view.js';
 import FilmsListView from '../view/films-list-view.js';
 import HeadingView from '../view/heading-view.js';
@@ -6,7 +7,6 @@ import FilmsListContainerView from '../view/films-list-container-view.js';
 import FilmCardView from '../view/film-card-view.js';
 import ShowMoreButtonView from '../view/show-more-button-view.js';
 import PopupView from '../view/popup-view.js';
-import { render } from '../render.js';
 import CommentView from '../view/comment-view.js';
 import noCardsHeadingView from '../view/no-cards-heading-view.js';
 

@@ -1,4 +1,4 @@
-import { createElement } from '../render.js';
+import AbstractView from '../framework/view/abstract-view.js';
 import { humanizeDateReleaseForPopup,  getFilmDuration} from '../utils';
 
 const createPopupTemplate = (card) => {
@@ -127,27 +127,15 @@ const createPopupTemplate = (card) => {
   );
 };
 
-export default class PopupView {
-  #element = null;
+export default class PopupView extends AbstractView{
   #card = null;
 
   constructor(card) {
+    super();
     this.#card = card;
   }
 
   get template() {
     return createPopupTemplate(this.#card);
-  }
-
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
-  }
-
-  removeElement() {
-    this.#element = null;
   }
 }

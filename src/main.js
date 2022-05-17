@@ -1,9 +1,9 @@
+import { render} from './framework/render.js';
 import UserProfileView from './view/user-profile-view.js';
 import FiltersView from './view/filters-view.js';
 import SortingView from './view/sorting-view.js';
 import FooterStatisticsView from './view/footer-statistics-view.js';
 import { generateCard } from './mock/card.js';
-import { render } from './render.js';
 import BoardPresenter from './presenter/board-presenter.js';
 import CardsModel from './model/cards-model.js';
 import CommentsModel from './model/comments-model.js';
