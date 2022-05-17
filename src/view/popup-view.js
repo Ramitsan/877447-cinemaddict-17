@@ -1,5 +1,6 @@
 import AbstractView from '../framework/view/abstract-view.js';
-import { humanizeDateReleaseForPopup,  getFilmDuration} from '../utils';
+import { humanizeDateReleaseForPopup } from '../utils/card-utils.js';
+import { getFilmDuration } from '../utils/common.js';
 
 const createPopupTemplate = (card) => {
   const { comments: commentsId, filmInfo } = card;

@@ -1,4 +1,4 @@
-import { getRandomInteger, generateRandomElement } from '../utils';
+import { getRandomInteger, generateRandomElement } from '../utils/common.js';
 
 const COMMENT_AUTORS = ['Ilya O\'Reilly', 'Margo', 'John Doe', 'Tim Macoveev', 'Queen Elizabeth'];
 const COMMENT_TEXTS = ['A film that changed my life, a true masterpiece, post-credit scene was just amazing omg', 'Interesting setting and a good cast', 'Booooooooooring', 'Very very old. Meh', 'Almost two hours? Seriously?'];

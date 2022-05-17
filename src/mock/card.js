@@ -1,4 +1,4 @@
-import { getRandomInteger, getRandomArray, generateRandomElement, generateBooleanValue } from '../utils';
+import { getRandomInteger, getRandomArray, generateRandomElement, generateBooleanValue } from '../utils/common.js';
 import { generateComment } from './comment';
 
 const FILM_TITLES = ['Popeye the Sailor Meets Sindbad the Sailor', 'Sagebrush Trail', 'The Dance of Life', 'The Man with the Golden Arm', 'The Great Flamarion'];

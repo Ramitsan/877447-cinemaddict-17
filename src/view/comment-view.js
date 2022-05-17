@@ -1,5 +1,5 @@
 import AbstractView from '../framework/view/abstract-view.js';
-import { humanizeDateComment} from '../utils.js';
+import { humanizeDateComment} from '../utils/card-utils.js';
 
 const createCommentTemplate = (comment) => {
   const { author, comment: commentText, date, emotion } = comment;

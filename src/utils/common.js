@@ -1,5 +1,3 @@
-import dayjs from 'dayjs';
-
 // генерация случайного числа в заданном интервале, включительно
 const getRandomInteger = (a = 0, b = 1) => {
   const lower = Math.ceil(Math.min(a, b));
@@ -33,11 +31,6 @@ const generateRandomElement = (arr) => {
 //генерация случайного булева значения
 const generateBooleanValue = () => Boolean(getRandomInteger(0, 1));
 
-// функция отображения дат в человекочитаемом формате
-const humanizeDateReleaseForCard = (date) => dayjs(date).format('YYYY');
-const humanizeDateReleaseForPopup = (date) => dayjs(date).format('D MMMM YYYY');
-const humanizeDateComment = (date) => dayjs(date).format('YYYY/mm/DD hh:mm');
-
 // функция перевода минут в часы и минуты
 const getFilmDuration = (duration) => {
   const hours = Math.floor(duration / 60);
@@ -45,4 +38,4 @@ const getFilmDuration = (duration) => {
   return hours >= 1 ? `${hours}h ${minutes}m` : `${minutes}m`;
 };
 
-export { getRandomInteger, getRandomArray, generateRandomElement, generateBooleanValue, humanizeDateReleaseForCard, humanizeDateReleaseForPopup, humanizeDateComment, getFilmDuration };
+export { getRandomInteger, getRandomArray, generateRandomElement, generateBooleanValue, getFilmDuration };

@@ -1,4 +1,4 @@
-import { render } from '../framework/render.js';
+import { render, remove } from '../framework/render.js';
 import FilmsSectionView from '../view/films-section-view.js';
 import FilmsListView from '../view/films-list-view.js';
 import HeadingView from '../view/heading-view.js';
@@ -97,8 +97,7 @@ export default class BoardPresenter {
     this.#renderedCardsCount += CARD_COUNT_PER_STEP;
 
     if (this.#renderedCardsCount >= this.#boardFilmsCards.length) {
-      this.#showMoreButtonComponent.element.remove();
-      this.#showMoreButtonComponent.removeElement();
+      remove(this.#showMoreButtonComponent);
     }
   };
 
