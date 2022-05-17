@@ -88,12 +88,11 @@ export default class BoardPresenter {
     if (arr.length > CARD_COUNT_PER_STEP) {
       render(this.#showMoreButtonComponent, this.#filmsListComponent.element);
 
-      this.#showMoreButtonComponent.element.addEventListener('click', this.#showMoreButtonClickHandler);
+      this.#showMoreButtonComponent.setClickHandler(this.#showMoreButtonClickHandler);
     }
   };
 
-  #showMoreButtonClickHandler = (evt) => {
-    evt.preventDefault();
+  #showMoreButtonClickHandler = () => {
     this.#boardFilmsCards.slice(this.#renderedCardsCount, this.#renderedCardsCount + CARD_COUNT_PER_STEP).forEach((card) => this.#renderCard(card));
     this.#renderedCardsCount += CARD_COUNT_PER_STEP;
 
@@ -138,12 +137,12 @@ export default class BoardPresenter {
       }
     };
 
-    filmCardComponent.element.querySelector('.film-card__poster').addEventListener('click', () => {
+    filmCardComponent.setClickHandler(() => {
       openPopup();
       document.addEventListener('keydown', onEscKeyDown);
     });
 
-    popupComponent.element.querySelector('.film-details__close-btn').addEventListener('click', () => {
+    popupComponent.setClickHandler(() => {
       closePopup();
       document.removeEventListener('keydown', onEscKeyDown);
     });
