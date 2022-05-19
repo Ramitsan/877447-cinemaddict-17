@@ -1,8 +1,11 @@
-import { createElement } from '../render.js';
-import { humanizeDateReleaseForPopup,  getFilmDuration} from '../utils';
+import AbstractView from '../framework/view/abstract-view.js';
+import { humanizeDateReleaseForPopup } from '../utils/card-utils.js';
+import { getFilmDuration } from '../utils/common.js';
 
 const createPopupTemplate = (card) => {
-  const { comments: commentsId, filmInfo: { title, totalRating, poster, ageRating, director, writers, actors, release: { date, releaseCountry }, genre, runtime, description } } = card;
+  const { comments: commentsId, filmInfo } = card;
+  const { title, totalRating, poster, ageRating, director, writers, actors, release, genre, runtime, description } = filmInfo;
+  const { date, releaseCountry } = release;
   const commentsCount = commentsId.length;
 
   const filmReleaseDate = date !== null ? humanizeDateReleaseForPopup(date) : '';
@@ -125,11 +128,11 @@ const createPopupTemplate = (card) => {
   );
 };
 
-export default class PopupView {
-  #element = null;
+export default class PopupView extends AbstractView{
   #card = null;
 
   constructor(card) {
+    super();
     this.#card = card;
   }
 
@@ -137,15 +140,13 @@ export default class PopupView {
     return createPopupTemplate(this.#card);
   }
 
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
+  setClickHandler = (callback) => {
+    this._callback.click = callback;
+    this.element.addEventListener('click', this.#clickHandler);
+  };
 
-    return this.#element;
-  }
-
-  removeElement() {
-    this.#element = null;
-  }
+  #clickHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.click();
+  };
 }

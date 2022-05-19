@@ -1,4 +1,4 @@
-import { getRandomInteger, getRandomArray, generateRandomElement, generateBooleanValue } from '../utils';
+import { getRandomInteger, getRandomArray, generateRandomElement, generateBooleanValue } from '../utils/common.js';
 import { generateComment } from './comment';
 
 const FILM_TITLES = ['Popeye the Sailor Meets Sindbad the Sailor', 'Sagebrush Trail', 'The Dance of Life', 'The Man with the Golden Arm', 'The Great Flamarion'];
@@ -21,8 +21,6 @@ const FILM_DATES_WATCHING = ['2019-04-12T16:12:32.554Z', '2015-08-23T15:20:35.55
 const totalCardCount = 10;
 const MIN_RUNTIME = 30;
 const MAX_RUNTIME = 120;
-// const MIN_RATING = 1;
-// const MAX_RATING = 10;
 const MIN_COUNT_COMMENTS = 1;
 const MAX_COUNT_COMMENTS = 7;
 

@@ -1,30 +1,18 @@
-import { createElement } from '../render.js';
+import AbstractView from '../framework/view/abstract-view.js';
 
 const createNoCardsHeadingTemplate = (noCardsHeading) => (
   `<h2 class="films-list__title">${noCardsHeading}</h2>`
 );
 
-export default class noCardsHeadingView {
-  #element = null;
+export default class noCardsHeadingView extends AbstractView {
   #noCardsHeading = null;
 
   constructor(noCardsHeading) {
+    super();
     this.#noCardsHeading = noCardsHeading;
   }
 
   get template() {
     return createNoCardsHeadingTemplate(this.#noCardsHeading);
-  }
-
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
-  }
-
-  removeElement() {
-    this.#element = null;
   }
 }
