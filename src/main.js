@@ -7,6 +7,7 @@ import { generateCard } from './mock/card.js';
 import BoardPresenter from './presenter/board-presenter.js';
 import CardsModel from './model/cards-model.js';
 import CommentsModel from './model/comments-model.js';
+import {generateFilter} from './mock/filter.js';
 
 const headerElement = document.querySelector('.header');
 const siteMainElement = document.querySelector('.main');
@@ -16,9 +17,9 @@ const commentsModel = new CommentsModel();
 const boardPresenter = new BoardPresenter(siteMainElement, cardsModel, commentsModel);
 
 const CARD_COUNT = 23;
+const filters = generateFilter(CardsModel.cards);
 
 render(new UserProfileView(), headerElement);
-render(new FiltersView(), siteMainElement);
 render(new SortingView(), siteMainElement);
 render(new FooterStatisticsView(), footerElement);
 
@@ -26,4 +27,5 @@ for (let i = 0; i < CARD_COUNT; i++) {
   generateCard(cardsModel, commentsModel);
 }
 
+render(new FiltersView(filters), siteMainElement);
 boardPresenter.init();
