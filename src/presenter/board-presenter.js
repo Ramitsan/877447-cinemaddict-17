@@ -92,7 +92,8 @@ export default class BoardPresenter {
     }
   };
 
-  #showMoreButtonClickHandler = () => {
+  #showMoreButtonClickHandler = (evt) => {
+    evt.preventDefault();
     this.#boardFilmsCards.slice(this.#renderedCardsCount, this.#renderedCardsCount + CARD_COUNT_PER_STEP).forEach((card) => this.#renderCard(card));
     this.#renderedCardsCount += CARD_COUNT_PER_STEP;
 
