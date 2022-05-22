@@ -57,10 +57,10 @@ export const generateCard = (cardsModel, commentsModel) => {
       'description': generateRandomElement(FILM_DESCRIPTIONS)
     },
     'userDetails': {
-      'watchlist': generateBooleanValue(),
-      'alreadyWatched': generateBooleanValue(),
+      'isWatchlist': generateBooleanValue(),
+      'isAlreadyWatched': generateBooleanValue(),
       'watching_date': generateRandomElement(FILM_DATES_WATCHING),
-      'favorite': generateBooleanValue()
+      'isFavorite': generateBooleanValue()
     }
   };
 
