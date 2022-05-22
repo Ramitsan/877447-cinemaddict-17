@@ -6,13 +6,11 @@ import FilmsListExtraView from '../view/films-list-extra-view.js';
 import FilmsListContainerView from '../view/films-list-container-view.js';
 import FilmCardView from '../view/film-card-view.js';
 import ShowMoreButtonView from '../view/show-more-button-view.js';
-import PopupView from '../view/popup-view.js';
-import CommentView from '../view/comment-view.js';
 import noCardsHeadingView from '../view/no-cards-heading-view.js';
+import CardPresenter from './card-presenter.js';
 
 const CARD_COUNT_PER_STEP = 5;
 const CARD_COUNT_IN_EXTRA = 2;
-const bodyElement = document.querySelector('body');
 
 export default class BoardPresenter {
   #boardContainer = null;
@@ -21,7 +19,6 @@ export default class BoardPresenter {
   #boardFilmsCards = [];
   #ratedFilmsCards = [];
   #commentedFilmsCards = [];
-  #boardComments = [];
   #renderedCardsCount = CARD_COUNT_PER_STEP;
 
   #filmsSectionComponent = new FilmsSectionView();
@@ -48,7 +45,6 @@ export default class BoardPresenter {
     this.#boardFilmsCards = [...this.#cardsModel.cards];
     this.#ratedFilmsCards = [...this.#cardsModel.cards].slice(0, 2);
     this.#commentedFilmsCards = [...this.#cardsModel.cards].slice(2, 4);
-    this.#boardComments = [...this.#commentsModel.comments];
 
     //отрисовка карточек в основном блоке
     render(this.#filmsSectionComponent, this.#boardContainer);
@@ -103,50 +99,7 @@ export default class BoardPresenter {
   };
 
   #renderCard = (card) => {
-    const filmCardComponent = new FilmCardView(card);
-    const popupComponent = new PopupView(card);
-
-    const commentsList = popupComponent.element.querySelector('.film-details__comments-list');
-
-    const filmComments = new Map();
-    for (const item of this.#boardComments) {
-      filmComments.set(item.id, item);
-    }
-
-    for (const cardCommentId of card.comments) {
-      if(filmComments.has(cardCommentId)) {
-        render(new CommentView(filmComments.get(cardCommentId)), commentsList);
-      }
-    }
-
-    const openPopup = () => {
-      bodyElement.appendChild(popupComponent.element);
-      bodyElement.classList.add('hide-overflow');
-    };
-
-    const closePopup = () => {
-      bodyElement.removeChild(popupComponent.element);
-      bodyElement.classList.remove('hide-overflow');
-    };
-
-    const onEscKeyDown = (evt) => {
-      if (evt.key === 'Escape' || evt.key === 'Esc') {
-        evt.preventDefault();
-        closePopup();
-        document.removeEventListener('keydown', onEscKeyDown);
-      }
-    };
-
-    filmCardComponent.setClickHandler(() => {
-      openPopup();
-      document.addEventListener('keydown', onEscKeyDown);
-    });
-
-    popupComponent.setClickHandler(() => {
-      closePopup();
-      document.removeEventListener('keydown', onEscKeyDown);
-    });
-
-    render(filmCardComponent, this.#filmsListContainerComponent.element);
+    const cardPresenter = new CardPresenter(this.#filmsListContainerComponent.element, this.#commentsModel);
+    cardPresenter.init(card);
   };
 }

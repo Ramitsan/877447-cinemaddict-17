@@ -12,6 +12,7 @@ import {generateFilter} from './mock/filter.js';
 const headerElement = document.querySelector('.header');
 const siteMainElement = document.querySelector('.main');
 const footerElement = document.querySelector('.footer');
+
 const cardsModel = new CardsModel();
 const commentsModel = new CommentsModel();
 const boardPresenter = new BoardPresenter(siteMainElement, cardsModel, commentsModel);
@@ -25,7 +26,7 @@ render(new FooterStatisticsView(), footerElement);
 for (let i = 0; i < CARD_COUNT; i++) {
   generateCard(cardsModel, commentsModel);
 }
-const filters = generateFilter(cardsModel.cards);
 
+const filters = generateFilter(cardsModel.cards);
 render(new FiltersView(filters), siteMainElement);
 boardPresenter.init();
