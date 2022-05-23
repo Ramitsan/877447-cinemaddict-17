@@ -1,3 +1,7 @@
+const TOTAL_CARD_COUNT = 23;
+const CARD_COUNT_PER_STEP = 5;
+const CARD_COUNT_IN_EXTRA = 2;
+
 const FilterType = {
   ALL: 'all',
   WATCHLIST: 'watchlist',
@@ -12,4 +16,4 @@ const FilterName = {
   [FilterType.FAVORITES]: 'Favorites'
 };
 
-export { FilterType, FilterName };
+export { TOTAL_CARD_COUNT, CARD_COUNT_PER_STEP, CARD_COUNT_IN_EXTRA, FilterType, FilterName };

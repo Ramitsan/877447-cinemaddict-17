@@ -8,9 +8,7 @@ import FilmCardView from '../view/film-card-view.js';
 import ShowMoreButtonView from '../view/show-more-button-view.js';
 import noCardsHeadingView from '../view/no-cards-heading-view.js';
 import CardPresenter from './card-presenter.js';
-
-const CARD_COUNT_PER_STEP = 5;
-const CARD_COUNT_IN_EXTRA = 2;
+import { CARD_COUNT_PER_STEP, CARD_COUNT_IN_EXTRA } from '../const.js';
 
 export default class BoardPresenter {
   #boardContainer = null;
@@ -46,21 +44,19 @@ export default class BoardPresenter {
     this.#ratedFilmsCards = [...this.#cardsModel.cards].slice(0, 2);
     this.#commentedFilmsCards = [...this.#cardsModel.cards].slice(2, 4);
 
-    //отрисовка карточек в основном блоке
-    render(this.#filmsSectionComponent, this.#boardContainer);
-    render(this.#filmsListComponent, this.#filmsSectionComponent.element);
+    this.#renderBoard();
+  };
 
-    if (!this.#boardFilmsCards.length) {
-      render(this.#noCardsHeadingComponent, this.#filmsListComponent.element);
-    } else {
-      render(this.#headingComponent, this.#filmsListComponent.element);
-      render(this.#filmsListContainerComponent, this.#filmsListComponent.element);
-      for (let i = 0; i < Math.min(this.#boardFilmsCards.length, CARD_COUNT_PER_STEP); i++) {
-        this.#renderCard(this.#boardFilmsCards[i]);
-      }
-      this.#renderShowMoreButton(this.#boardFilmsCards);
-      this.#renderTopRatedBlock(this.#ratedFilmsCards);
-      this.#renderMostCommentedBlock(this.#commentedFilmsCards);
+  #renderCard = (card) => {
+    const cardPresenter = new CardPresenter(this.#filmsListContainerComponent.element, this.#commentsModel);
+    cardPresenter.init(card);
+  };
+
+  #renderCardList = () => {
+    render(this.#headingComponent, this.#filmsListComponent.element);
+    render(this.#filmsListContainerComponent, this.#filmsListComponent.element);
+    for (let i = 0; i < Math.min(this.#boardFilmsCards.length, CARD_COUNT_PER_STEP); i++) {
+      this.#renderCard(this.#boardFilmsCards[i]);
     }
   };
 
@@ -98,8 +94,18 @@ export default class BoardPresenter {
     }
   };
 
-  #renderCard = (card) => {
-    const cardPresenter = new CardPresenter(this.#filmsListContainerComponent.element, this.#commentsModel);
-    cardPresenter.init(card);
+  #renderBoard = () => {
+    //отрисовка карточек в основном блоке
+    render(this.#filmsSectionComponent, this.#boardContainer);
+    render(this.#filmsListComponent, this.#filmsSectionComponent.element);
+
+    if (!this.#boardFilmsCards.length) {
+      render(this.#noCardsHeadingComponent, this.#filmsListComponent.element);
+    } else {
+      this.#renderCardList();
+      this.#renderShowMoreButton(this.#boardFilmsCards);
+      this.#renderTopRatedBlock(this.#ratedFilmsCards);
+      this.#renderMostCommentedBlock(this.#commentedFilmsCards);
+    }
   };
 }
