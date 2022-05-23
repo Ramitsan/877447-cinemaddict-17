@@ -9,6 +9,7 @@ import ShowMoreButtonView from '../view/show-more-button-view.js';
 import noCardsHeadingView from '../view/no-cards-heading-view.js';
 import CardPresenter from './card-presenter.js';
 import { CARD_COUNT_PER_STEP, CARD_COUNT_IN_EXTRA } from '../const.js';
+import { updateItem } from '../utils/common.js';
 
 export default class BoardPresenter {
   #boardContainer = null;
@@ -98,6 +99,12 @@ export default class BoardPresenter {
   #renderShowMoreButton = () => {
     render(this.#showMoreButtonComponent, this.#filmsListComponent.element);
     this.#showMoreButtonComponent.setClickHandler(this.#showMoreButtonClickHandler);
+  };
+
+  // обработчик изменений в карточке фильма
+  #cardChangeHandler = (updatedCard) => {
+    this.#boardFilmsCards = updateItem(this.#boardFilmsCards, updatedCard);
+    this.#cardPresenter.get(updatedCard.id).init(updatedCard);
   };
 
   #showMoreButtonClickHandler = (evt) => {
