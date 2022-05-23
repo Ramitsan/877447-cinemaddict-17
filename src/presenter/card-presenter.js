@@ -1,4 +1,4 @@
-import { render } from '../framework/render.js';
+import { render, replace, remove } from '../framework/render.js';
 import FilmCardView from '../view/film-card-view.js';
 import PopupView from '../view/popup-view.js';
 import CommentView from '../view/comment-view.js';
@@ -21,6 +21,10 @@ export default class CardPresenter {
 
   init = (card) => {
     this.#allComments = [...this.#commentsModel.comments];
+
+    const prevCardComponent = this.#filmCardComponent;
+    const prevPopupComponent = this.#popupComponent;
+
     this.#filmCardComponent = new FilmCardView(card);
     this.#popupComponent = new PopupView(card);
 
@@ -39,7 +43,28 @@ export default class CardPresenter {
     this.#filmCardComponent.setClickHandler(this.#openPopup);
     this.#popupComponent.setClickHandler(this.#closePopup);
 
-    render(this.#filmCardComponent, this.#cardListContainer);
+    if (prevCardComponent === null || prevPopupComponent === null) {
+      render(this.#filmCardComponent, this.#cardListContainer);
+      return;
+    }
+
+    // Проверка на наличие в DOM необходима,
+    // чтобы не пытаться заменить то, что не было отрисовано
+    if (this.#cardListContainer.contains(prevCardComponent.element)) {
+      replace(this.#filmCardComponent, prevCardComponent);
+    }
+
+    if (bodyElement.contains(prevPopupComponent.element)) {
+      replace(this.#popupComponent, prevPopupComponent);
+    }
+
+    remove(prevCardComponent);
+    remove(prevPopupComponent);
+  };
+
+  destroy = () => {
+    remove(this.#filmCardComponent);
+    remove(this.#popupComponent);
   };
 
   #openPopup = () => {
