@@ -33,6 +33,8 @@ export default class BoardPresenter {
 
   #noCardsHeadingComponent = new noCardsHeadingView('There are no movies in our database');
 
+  #cardPresenter = new Map();
+
   constructor(boardContainer, cardsModel, commentsModel) {
     this.#boardContainer = boardContainer;
     this.#cardsModel = cardsModel;
@@ -50,13 +52,30 @@ export default class BoardPresenter {
   #renderCard = (card) => {
     const cardPresenter = new CardPresenter(this.#filmsListContainerComponent.element, this.#commentsModel);
     cardPresenter.init(card);
+    this.#cardPresenter.set(card.id, cardPresenter);
+  };
+
+  #renderCards = (from, to) => {
+    this.#boardFilmsCards
+      .slice(from, to)
+      .forEach((card) => this.#renderCard(card));
+  };
+
+  #clearCardList = () => {
+    this.#cardPresenter.forEach((presenter) => presenter.destroy());
+    this.#cardPresenter.clear();
+    this.#renderedCardsCount = CARD_COUNT_PER_STEP;
+    remove(this.#showMoreButtonComponent);
   };
 
   #renderCardList = () => {
     render(this.#headingComponent, this.#filmsListComponent.element);
     render(this.#filmsListContainerComponent, this.#filmsListComponent.element);
-    for (let i = 0; i < Math.min(this.#boardFilmsCards.length, CARD_COUNT_PER_STEP); i++) {
-      this.#renderCard(this.#boardFilmsCards[i]);
+
+    this.#renderCards(0, Math.min(this.#boardFilmsCards.length, CARD_COUNT_PER_STEP));
+
+    if (this.#boardFilmsCards.length > CARD_COUNT_PER_STEP) {
+      this.#renderShowMoreButton();
     }
   };
 
@@ -76,17 +95,14 @@ export default class BoardPresenter {
     }
   };
 
-  #renderShowMoreButton = (arr) => {
-    if (arr.length > CARD_COUNT_PER_STEP) {
-      render(this.#showMoreButtonComponent, this.#filmsListComponent.element);
-
-      this.#showMoreButtonComponent.setClickHandler(this.#showMoreButtonClickHandler);
-    }
+  #renderShowMoreButton = () => {
+    render(this.#showMoreButtonComponent, this.#filmsListComponent.element);
+    this.#showMoreButtonComponent.setClickHandler(this.#showMoreButtonClickHandler);
   };
 
   #showMoreButtonClickHandler = (evt) => {
     evt.preventDefault();
-    this.#boardFilmsCards.slice(this.#renderedCardsCount, this.#renderedCardsCount + CARD_COUNT_PER_STEP).forEach((card) => this.#renderCard(card));
+    this.#renderCards(this.#renderedCardsCount, this.#renderedCardsCount + CARD_COUNT_PER_STEP);
     this.#renderedCardsCount += CARD_COUNT_PER_STEP;
 
     if (this.#renderedCardsCount >= this.#boardFilmsCards.length) {
