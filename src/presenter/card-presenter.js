@@ -118,17 +118,14 @@ export default class CardPresenter {
   };
 
   #handleWatchlistClick = () => {
-    console.log(1);
     this.#changeData({...this.#card, isWatchlist: !this.#card.userDetails.isWatchlist});
   };
 
   #handleAlreadyWatchedClick = () => {
-    console.log(2);
     this.#changeData({...this.#card, isAlreadyWatched: !this.#card.userDetails.isAlreadyWatched});
   };
 
   #handleFavoriteClick = () => {
-    console.log(3);
     this.#changeData({...this.#card, isFavorite: !this.#card.userDetails.isFavorite});
   };
 }
