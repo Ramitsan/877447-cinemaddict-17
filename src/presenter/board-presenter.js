@@ -34,7 +34,7 @@ export default class BoardPresenter {
 
   #noCardsHeadingComponent = new noCardsHeadingView('There are no movies in our database');
 
-  #cardPresenter = new Map();
+  #cardPresenters = new Map();
 
   constructor(boardContainer, cardsModel, commentsModel) {
     this.#boardContainer = boardContainer;
@@ -53,7 +53,7 @@ export default class BoardPresenter {
   #renderCard = (card) => {
     const cardPresenter = new CardPresenter(this.#filmsListContainerComponent.element, this.#commentsModel, this.#handleCardChange, this.#handleModeChange);
     cardPresenter.init(card);
-    this.#cardPresenter.set(card.id, cardPresenter);
+    this.#cardPresenters.set(card.id, cardPresenter);
   };
 
   #renderCards = (from, to) => {
@@ -63,8 +63,8 @@ export default class BoardPresenter {
   };
 
   #clearCardList = () => {
-    this.#cardPresenter.forEach((presenter) => presenter.destroy());
-    this.#cardPresenter.clear();
+    this.#cardPresenters.forEach((presenter) => presenter.destroy());
+    this.#cardPresenters.clear();
     this.#renderedCardsCount = CARD_COUNT_PER_STEP;
     remove(this.#showMoreButtonComponent);
   };
@@ -102,13 +102,13 @@ export default class BoardPresenter {
   };
 
   #handleModeChange = () => {
-    this.#cardPresenter.forEach((presenter) => presenter.resetView());
+    this.#cardPresenters.forEach((presenter) => presenter.resetView());
   };
 
   // обработчик изменений в карточке фильма
   #handleCardChange = (updatedCard) => {
     this.#boardFilmsCards = updateItem(this.#boardFilmsCards, updatedCard);
-    this.#cardPresenter.get(updatedCard.id).init(updatedCard);
+    this.#cardPresenters.get(updatedCard.id).init(updatedCard);
   };
 
   #showMoreButtonClickHandler = (evt) => {
