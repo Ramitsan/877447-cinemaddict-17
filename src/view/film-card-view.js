@@ -3,10 +3,10 @@ import { humanizeDateReleaseForCard } from '../utils/card-utils.js';
 import { getFilmDuration } from '../utils/common.js';
 
 const createFilmCardTemplate = (card) => {
-  const { filmInfo, userDetails } = card;
+  const { filmInfo} = card;
   const { title, totalRating, poster, release, genre, runtime, description} = filmInfo;
   const { date } = release;
-  const { isFavorite } = userDetails;
+
   const commentsCount = card.comments.length;
 
   const filmReleaseDate = date !== null ? humanizeDateReleaseForCard(date) : '';

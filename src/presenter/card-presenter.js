@@ -3,6 +3,11 @@ import FilmCardView from '../view/film-card-view.js';
 import PopupView from '../view/popup-view.js';
 import CommentView from '../view/comment-view.js';
 
+const Mode = {
+  DEFAULT: 'DEFAULT',
+  OPENED: 'OPENED',
+}
+
 const bodyElement = document.querySelector('body');
 
 export default class CardPresenter {
@@ -13,15 +18,17 @@ export default class CardPresenter {
   #filmComments = null;
   #cardListContainer = null;
   #changeData = null;
+  #changeMode = null;
 
   #card = null;
-  #userDetails = null;
+  #mode = Mode.DEFAULT;
   #allComments = [];
 
-  constructor(cardListContainer, commentsModel, changeData) {
+  constructor(cardListContainer, commentsModel, changeData, changeMode) {
     this.#cardListContainer = cardListContainer;
     this.#commentsModel = commentsModel;
     this.#changeData = changeData;
+    this.#changeMode = changeMode;
   }
 
   init = (card) => {
@@ -67,6 +74,11 @@ export default class CardPresenter {
       replace(this.#popupComponent, prevPopupComponent);
     }
 
+
+    if (this.#mode === Mode.OPENED) {
+      replace(this.#popupComponent, prevPopupComponent);
+    }
+
     remove(prevCardComponent);
     remove(prevPopupComponent);
   };
@@ -76,16 +88,27 @@ export default class CardPresenter {
     remove(this.#popupComponent);
   };
 
+  resetView = () => {
+    if (this.#mode !== Mode.DEFAULT) {
+      this.#closePopup();
+    }
+  };
+
   #openPopup = () => {
     bodyElement.appendChild(this.#popupComponent.element);
     bodyElement.classList.add('hide-overflow');
     document.addEventListener('keydown', this.#onEscKeyDown);
+
+    this.#changeMode();
+    this.#mode = Mode.OPENED;
   };
 
   #closePopup = () => {
     bodyElement.removeChild(this.#popupComponent.element);
     bodyElement.classList.remove('hide-overflow');
     document.removeEventListener('keydown', this.#onEscKeyDown);
+
+    this.#mode = Mode.DEFAULT;
   };
 
   #onEscKeyDown = (evt) => {
@@ -105,6 +128,6 @@ export default class CardPresenter {
   // };
 
   #handleFavoriteClick = () => {
-    this.#changeData({...this.#card, isFavorite: !this.#card.userDetails.isFavorite}); 
+    this.#changeData({...this.#card, isFavorite: !this.#card.userDetails.isFavorite});
   };
 }

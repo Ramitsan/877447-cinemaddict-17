@@ -51,7 +51,7 @@ export default class BoardPresenter {
   };
 
   #renderCard = (card) => {
-    const cardPresenter = new CardPresenter(this.#filmsListContainerComponent.element, this.#commentsModel, this.#handleCardChange);
+    const cardPresenter = new CardPresenter(this.#filmsListContainerComponent.element, this.#commentsModel, this.#handleCardChange, this.#handleModeChange);
     cardPresenter.init(card);
     this.#cardPresenter.set(card.id, cardPresenter);
   };
@@ -99,6 +99,10 @@ export default class BoardPresenter {
   #renderShowMoreButton = () => {
     render(this.#showMoreButtonComponent, this.#filmsListComponent.element);
     this.#showMoreButtonComponent.setClickHandler(this.#showMoreButtonClickHandler);
+  };
+
+  #handleModeChange = () => {
+    this.#cardPresenter.forEach((presenter) => presenter.resetView());
   };
 
   // обработчик изменений в карточке фильма
