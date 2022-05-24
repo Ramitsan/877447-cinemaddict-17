@@ -51,7 +51,7 @@ export default class BoardPresenter {
   };
 
   #renderCard = (card) => {
-    const cardPresenter = new CardPresenter(this.#filmsListContainerComponent.element, this.#commentsModel);
+    const cardPresenter = new CardPresenter(this.#filmsListContainerComponent.element, this.#commentsModel, this.#handleCardChange);
     cardPresenter.init(card);
     this.#cardPresenter.set(card.id, cardPresenter);
   };
@@ -102,7 +102,7 @@ export default class BoardPresenter {
   };
 
   // обработчик изменений в карточке фильма
-  #cardChangeHandler = (updatedCard) => {
+  #handleCardChange = (updatedCard) => {
     this.#boardFilmsCards = updateItem(this.#boardFilmsCards, updatedCard);
     this.#cardPresenter.get(updatedCard.id).init(updatedCard);
   };

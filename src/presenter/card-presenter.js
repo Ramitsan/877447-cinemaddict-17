@@ -12,11 +12,16 @@ export default class CardPresenter {
   #commentsList = null;
   #filmComments = null;
   #cardListContainer = null;
+  #changeData = null;
+
+  #card = null;
+  #userDetails = null;
   #allComments = [];
 
-  constructor(cardListContainer, commentsModel) {
+  constructor(cardListContainer, commentsModel, changeData) {
     this.#cardListContainer = cardListContainer;
     this.#commentsModel = commentsModel;
+    this.#changeData = changeData;
   }
 
   init = (card) => {
@@ -40,6 +45,10 @@ export default class CardPresenter {
         render(new CommentView(this.#filmComments.get(cardCommentId)), this.#commentsList);
       }
     }
+
+    // this.#filmCardComponent.setWatchlistClickHandler(this.#handleWatchlistClick);
+    // this.#filmCardComponent.setAlreadyWatchedClickHandler(this.#handleAlreadyWatchedClick);
+    this.#filmCardComponent.setFavoriteClickHandler(this.#handleFavoriteClick);
     this.#filmCardComponent.setClickHandler(this.#openPopup);
     this.#popupComponent.setClickHandler(this.#closePopup);
 
@@ -85,5 +94,17 @@ export default class CardPresenter {
       this.#closePopup();
       document.removeEventListener('keydown', this.#onEscKeyDown);
     }
+  };
+
+  // #handleWatchlistClick = () => {
+  //   this.#changeData({...this.#card, isWatchlist: !this.#card.isWatchlist});
+  // };
+
+  // #handleAlreadyWatchedClick = () => {
+  //   this.#changeData({...this.#card, isAlreadyWatched: !this.#card.isAlreadyWatched});
+  // };
+
+  #handleFavoriteClick = () => {
+    this.#changeData({...this.#card, isFavorite: !this.#card.userDetails.isFavorite}); 
   };
 }

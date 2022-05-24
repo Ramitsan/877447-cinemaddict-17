@@ -3,9 +3,10 @@ import { humanizeDateReleaseForCard } from '../utils/card-utils.js';
 import { getFilmDuration } from '../utils/common.js';
 
 const createFilmCardTemplate = (card) => {
-  const { filmInfo } = card;
+  const { filmInfo, userDetails } = card;
   const { title, totalRating, poster, release, genre, runtime, description} = filmInfo;
   const { date } = release;
+  const { isFavorite } = userDetails;
   const commentsCount = card.comments.length;
 
   const filmReleaseDate = date !== null ? humanizeDateReleaseForCard(date) : '';
@@ -48,11 +49,21 @@ export default class FilmCardView extends AbstractView {
 
   setClickHandler = (callback) => {
     this._callback.click = callback;
-    this.element.addEventListener('click', this.#clickHandler);
+    this.element.querySelector('.film-card__poster').addEventListener('click', this.#clickHandler);
+  };
+
+  setFavoriteClickHandler = (callback) => {
+    this._callback.favoriteClick = callback;
+    this.element.querySelector('.film-card__controls-item--favorite').addEventListener('click', this.#favoriteClickHandler);
   };
 
   #clickHandler = (evt) => {
     evt.preventDefault();
     this._callback.click();
+  };
+
+  #favoriteClickHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.favoriteClick();
   };
 }
