@@ -6,13 +6,10 @@ import FilmsListExtraView from '../view/films-list-extra-view.js';
 import FilmsListContainerView from '../view/films-list-container-view.js';
 import FilmCardView from '../view/film-card-view.js';
 import ShowMoreButtonView from '../view/show-more-button-view.js';
-import PopupView from '../view/popup-view.js';
-import CommentView from '../view/comment-view.js';
 import noCardsHeadingView from '../view/no-cards-heading-view.js';
-
-const CARD_COUNT_PER_STEP = 5;
-const CARD_COUNT_IN_EXTRA = 2;
-const bodyElement = document.querySelector('body');
+import CardPresenter from './card-presenter.js';
+import { CARD_COUNT_PER_STEP, CARD_COUNT_IN_EXTRA } from '../const.js';
+import { updateItem } from '../utils/common.js';
 
 export default class BoardPresenter {
   #boardContainer = null;
@@ -21,7 +18,6 @@ export default class BoardPresenter {
   #boardFilmsCards = [];
   #ratedFilmsCards = [];
   #commentedFilmsCards = [];
-  #boardComments = [];
   #renderedCardsCount = CARD_COUNT_PER_STEP;
 
   #filmsSectionComponent = new FilmsSectionView();
@@ -38,6 +34,8 @@ export default class BoardPresenter {
 
   #noCardsHeadingComponent = new noCardsHeadingView('There are no movies in our database');
 
+  #cardPresenters = new Map();
+
   constructor(boardContainer, cardsModel, commentsModel) {
     this.#boardContainer = boardContainer;
     this.#cardsModel = cardsModel;
@@ -48,23 +46,37 @@ export default class BoardPresenter {
     this.#boardFilmsCards = [...this.#cardsModel.cards];
     this.#ratedFilmsCards = [...this.#cardsModel.cards].slice(0, 2);
     this.#commentedFilmsCards = [...this.#cardsModel.cards].slice(2, 4);
-    this.#boardComments = [...this.#commentsModel.comments];
 
-    //отрисовка карточек в основном блоке
-    render(this.#filmsSectionComponent, this.#boardContainer);
-    render(this.#filmsListComponent, this.#filmsSectionComponent.element);
+    this.#renderBoard();
+  };
 
-    if (!this.#boardFilmsCards.length) {
-      render(this.#noCardsHeadingComponent, this.#filmsListComponent.element);
-    } else {
-      render(this.#headingComponent, this.#filmsListComponent.element);
-      render(this.#filmsListContainerComponent, this.#filmsListComponent.element);
-      for (let i = 0; i < Math.min(this.#boardFilmsCards.length, CARD_COUNT_PER_STEP); i++) {
-        this.#renderCard(this.#boardFilmsCards[i]);
-      }
-      this.#renderShowMoreButton(this.#boardFilmsCards);
-      this.#renderTopRatedBlock(this.#ratedFilmsCards);
-      this.#renderMostCommentedBlock(this.#commentedFilmsCards);
+  #renderCard = (card) => {
+    const cardPresenter = new CardPresenter(this.#filmsListContainerComponent.element, this.#commentsModel, this.#handleCardChange, this.#handleModeChange);
+    cardPresenter.init(card);
+    this.#cardPresenters.set(card.id, cardPresenter);
+  };
+
+  #renderCards = (from, to) => {
+    this.#boardFilmsCards
+      .slice(from, to)
+      .forEach((card) => this.#renderCard(card));
+  };
+
+  #clearCardList = () => {
+    this.#cardPresenters.forEach((presenter) => presenter.destroy());
+    this.#cardPresenters.clear();
+    this.#renderedCardsCount = CARD_COUNT_PER_STEP;
+    remove(this.#showMoreButtonComponent);
+  };
+
+  #renderCardList = () => {
+    render(this.#headingComponent, this.#filmsListComponent.element);
+    render(this.#filmsListContainerComponent, this.#filmsListComponent.element);
+
+    this.#renderCards(0, Math.min(this.#boardFilmsCards.length, CARD_COUNT_PER_STEP));
+
+    if (this.#boardFilmsCards.length > CARD_COUNT_PER_STEP) {
+      this.#renderShowMoreButton();
     }
   };
 
@@ -84,17 +96,24 @@ export default class BoardPresenter {
     }
   };
 
-  #renderShowMoreButton = (arr) => {
-    if (arr.length > CARD_COUNT_PER_STEP) {
-      render(this.#showMoreButtonComponent, this.#filmsListComponent.element);
+  #renderShowMoreButton = () => {
+    render(this.#showMoreButtonComponent, this.#filmsListComponent.element);
+    this.#showMoreButtonComponent.setClickHandler(this.#showMoreButtonClickHandler);
+  };
 
-      this.#showMoreButtonComponent.setClickHandler(this.#showMoreButtonClickHandler);
-    }
+  #handleModeChange = () => {
+    this.#cardPresenters.forEach((presenter) => presenter.resetView());
+  };
+
+  // обработчик изменений в карточке фильма
+  #handleCardChange = (updatedCard) => {
+    this.#boardFilmsCards = updateItem(this.#boardFilmsCards, updatedCard);
+    this.#cardPresenters.get(updatedCard.id).init(updatedCard);
   };
 
   #showMoreButtonClickHandler = (evt) => {
     evt.preventDefault();
-    this.#boardFilmsCards.slice(this.#renderedCardsCount, this.#renderedCardsCount + CARD_COUNT_PER_STEP).forEach((card) => this.#renderCard(card));
+    this.#renderCards(this.#renderedCardsCount, this.#renderedCardsCount + CARD_COUNT_PER_STEP);
     this.#renderedCardsCount += CARD_COUNT_PER_STEP;
 
     if (this.#renderedCardsCount >= this.#boardFilmsCards.length) {
@@ -102,51 +121,18 @@ export default class BoardPresenter {
     }
   };
 
-  #renderCard = (card) => {
-    const filmCardComponent = new FilmCardView(card);
-    const popupComponent = new PopupView(card);
+  #renderBoard = () => {
+    //отрисовка карточек в основном блоке
+    render(this.#filmsSectionComponent, this.#boardContainer);
+    render(this.#filmsListComponent, this.#filmsSectionComponent.element);
 
-    const commentsList = popupComponent.element.querySelector('.film-details__comments-list');
-
-    const filmComments = new Map();
-    for (const item of this.#boardComments) {
-      filmComments.set(item.id, item);
+    if (!this.#boardFilmsCards.length) {
+      render(this.#noCardsHeadingComponent, this.#filmsListComponent.element);
+    } else {
+      this.#renderCardList();
+      this.#renderShowMoreButton(this.#boardFilmsCards);
+      this.#renderTopRatedBlock(this.#ratedFilmsCards);
+      this.#renderMostCommentedBlock(this.#commentedFilmsCards);
     }
-
-    for (const cardCommentId of card.comments) {
-      if(filmComments.has(cardCommentId)) {
-        render(new CommentView(filmComments.get(cardCommentId)), commentsList);
-      }
-    }
-
-    const openPopup = () => {
-      bodyElement.appendChild(popupComponent.element);
-      bodyElement.classList.add('hide-overflow');
-    };
-
-    const closePopup = () => {
-      bodyElement.removeChild(popupComponent.element);
-      bodyElement.classList.remove('hide-overflow');
-    };
-
-    const onEscKeyDown = (evt) => {
-      if (evt.key === 'Escape' || evt.key === 'Esc') {
-        evt.preventDefault();
-        closePopup();
-        document.removeEventListener('keydown', onEscKeyDown);
-      }
-    };
-
-    filmCardComponent.setClickHandler(() => {
-      openPopup();
-      document.addEventListener('keydown', onEscKeyDown);
-    });
-
-    popupComponent.setClickHandler(() => {
-      closePopup();
-      document.removeEventListener('keydown', onEscKeyDown);
-    });
-
-    render(filmCardComponent, this.#filmsListContainerComponent.element);
   };
 }

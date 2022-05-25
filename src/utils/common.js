@@ -38,4 +38,19 @@ const getFilmDuration = (duration) => {
   return hours >= 1 ? `${hours}h ${minutes}m` : `${minutes}m`;
 };
 
-export { getRandomInteger, getRandomArray, generateRandomElement, generateBooleanValue, getFilmDuration };
+// функция для обновления элементов в массиве объектов
+const updateItem = (items, update) => {
+  const index = items.findIndex((item) => item.id === update.id);
+
+  if (index === -1) {
+    return items;
+  }
+
+  return [
+    ...items.slice(0, index),
+    update,
+    ...items.slice(index + 1),
+  ];
+};
+
+export { getRandomInteger, getRandomArray, generateRandomElement, generateBooleanValue, getFilmDuration, updateItem };

@@ -8,24 +8,24 @@ import BoardPresenter from './presenter/board-presenter.js';
 import CardsModel from './model/cards-model.js';
 import CommentsModel from './model/comments-model.js';
 import {generateFilter} from './mock/filter.js';
+import { TOTAL_CARD_COUNT } from './const.js';
 
 const headerElement = document.querySelector('.header');
 const siteMainElement = document.querySelector('.main');
 const footerElement = document.querySelector('.footer');
+
 const cardsModel = new CardsModel();
 const commentsModel = new CommentsModel();
 const boardPresenter = new BoardPresenter(siteMainElement, cardsModel, commentsModel);
-
-const CARD_COUNT = 23;
 
 render(new UserProfileView(), headerElement);
 render(new SortingView(), siteMainElement);
 render(new FooterStatisticsView(), footerElement);
 
-for (let i = 0; i < CARD_COUNT; i++) {
+for (let i = 0; i < TOTAL_CARD_COUNT; i++) {
   generateCard(cardsModel, commentsModel);
 }
-const filters = generateFilter(cardsModel.cards);
 
+const filters = generateFilter(cardsModel.cards);
 render(new FiltersView(filters), siteMainElement);
 boardPresenter.init();
