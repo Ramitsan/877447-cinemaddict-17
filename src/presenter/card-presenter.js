@@ -2,11 +2,7 @@ import { render, replace, remove } from '../framework/render.js';
 import FilmCardView from '../view/film-card-view.js';
 import PopupView from '../view/popup-view.js';
 import CommentView from '../view/comment-view.js';
-
-const Mode = {
-  DEFAULT: 'DEFAULT',
-  OPENED: 'OPENED',
-};
+import { Mode } from '../const.js';
 
 const bodyElement = document.querySelector('body');
 

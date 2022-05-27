@@ -16,4 +16,15 @@ const FilterName = {
   [FilterType.FAVORITES]: 'Favorites'
 };
 
-export { TOTAL_CARD_COUNT, CARD_COUNT_PER_STEP, CARD_COUNT_IN_EXTRA, FilterType, FilterName };
+const Mode = {
+  DEFAULT: 'DEFAULT',
+  OPENED: 'OPENED',
+};
+
+const SortType = {
+  DEFAULT: 'default',
+  DATE: 'date',
+  RATING: 'rating',
+};
+
+export { TOTAL_CARD_COUNT, CARD_COUNT_PER_STEP, CARD_COUNT_IN_EXTRA, FilterType, FilterName, Mode, SortType };
