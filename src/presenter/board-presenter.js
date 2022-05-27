@@ -155,10 +155,9 @@ export default class BoardPresenter {
         this.#boardFilmsCards.sort(sortByRating);
         break;
       default:
-        // 3. А когда пользователь захочет "вернуть всё, как было", мы просто запишем в #boardCards исходный массив
+        // А когда пользователь захочет "вернуть всё, как было", мы просто запишем в #boardCards исходный массив
         this.#boardFilmsCards = [...this.#sourcedBoardCards];
     }
-
     this.#currentSortType = sortType;
   };
 
