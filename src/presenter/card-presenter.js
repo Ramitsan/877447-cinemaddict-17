@@ -114,14 +114,14 @@ export default class CardPresenter {
   };
 
   #handleWatchlistClick = () => {
-    this.#changeData({...this.#card, isWatchlist: !this.#card.userDetails.isWatchlist});
+    this.#changeData({...this.#card,  userDetails: {...this.#card.userDetails, isWatchlist: !this.#card.userDetails.isWatchlist}});
   };
 
   #handleAlreadyWatchedClick = () => {
-    this.#changeData({...this.#card, isAlreadyWatched: !this.#card.userDetails.isAlreadyWatched});
+    this.#changeData({...this.#card, userDetails: {...this.#card.userDetails, isAlreadyWatched: !this.#card.userDetails.isAlreadyWatched}});
   };
 
   #handleFavoriteClick = () => {
-    this.#changeData({...this.#card, isFavorite: !this.#card.userDetails.isFavorite});
+    this.#changeData({...this.#card, userDetails: {...this.#card.userDetails, isFavorite: !this.#card.userDetails.isFavorite}});
   };
 }
