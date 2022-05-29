@@ -27,6 +27,7 @@ const sortByDate = (cardA, cardB) => {
   return weight ?? dayjs(cardB.filmInfo.release.date).diff(dayjs(cardA.filmInfo.release.date));
 };
 
+// сортировка по рейтингу в порядке убывания
 const sortByRating = (cardA, cardB) => cardB.filmInfo.totalRating - cardA.filmInfo.totalRating;
 
 export { humanizeDateReleaseForCard, humanizeDateReleaseForPopup, humanizeDateComment, sortByDate, sortByRating };

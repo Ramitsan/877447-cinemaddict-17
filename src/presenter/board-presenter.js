@@ -1,7 +1,5 @@
 import { render, remove } from '../framework/render.js';
 import SortingView from '../view/sorting-view.js';
-import { sortByDate, sortByRating } from '../utils/card-utils';
-import { SortType } from '../const.js';
 import FilmsSectionView from '../view/films-section-view.js';
 import FilmsListView from '../view/films-list-view.js';
 import HeadingView from '../view/heading-view.js';
@@ -13,6 +11,8 @@ import noCardsHeadingView from '../view/no-cards-heading-view.js';
 import CardPresenter from './card-presenter.js';
 import { CARD_COUNT_PER_STEP, CARD_COUNT_IN_EXTRA } from '../const.js';
 import { updateItem } from '../utils/common.js';
+import { sortByDate, sortByRating } from '../utils/card-utils';
+import { SortType } from '../const.js';
 
 const siteMainElement = document.querySelector('.main');
 
@@ -136,13 +136,9 @@ export default class BoardPresenter {
     remove(this.#showMoreButtonComponent);
   };
 
-  #handleSortTypeChange = (sortType) => {
-    if (this.#currentSortType === sortType) {
-      return;
-    }
-    this.#sortCards(sortType);
-    this.#clearCardList();
-    this.#renderCardList();
+  #renderSort = () => {
+    render(this.#sortComponent, siteMainElement);
+    this.#sortComponent.setSortTypeChangeHandler(this.#handleSortTypeChange);
   };
 
   #sortCards = (sortType) => {
@@ -161,16 +157,19 @@ export default class BoardPresenter {
     this.#currentSortType = sortType;
   };
 
-  #renderSort = () => {
-    render(this.#sortComponent, siteMainElement);
-    this.#sortComponent.setSortTypeClickHandler(this.#handleSortTypeChange);
+  #handleSortTypeChange = (sortType) => {
+    if (this.#currentSortType === sortType) {
+      return;
+    }
+    this.#sortCards(sortType);
+    this.#clearCardList();
+    this.#renderCardList();
   };
 
   #handleModeChange = () => {
     this.#cardPresenters.forEach((presenter) => presenter.resetView());
   };
 
-  // обработчик изменений в карточке фильма
   #handleCardChange = (updatedCard) => {
     this.#boardFilmsCards = updateItem(this.#boardFilmsCards, updatedCard);
     this.#sourcedBoardCards = updateItem(this.#sourcedBoardCards, updatedCard);
