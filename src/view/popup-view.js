@@ -1,4 +1,4 @@
-import AbstractView from '../framework/view/abstract-view.js';
+import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
 import { humanizeDateReleaseForPopup } from '../utils/card-utils.js';
 import { getFilmDuration } from '../utils/common.js';
 
@@ -17,6 +17,10 @@ const createPopupTemplate = (card) => {
   const filmGenresTemplate = createFilmGenresTemplate(genre);
 
   const setActiveControl = (param) => param ? 'film-details__control-button--active' : '';
+
+  const chooseEmoji = card.commentEmoji ?
+    `<img src="./images/emoji/${card.commentEmoji}.png" width="55" height="55" alt="emoji-${card.commentEmoji}"></img>`
+    : '';
 
   return (
     `<section class="film-details">
@@ -96,7 +100,7 @@ const createPopupTemplate = (card) => {
             </ul>
     
             <div class="film-details__new-comment">
-              <div class="film-details__add-emoji-label"></div>
+              <div class="film-details__add-emoji-label">${chooseEmoji}</div>
     
               <label class="film-details__comment-label">
                 <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment"></textarea>
@@ -131,17 +135,58 @@ const createPopupTemplate = (card) => {
   );
 };
 
-export default class PopupView extends AbstractView{
-  #card = null;
-
+export default class PopupView extends AbstractStatefulView {
   constructor(card) {
     super();
-    this.#card = card;
+    this._state = PopupView.parseCardToState(card);
+
+    this.#setInnerHandlers();
   }
 
   get template() {
-    return createPopupTemplate(this.#card);
+    return createPopupTemplate(this._state);
   }
+
+  static parseCardToState = (card) => ({...card,
+    commentEmoji: null,
+    commentText: null
+  });
+
+  static parseStateToCard = (state) => {
+    const card = {...state};
+
+    delete card.commentEmoji;
+    delete card.commentText;
+
+    return card;
+  };
+
+  _restoreHandlers = () => {
+    this.#setInnerHandlers();
+  };
+
+  #chooseEmojiClickHandler = (evt) => {
+    evt.preventDefault();
+    this.updateElement({
+      commentEmoji: evt.target.value,
+    });
+    this.element.querySelectorAll('.film-details__emoji-item').forEach((item) => {item.setAttribute('checked', false);
+    });
+    evt.target.setAttribute('checked', true);
+    console.log(evt.target);
+  };
+
+  #commentTextInputHandler = (evt) => {
+    evt.preventDefault();
+    this._setState({
+      commentText: evt.target.value,
+    });
+  };
+
+  #setInnerHandlers = () => {
+    this.element.querySelectorAll('.film-details__emoji-item').forEach((item) => item.addEventListener('click', this.#chooseEmojiClickHandler));
+    this.element.querySelector('.film-details__comment-input').addEventListener('input', this.#commentTextInputHandler);
+  };
 
   setClickHandler = (callback) => {
     this._callback.click = callback;

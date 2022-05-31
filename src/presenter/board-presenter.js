@@ -53,6 +53,7 @@ export default class BoardPresenter {
   init = () => {
     this.#boardFilmsCards = [...this.#cardsModel.cards];
     this.#sourcedBoardCards = [...this.#cardsModel.cards]; // сохраняем исходный массив для сортировки
+    // Этот исходный массив задач необходим, потому что для сортировки мы будем мутировать исходный массив в свойстве #boardFilmsCards
     this.#ratedFilmsCards = [...this.#cardsModel.cards].slice(0, 2);
     this.#commentedFilmsCards = [...this.#cardsModel.cards].slice(2, 4);
 
@@ -142,7 +143,6 @@ export default class BoardPresenter {
   };
 
   #sortCards = (sortType) => {
-    // Этот исходный массив задач необходим, потому что для сортировки мы будем мутировать исходный массив в свойстве #boardCards
     switch (sortType) {
       case SortType.DATE:
         this.#boardFilmsCards.sort(sortByDate);
@@ -151,7 +151,7 @@ export default class BoardPresenter {
         this.#boardFilmsCards.sort(sortByRating);
         break;
       default:
-        // А когда пользователь захочет "вернуть всё, как было", мы просто запишем в #boardCards исходный массив
+        // Записываем в #boardFilmsCards исходный массив для возврата сортировки по дефолту
         this.#boardFilmsCards = [...this.#sourcedBoardCards];
     }
     this.#currentSortType = sortType;
