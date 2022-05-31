@@ -1,8 +1,9 @@
 import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
+import CommentView from './comment-view.js';
 import { humanizeDateReleaseForPopup } from '../utils/card-utils.js';
 import { getFilmDuration } from '../utils/common.js';
 
-const createPopupTemplate = (card) => {
+const createPopupTemplate = ({card, comments, commentEmoji, commentText}) => {
   const { comments: commentsId, filmInfo, userDetails } = card;
   const { title, totalRating, poster, ageRating, director, writers, actors, release, genre, runtime, description } = filmInfo;
   const { date, releaseCountry } = release;
@@ -12,15 +13,16 @@ const createPopupTemplate = (card) => {
   const filmReleaseDate = date !== null ? humanizeDateReleaseForPopup(date) : '';
   const filmRuntime = getFilmDuration(runtime);
 
-
   const createFilmGenresTemplate = (arr) => arr.map((elem) => `<span class="film-details__genre">${elem}</span>`).join('');
   const filmGenresTemplate = createFilmGenresTemplate(genre);
 
   const setActiveControl = (param) => param ? 'film-details__control-button--active' : '';
 
-  const chooseEmoji = card.commentEmoji ?
-    `<img src="./images/emoji/${card.commentEmoji}.png" width="55" height="55" alt="emoji-${card.commentEmoji}"></img>`
+  const chooseEmoji = commentEmoji ?
+    `<img src="./images/emoji/${commentEmoji}.png" width="55" height="55" alt="emoji-${commentEmoji}"></img>`
     : '';
+
+  const commentsList = comments.map((comment) => (new CommentView(comment)).element.outerHTML).join('');
 
   return (
     `<section class="film-details">
@@ -96,14 +98,14 @@ const createPopupTemplate = (card) => {
           <section class="film-details__comments-wrap">
             <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${commentsCount}</span></h3>
     
-            <ul class="film-details__comments-list">                
+            <ul class="film-details__comments-list">${commentsList}               
             </ul>
     
             <div class="film-details__new-comment">
               <div class="film-details__add-emoji-label">${chooseEmoji}</div>
     
               <label class="film-details__comment-label">
-                <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment"></textarea>
+                <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment">${commentText}</textarea>
               </label>
     
               <div class="film-details__emoji-list">
@@ -136,9 +138,10 @@ const createPopupTemplate = (card) => {
 };
 
 export default class PopupView extends AbstractStatefulView {
-  constructor(card) {
+  constructor(props) {
     super();
-    this._state = PopupView.parseCardToState(card);
+    const {card, comments} = props;
+    this._state = PopupView.parsePropsToState({card, comments});
 
     this.#setInnerHandlers();
   }
@@ -147,12 +150,12 @@ export default class PopupView extends AbstractStatefulView {
     return createPopupTemplate(this._state);
   }
 
-  static parseCardToState = (card) => ({...card,
+  static parsePropsToState = (props) => ({...props,
     commentEmoji: null,
-    commentText: null
+    commentText: ''
   });
 
-  static parseStateToCard = (state) => {
+  static parseStateToProps = (state) => {
     const card = {...state};
 
     delete card.commentEmoji;
@@ -161,19 +164,13 @@ export default class PopupView extends AbstractStatefulView {
     return card;
   };
 
-  _restoreHandlers = () => {
-    this.#setInnerHandlers();
-  };
-
   #chooseEmojiClickHandler = (evt) => {
     evt.preventDefault();
     this.updateElement({
       commentEmoji: evt.target.value,
     });
-    this.element.querySelectorAll('.film-details__emoji-item').forEach((item) => {item.setAttribute('checked', false);
-    });
+    this.element.querySelectorAll('.film-details__emoji-item').forEach((item) => item.setAttribute('checked', false));
     evt.target.setAttribute('checked', true);
-    console.log(evt.target);
   };
 
   #commentTextInputHandler = (evt) => {
@@ -186,6 +183,10 @@ export default class PopupView extends AbstractStatefulView {
   #setInnerHandlers = () => {
     this.element.querySelectorAll('.film-details__emoji-item').forEach((item) => item.addEventListener('click', this.#chooseEmojiClickHandler));
     this.element.querySelector('.film-details__comment-input').addEventListener('input', this.#commentTextInputHandler);
+  };
+
+  _restoreHandlers = () => {
+    this.#setInnerHandlers();
   };
 
   setClickHandler = (callback) => {

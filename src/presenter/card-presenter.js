@@ -1,7 +1,6 @@
 import { render, replace, remove } from '../framework/render.js';
 import FilmCardView from '../view/film-card-view.js';
 import PopupView from '../view/popup-view.js';
-import CommentView from '../view/comment-view.js';
 import { Mode } from '../const.js';
 
 const bodyElement = document.querySelector('body');
@@ -10,7 +9,6 @@ export default class CardPresenter {
   #commentsModel = null;
   #filmCardComponent = null;
   #popupComponent = null;
-  #commentsList = null;
   #filmComments = null;
   #cardListContainer = null;
   #changeData = null;
@@ -34,21 +32,20 @@ export default class CardPresenter {
     const prevCardComponent = this.#filmCardComponent;
     const prevPopupComponent = this.#popupComponent;
 
-    this.#filmCardComponent = new FilmCardView(card);
-    this.#popupComponent = new PopupView(card);
-
-    this.#commentsList = this.#popupComponent.element.querySelector('.film-details__comments-list');
-
     this.#filmComments = new Map();
     for (const item of this.#allComments) {
       this.#filmComments.set(item.id, item);
     }
 
+    const cardComments = [];
     for (const cardCommentId of card.comments) {
       if(this.#filmComments.has(cardCommentId)) {
-        render(new CommentView(this.#filmComments.get(cardCommentId)), this.#commentsList);
+        cardComments.push(this.#filmComments.get(cardCommentId));
       }
     }
+
+    this.#filmCardComponent = new FilmCardView(card);
+    this.#popupComponent = new PopupView({card, comments: cardComments});
 
     this.#filmCardComponent.setWatchlistClickHandler(this.#handleWatchlistClick);
     this.#filmCardComponent.setAlreadyWatchedClickHandler(this.#handleAlreadyWatchedClick);
