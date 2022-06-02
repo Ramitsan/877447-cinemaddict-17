@@ -187,6 +187,10 @@ export default class PopupView extends AbstractStatefulView {
 
   _restoreHandlers = () => {
     this.#setInnerHandlers();
+    this.setClickHandler(this._callback.click);
+    this.setWatchlistClickHandler(this._callback.addWatchlistClick);
+    this.setAlreadyWatchedClickHandler(this._callback.alreadyWatchedClick);
+    this.setFavoriteClickHandler(this._callback.favoriteClick);
   };
 
   setClickHandler = (callback) => {
