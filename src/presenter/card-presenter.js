@@ -82,6 +82,7 @@ export default class CardPresenter {
 
   resetView = () => {
     if (this.#mode !== Mode.DEFAULT) {
+      this.#popupComponent.reset(this.#card);// метод для сброса введенного текста после закрытия окна
       this.#closePopup();
     }
   };

@@ -150,9 +150,17 @@ export default class PopupView extends AbstractStatefulView {
     return createPopupTemplate(this._state);
   }
 
+  // метод для сброса введенного текста после закрытия окна
+  reset = (card) => {
+    this.updateElement (
+      PopupView.parsePropsToState(card),
+    );
+  };
+
   static parsePropsToState = (props) => ({...props,
     commentEmoji: null,
-    commentText: ''
+    commentText: '',
+    scrollTop: null
   });
 
   static parseStateToProps = (state) => {
@@ -160,6 +168,7 @@ export default class PopupView extends AbstractStatefulView {
 
     delete card.commentEmoji;
     delete card.commentText;
+    delete card.scrollTop;
 
     return card;
   };
@@ -168,16 +177,23 @@ export default class PopupView extends AbstractStatefulView {
     evt.preventDefault();
     this.updateElement({
       commentEmoji: evt.target.value,
+      scrollTop: this.element.scrollTop,
     });
-    this.element.querySelectorAll('.film-details__emoji-item').forEach((item) => item.setAttribute('checked', false));
-    evt.target.setAttribute('checked', true);
+
+    this.element.querySelectorAll('.film-details__emoji-item').forEach((item) => (item.checked = false));
+    evt.target.checked = true;
+
+    this.element.scrollTop = this._state.scrollTop;
   };
 
   #commentTextInputHandler = (evt) => {
     evt.preventDefault();
     this._setState({
       commentText: evt.target.value,
+      scrollTop: this.element.scrollTop,
     });
+
+    this.element.scrollTop = this._state.scrollTop;
   };
 
   #setInnerHandlers = () => {
@@ -217,7 +233,6 @@ export default class PopupView extends AbstractStatefulView {
     this._callback.favoriteClick = callback;
     this.element.querySelector('.film-details__control-button--favorite').addEventListener('click', this.#favoriteClickHandler);
   };
-
 
   #addWatchlistClickHandler = (evt) => {
     evt.preventDefault();
