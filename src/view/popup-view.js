@@ -1,8 +1,9 @@
-import AbstractView from '../framework/view/abstract-view.js';
+import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
+import CommentView from './comment-view.js';
 import { humanizeDateReleaseForPopup } from '../utils/card-utils.js';
 import { getFilmDuration } from '../utils/common.js';
 
-const createPopupTemplate = (card) => {
+const createPopupTemplate = ({card, comments, commentEmoji, commentText}) => {
   const { comments: commentsId, filmInfo, userDetails } = card;
   const { title, totalRating, poster, ageRating, director, writers, actors, release, genre, runtime, description } = filmInfo;
   const { date, releaseCountry } = release;
@@ -12,11 +13,16 @@ const createPopupTemplate = (card) => {
   const filmReleaseDate = date !== null ? humanizeDateReleaseForPopup(date) : '';
   const filmRuntime = getFilmDuration(runtime);
 
-
   const createFilmGenresTemplate = (arr) => arr.map((elem) => `<span class="film-details__genre">${elem}</span>`).join('');
   const filmGenresTemplate = createFilmGenresTemplate(genre);
 
   const setActiveControl = (param) => param ? 'film-details__control-button--active' : '';
+
+  const chooseEmoji = commentEmoji ?
+    `<img src="./images/emoji/${commentEmoji}.png" width="55" height="55" alt="emoji-${commentEmoji}"></img>`
+    : '';
+
+  const commentsList = comments.map((comment) => (new CommentView(comment)).element.outerHTML).join('');
 
   return (
     `<section class="film-details">
@@ -92,14 +98,14 @@ const createPopupTemplate = (card) => {
           <section class="film-details__comments-wrap">
             <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${commentsCount}</span></h3>
     
-            <ul class="film-details__comments-list">                
+            <ul class="film-details__comments-list">${commentsList}               
             </ul>
     
             <div class="film-details__new-comment">
-              <div class="film-details__add-emoji-label"></div>
+              <div class="film-details__add-emoji-label">${chooseEmoji}</div>
     
               <label class="film-details__comment-label">
-                <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment"></textarea>
+                <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment">${commentText}</textarea>
               </label>
     
               <div class="film-details__emoji-list">
@@ -131,17 +137,77 @@ const createPopupTemplate = (card) => {
   );
 };
 
-export default class PopupView extends AbstractView{
-  #card = null;
-
-  constructor(card) {
+export default class PopupView extends AbstractStatefulView {
+  constructor(props) {
     super();
-    this.#card = card;
+    const {card, comments} = props;
+    this._state = PopupView.parsePropsToState({card, comments});
+
+    this.#setInnerHandlers();
   }
 
   get template() {
-    return createPopupTemplate(this.#card);
+    return createPopupTemplate(this._state);
   }
+
+  // метод для сброса введенного текста после закрытия окна
+  reset = (card) => {
+    this.updateElement (
+      PopupView.parsePropsToState(card),
+    );
+  };
+
+  static parsePropsToState = (props) => ({...props,
+    commentEmoji: null,
+    commentText: '',
+    scrollTop: null
+  });
+
+  static parseStateToProps = (state) => {
+    const card = {...state};
+
+    delete card.commentEmoji;
+    delete card.commentText;
+    delete card.scrollTop;
+
+    return card;
+  };
+
+  #chooseEmojiClickHandler = (evt) => {
+    evt.preventDefault();
+    this.updateElement({
+      commentEmoji: evt.target.value,
+      scrollTop: this.element.scrollTop,
+    });
+
+    this.element.querySelectorAll('.film-details__emoji-item').forEach((item) => (item.checked = false));
+    evt.target.checked = true;
+
+    this.element.scrollTop = this._state.scrollTop;
+  };
+
+  #commentTextInputHandler = (evt) => {
+    evt.preventDefault();
+    this._setState({
+      commentText: evt.target.value,
+      scrollTop: this.element.scrollTop,
+    });
+
+    this.element.scrollTop = this._state.scrollTop;
+  };
+
+  #setInnerHandlers = () => {
+    this.element.querySelectorAll('.film-details__emoji-item').forEach((item) => item.addEventListener('click', this.#chooseEmojiClickHandler));
+    this.element.querySelector('.film-details__comment-input').addEventListener('input', this.#commentTextInputHandler);
+  };
+
+  _restoreHandlers = () => {
+    this.#setInnerHandlers();
+    this.setClickHandler(this._callback.click);
+    this.setWatchlistClickHandler(this._callback.addWatchlistClick);
+    this.setAlreadyWatchedClickHandler(this._callback.alreadyWatchedClick);
+    this.setFavoriteClickHandler(this._callback.favoriteClick);
+  };
 
   setClickHandler = (callback) => {
     this._callback.click = callback;
@@ -167,7 +233,6 @@ export default class PopupView extends AbstractView{
     this._callback.favoriteClick = callback;
     this.element.querySelector('.film-details__control-button--favorite').addEventListener('click', this.#favoriteClickHandler);
   };
-
 
   #addWatchlistClickHandler = (evt) => {
     evt.preventDefault();
