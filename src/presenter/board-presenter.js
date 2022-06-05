@@ -10,7 +10,6 @@ import ShowMoreButtonView from '../view/show-more-button-view.js';
 import noCardsHeadingView from '../view/no-cards-heading-view.js';
 import CardPresenter from './card-presenter.js';
 import { CARD_COUNT_PER_STEP, CARD_COUNT_IN_EXTRA } from '../const.js';
-import { updateItem } from '../utils/common.js';
 import { sortByDate, sortByRating } from '../utils/card-utils';
 import { SortType } from '../const.js';
 
@@ -20,7 +19,6 @@ export default class BoardPresenter {
   #boardContainer = null;
   #cardsModel = null;
   #commentsModel = null;
-  #boardFilmsCards = [];
   #ratedFilmsCards = [];
   #commentedFilmsCards = [];
   #renderedCardsCount = CARD_COUNT_PER_STEP;
@@ -42,7 +40,6 @@ export default class BoardPresenter {
 
   #cardPresenters = new Map();
   #currentSortType = SortType.DEFAULT;
-  #sourcedBoardCards = [];
 
   constructor(boardContainer, cardsModel, commentsModel) {
     this.#boardContainer = boardContainer;
@@ -50,10 +47,17 @@ export default class BoardPresenter {
     this.#commentsModel = commentsModel;
   }
 
+  get cards() {
+    switch (this.#currentSortType) {
+      case SortType.DATE:
+        return [...this.#cardsModel.cards].sort(sortByDate);
+      case SortType.RATING:
+        return [...this.#cardsModel.cards].sort(sortByRating);
+    }
+    return this.#cardsModel.cards;
+  }
+
   init = () => {
-    this.#boardFilmsCards = [...this.#cardsModel.cards];
-    this.#sourcedBoardCards = [...this.#cardsModel.cards]; // сохраняем исходный массив для сортировки
-    // Этот исходный массив задач необходим, потому что для сортировки мы будем мутировать исходный массив в свойстве #boardFilmsCards
     this.#ratedFilmsCards = [...this.#cardsModel.cards].slice(0, 2);
     this.#commentedFilmsCards = [...this.#cardsModel.cards].slice(2, 4);
 
@@ -67,19 +71,19 @@ export default class BoardPresenter {
     this.#cardPresenters.set(card.id, cardPresenter);
   };
 
-  #renderCards = (from, to) => {
-    this.#boardFilmsCards
-      .slice(from, to)
-      .forEach((card) => this.#renderCard(card));
+  #renderCards = (cards) => {
+    cards.forEach((card) => this.#renderCard(card));
   };
 
   #renderCardList = () => {
+    const cardsCount = this.cards.length;
+    const cards = this.cards.slice(0, Math.min(cardsCount, CARD_COUNT_PER_STEP));
+
     render(this.#headingComponent, this.#filmsListComponent.element);
     render(this.#filmsListContainerComponent, this.#filmsListComponent.element);
+    this.#renderCards(cards);
 
-    this.#renderCards(0, Math.min(this.#boardFilmsCards.length, CARD_COUNT_PER_STEP));
-
-    if (this.#boardFilmsCards.length > CARD_COUNT_PER_STEP) {
+    if (cardsCount > CARD_COUNT_PER_STEP) {
       this.#renderShowMoreButton();
     }
   };
@@ -102,10 +106,15 @@ export default class BoardPresenter {
 
   #showMoreButtonClickHandler = (evt) => {
     evt.preventDefault();
-    this.#renderCards(this.#renderedCardsCount, this.#renderedCardsCount + CARD_COUNT_PER_STEP);
-    this.#renderedCardsCount += CARD_COUNT_PER_STEP;
 
-    if (this.#renderedCardsCount >= this.#boardFilmsCards.length) {
+    const cardsCount = this.cards.length;
+    const newRenderedCardsCount = Math.min(cardsCount, this.#renderedCardsCount + CARD_COUNT_PER_STEP);
+    const cards = this.cards.slice(this.#renderedCardsCount, newRenderedCardsCount);
+
+    this.#renderCards(cards);
+    this.#renderedCardsCount = newRenderedCardsCount;
+
+    if (this.#renderedCardsCount >= cardsCount) {
       remove(this.#showMoreButtonComponent);
     }
   };
@@ -120,11 +129,11 @@ export default class BoardPresenter {
     render(this.#filmsSectionComponent, this.#boardContainer);
     render(this.#filmsListComponent, this.#filmsSectionComponent.element);
 
-    if (!this.#boardFilmsCards.length) {
+    if (!this.cards) {
       render(this.#noCardsHeadingComponent, this.#filmsListComponent.element);
     } else {
       this.#renderCardList();
-      this.#renderShowMoreButton(this.#boardFilmsCards);
+      this.#renderShowMoreButton(this.cards);
       this.#renderTopRatedBlock(this.#ratedFilmsCards);
       this.#renderMostCommentedBlock(this.#commentedFilmsCards);
     }
@@ -142,26 +151,11 @@ export default class BoardPresenter {
     this.#sortComponent.setSortTypeChangeHandler(this.#handleSortTypeChange);
   };
 
-  #sortCards = (sortType) => {
-    switch (sortType) {
-      case SortType.DATE:
-        this.#boardFilmsCards.sort(sortByDate);
-        break;
-      case SortType.RATING:
-        this.#boardFilmsCards.sort(sortByRating);
-        break;
-      default:
-        // Записываем в #boardFilmsCards исходный массив для возврата сортировки по дефолту
-        this.#boardFilmsCards = [...this.#sourcedBoardCards];
-    }
-    this.#currentSortType = sortType;
-  };
-
   #handleSortTypeChange = (sortType) => {
     if (this.#currentSortType === sortType) {
       return;
     }
-    this.#sortCards(sortType);
+    this.#currentSortType = sortType;
     this.#clearCardList();
     this.#renderCardList();
   };
@@ -171,8 +165,6 @@ export default class BoardPresenter {
   };
 
   #handleCardChange = (updatedCard) => {
-    this.#boardFilmsCards = updateItem(this.#boardFilmsCards, updatedCard);
-    this.#sourcedBoardCards = updateItem(this.#sourcedBoardCards, updatedCard);
     this.#cardPresenters.get(updatedCard.id).init(updatedCard);
   };
 }

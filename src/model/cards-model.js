@@ -1,4 +1,6 @@
-export default class CardsModel {
+import Observable from '../framework/observable';
+
+export default class CardsModel extends Observable {
   #cards = [];
 
   get cards() {
