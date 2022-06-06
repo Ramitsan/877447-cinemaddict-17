@@ -2,6 +2,7 @@ import { render, replace, remove } from '../framework/render.js';
 import FilmCardView from '../view/film-card-view.js';
 import PopupView from '../view/popup-view.js';
 import { Mode } from '../const.js';
+import {UserAction, UpdateType} from '../const.js';
 
 const bodyElement = document.querySelector('body');
 
@@ -112,14 +113,26 @@ export default class CardPresenter {
   };
 
   #handleWatchlistClick = () => {
-    this.#changeData({...this.#card,  userDetails: {...this.#card.userDetails, isWatchlist: !this.#card.userDetails.isWatchlist}});
+    this.#changeData(
+      UserAction.UPDATE_CARD,
+      UpdateType.MINOR,
+      {...this.#card,  userDetails: {...this.#card.userDetails, isWatchlist: !this.#card.userDetails.isWatchlist}},
+    );
   };
 
   #handleAlreadyWatchedClick = () => {
-    this.#changeData({...this.#card, userDetails: {...this.#card.userDetails, isAlreadyWatched: !this.#card.userDetails.isAlreadyWatched}});
+    this.#changeData(
+      UserAction.UPDATE_CARD,
+      UpdateType.MINOR,
+      {...this.#card, userDetails: {...this.#card.userDetails, isAlreadyWatched: !this.#card.userDetails.isAlreadyWatched}},
+    );
   };
 
   #handleFavoriteClick = () => {
-    this.#changeData({...this.#card, userDetails: {...this.#card.userDetails, isFavorite: !this.#card.userDetails.isFavorite}});
+    this.#changeData(
+      UserAction.UPDATE_CARD,
+      UpdateType.MINOR,
+      {...this.#card, userDetails: {...this.#card.userDetails, isFavorite: !this.#card.userDetails.isFavorite}},
+    );
   };
 }
