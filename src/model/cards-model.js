@@ -52,6 +52,4 @@ export default class CardsModel extends Observable {
 
     this._notify(updateType);
   };
-
-
 }

@@ -63,7 +63,6 @@ export default class BoardPresenter {
     this.#ratedFilmsCards = [...this.#cardsModel.cards].slice(0, 2);
     this.#commentedFilmsCards = [...this.#cardsModel.cards].slice(2, 4);
 
-    this.#renderSort();
     this.#renderBoard();
   };
 
@@ -150,7 +149,6 @@ export default class BoardPresenter {
     }
   };
 
-
   #renderBoard = () => {
     const cards = this.cards;
     const cardCount = cards.length;
@@ -165,23 +163,20 @@ export default class BoardPresenter {
     render(this.#filmsSectionComponent, this.#boardContainer);
     render(this.#filmsListComponent, this.#filmsSectionComponent.element);
 
-    // else {
-
-    //   this.#renderCardList();
-    //   this.#renderShowMoreButton(this.cards);
-    //   this.#renderTopRatedBlock(this.#ratedFilmsCards);
-    //   this.#renderMostCommentedBlock(this.#commentedFilmsCards);
-    // }
-
     // Теперь, когда #renderBoard рендерит доску не только на старте,
     // но и по ходу работы приложения, нужно заменить
     // константу CARD_COUNT_PER_STEP на свойство #renderedCardCount,
     // чтобы в случае перерисовки сохранить N-показанных карточек
     this.#renderCardList(cards.slice(0, Math.min(cardCount, this.#renderedCardsCount)));
 
-    if (cardCount > this.#renderedCardsCount) {
-      this.#renderShowMoreButton();
-    }
+    // в демо-проекте здесь есть рендер кнопки Show more
+    // if (cardCount > this.#renderedCardsCount) {
+    //   this.#renderShowMoreButton();
+    // }
+
+    this.#renderTopRatedBlock(this.#ratedFilmsCards);
+    this.#renderMostCommentedBlock(this.#commentedFilmsCards);
+
   };
 
   #clearCardList = () => {
