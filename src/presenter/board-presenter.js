@@ -11,6 +11,7 @@ import noCardsHeadingView from '../view/no-cards-heading-view.js';
 import CardPresenter from './card-presenter.js';
 import { CARD_COUNT_PER_STEP, CARD_COUNT_IN_EXTRA } from '../const.js';
 import { sortByDate, sortByRating } from '../utils/card-utils';
+import { filter } from '../utils/filter-utils.js';
 import { SortType, UpdateType, UserAction } from '../const.js';
 
 const siteMainElement = document.querySelector('.main');
@@ -19,6 +20,7 @@ export default class BoardPresenter {
   #boardContainer = null;
   #cardsModel = null;
   #commentsModel = null;
+  #filterModel = null;
   #sortComponent = null;
   #showMoreButtonComponent = null;
   #ratedFilmsCards = [];
@@ -41,22 +43,28 @@ export default class BoardPresenter {
   #cardPresenters = new Map();
   #currentSortType = SortType.DEFAULT;
 
-  constructor(boardContainer, cardsModel, commentsModel) {
+  constructor(boardContainer, cardsModel, commentsModel, filterModel) {
     this.#boardContainer = boardContainer;
     this.#cardsModel = cardsModel;
     this.#commentsModel = commentsModel;
+    this.#filterModel = filterModel;
 
     this.#cardsModel.addObserver(this.#handleModelEvent);
+    this.#filterModel.addObserver(this.#handleModelEvent);
   }
 
   get cards() {
+    const filterType = this.#filterModel.filter;
+    const cards = this.#cardsModel.cards;
+    const filteredCards = filter[filterType](cards);
+
     switch (this.#currentSortType) {
       case SortType.DATE:
-        return [...this.#cardsModel.cards].sort(sortByDate);
+        return filteredCards.sort(sortByDate);
       case SortType.RATING:
-        return [...this.#cardsModel.cards].sort(sortByRating);
+        return filteredCards.sort(sortByRating);
     }
-    return this.#cardsModel.cards;
+    return filteredCards;
   }
 
   init = () => {
