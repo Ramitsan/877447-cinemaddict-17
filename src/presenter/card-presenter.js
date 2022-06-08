@@ -115,7 +115,7 @@ export default class CardPresenter {
   #handleWatchlistClick = () => {
     this.#changeData(
       UserAction.UPDATE_CARD,
-      UpdateType.MINOR,
+      UpdateType.PATCH,
       {...this.#card,  userDetails: {...this.#card.userDetails, isWatchlist: !this.#card.userDetails.isWatchlist}},
     );
   };
@@ -123,7 +123,7 @@ export default class CardPresenter {
   #handleAlreadyWatchedClick = () => {
     this.#changeData(
       UserAction.UPDATE_CARD,
-      UpdateType.MINOR,
+      UpdateType.PATCH,
       {...this.#card, userDetails: {...this.#card.userDetails, isAlreadyWatched: !this.#card.userDetails.isAlreadyWatched}},
     );
   };
@@ -131,7 +131,7 @@ export default class CardPresenter {
   #handleFavoriteClick = () => {
     this.#changeData(
       UserAction.UPDATE_CARD,
-      UpdateType.MINOR,
+      UpdateType.PATCH,
       {...this.#card, userDetails: {...this.#card.userDetails, isFavorite: !this.#card.userDetails.isFavorite}},
     );
   };

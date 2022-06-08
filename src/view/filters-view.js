@@ -3,11 +3,11 @@ import { FilterType, FilterName } from '../const.js';
 
 const createFilterItemTemplate = (filter, currentFilterType) => {
   const { type, name, count } = filter;
-  const filmsCount = name === FilterType.ALL ? '' : `<span class="main-navigation__item-count">${count}</span>`;
+  const filmsCount = type === FilterType.ALL ? '' : `<span class="main-navigation__item-count">${count}</span>`;
   const isFilterActive = currentFilterType ? 'main-navigation__item--active' : '';
 
   return (
-    `<a href="#${name}" class="main-navigation__item ${isFilterActive}">${FilterName[name]} ${filmsCount}</a>`
+    `<a href="#${name}" class="main-navigation__item ${isFilterActive}">${FilterName[type]} ${filmsCount}</a>`
   );
 };
 

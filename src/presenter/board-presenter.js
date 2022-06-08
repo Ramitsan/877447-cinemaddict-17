@@ -68,9 +68,6 @@ export default class BoardPresenter {
   }
 
   init = () => {
-    this.#ratedFilmsCards = [...this.#cardsModel.cards].slice(0, 2);
-    this.#commentedFilmsCards = [...this.#cardsModel.cards].slice(2, 4);
-
     this.#renderBoard();
   };
 
@@ -129,6 +126,9 @@ export default class BoardPresenter {
   };
 
   #renderShowMoreButton = () => {
+    if(this.#showMoreButtonComponent) {
+      remove(this.#showMoreButtonComponent);
+    }
     this.#showMoreButtonComponent = new ShowMoreButtonView();
     this.#showMoreButtonComponent.setClickHandler(this.#showMoreButtonClickHandler);
     render(this.#showMoreButtonComponent, this.#filmsListComponent.element);
@@ -147,8 +147,6 @@ export default class BoardPresenter {
     if (resetRenderedCardCount) {
       this.#renderedCardsCount = CARD_COUNT_PER_STEP;
     } else {
-      // На случай, если перерисовка доски вызвана уменьшением количества задач,
-      // нужно скорректировать число показанных задач
       this.#renderedCardsCount = Math.min(cardCount, this.#renderedCardsCount);
     }
 
@@ -177,14 +175,12 @@ export default class BoardPresenter {
     // чтобы в случае перерисовки сохранить N-показанных карточек
     this.#renderCardList(cards.slice(0, Math.min(cardCount, this.#renderedCardsCount)));
 
-    // в демо-проекте здесь есть рендер кнопки Show more
-    // if (cardCount > this.#renderedCardsCount) {
-    //   this.#renderShowMoreButton();
-    // }
+    //рендер блоков Top rated и Most commented
+    this.#ratedFilmsCards = [...this.#cardsModel.cards].slice(0, 2);
+    this.#commentedFilmsCards = [...this.#cardsModel.cards].slice(2, 4);
 
     this.#renderTopRatedBlock(this.#ratedFilmsCards);
     this.#renderMostCommentedBlock(this.#commentedFilmsCards);
-
   };
 
   #clearCardList = () => {
@@ -214,7 +210,6 @@ export default class BoardPresenter {
   };
 
   #handleViewAction = (actionType, updateType, update) => {
-    // console.log(actionType, updateType, update);
     // Здесь будем вызывать обновление модели.
     // actionType - действие пользователя, нужно чтобы понять, какой метод модели вызвать
     // updateType - тип изменений, нужно чтобы понять, что после нужно обновить

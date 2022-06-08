@@ -7,11 +7,10 @@ export default class CardsModel extends Observable {
     return this.#cards;
   }
 
-  set cards (cards) {
+  setCards = (updateType, cards) => {
     this.#cards = cards;
-  }
-
-  addCard = (card) => this.#cards.push(card);
+    this._notify(updateType, cards);
+  };
 
   updateCard = (updateType, update) => {
     const index = this.#cards.findIndex((card) => card.id === update.id);
@@ -29,7 +28,7 @@ export default class CardsModel extends Observable {
     this._notify(updateType, update);
   };
 
-  addCard2 = (updateType, update) => {
+  addCard = (updateType, update) => {
     this.#cards = [
       update,
       ...this.#cards,

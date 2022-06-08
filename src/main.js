@@ -8,6 +8,7 @@ import CardsModel from './model/cards-model.js';
 import CommentsModel from './model/comments-model.js';
 import FilterModel from './model/filters-model.js';
 import { TOTAL_CARD_COUNT } from './const.js';
+import { UpdateType } from './const.js';
 
 const headerElement = document.querySelector('.header');
 const siteMainElement = document.querySelector('.main');
@@ -22,9 +23,11 @@ const filterPresenter = new FilterPresenter(siteMainElement, filterModel, cardsM
 render(new UserProfileView(), headerElement);
 render(new FooterStatisticsView(), footerElement);
 
-for (let i = 0; i < TOTAL_CARD_COUNT; i++) {
-  generateCard(cardsModel, commentsModel);
-}
-
 filterPresenter.init();
 boardPresenter.init();
+const cards = [];
+for (let i = 0; i < TOTAL_CARD_COUNT; i++) {
+  cards.push(generateCard(commentsModel));
+}
+
+cardsModel.setCards(UpdateType.MAJOR, cards);
