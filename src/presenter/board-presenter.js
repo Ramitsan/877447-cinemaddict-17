@@ -176,8 +176,8 @@ export default class BoardPresenter {
     this.#renderCardList(cards.slice(0, Math.min(cardCount, this.#renderedCardsCount)));
 
     //рендер блоков Top rated и Most commented
-    this.#ratedFilmsCards = [...this.#cardsModel.cards].slice(0, 2);
-    this.#commentedFilmsCards = [...this.#cardsModel.cards].slice(2, 4);
+    this.#ratedFilmsCards = cards.slice(0, 2);
+    this.#commentedFilmsCards = cards.slice(2, 4);
 
     this.#renderTopRatedBlock(this.#ratedFilmsCards);
     this.#renderMostCommentedBlock(this.#commentedFilmsCards);

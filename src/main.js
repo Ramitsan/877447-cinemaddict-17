@@ -25,6 +25,7 @@ render(new FooterStatisticsView(), footerElement);
 
 filterPresenter.init();
 boardPresenter.init();
+
 const cards = [];
 for (let i = 0; i < TOTAL_CARD_COUNT; i++) {
   cards.push(generateCard(commentsModel));

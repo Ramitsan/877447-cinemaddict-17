@@ -1,13 +1,16 @@
-export default class CommentsModel {
-  #comments = [];
+import Observable from '../framework/observable';
 
-  set comments(arr) {
-    this.#comments = arr;
-  }
+export default class CommentsModel extends Observable {
+  #comments = [];
 
   get comments() {
     return this.#comments;
   }
+
+  setComments = (updateType, comments) => {
+    this.#comments = comments;
+    this._notify(updateType, comments);
+  };
 
   addComment = (comment) => {
     this.comments.push(comment);
