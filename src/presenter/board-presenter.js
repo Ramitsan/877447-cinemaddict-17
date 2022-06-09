@@ -1,4 +1,4 @@
-import { render, remove } from '../framework/render.js';
+import { render, remove, RenderPosition } from '../framework/render.js';
 import SortingView from '../view/sorting-view.js';
 import FilmsSectionView from '../view/films-section-view.js';
 import FilmsListView from '../view/films-list-view.js';
@@ -12,7 +12,7 @@ import CardPresenter from './card-presenter.js';
 import { CARD_COUNT_PER_STEP, CARD_COUNT_IN_EXTRA } from '../const.js';
 import { sortByDate, sortByRating } from '../utils/card-utils';
 import { filter } from '../utils/filter-utils.js';
-import { SortType, UpdateType, UserAction } from '../const.js';
+import { SortType, UpdateType, UserAction, FilterType } from '../const.js';
 
 const siteMainElement = document.querySelector('.main');
 
@@ -23,6 +23,7 @@ export default class BoardPresenter {
   #filterModel = null;
   #sortComponent = null;
   #showMoreButtonComponent = null;
+  #noCardsHeadingComponent = null;
   #ratedFilmsCards = [];
   #commentedFilmsCards = [];
   #renderedCardsCount = CARD_COUNT_PER_STEP;
@@ -38,10 +39,9 @@ export default class BoardPresenter {
   #filmsListExtraCommented = new FilmsListExtraView('Most commented');
   #filmsListExtraCommentedContainerComponent = new FilmsListContainerView();
 
-  #noCardsHeadingComponent = new noCardsHeadingView('There are no movies in our database');
-
   #cardPresenters = new Map();
   #currentSortType = SortType.DEFAULT;
+  #filterType = FilterType.ALL;
 
   constructor(boardContainer, cardsModel, commentsModel, filterModel) {
     this.#boardContainer = boardContainer;
@@ -54,9 +54,9 @@ export default class BoardPresenter {
   }
 
   get cards() {
-    const filterType = this.#filterModel.filter;
+    this.#filterType = this.#filterModel.filter;
     const cards = this.#cardsModel.cards;
-    const filteredCards = filter[filterType](cards);
+    const filteredCards = filter[this.#filterType](cards);
 
     switch (this.#currentSortType) {
       case SortType.DATE:
@@ -134,6 +134,15 @@ export default class BoardPresenter {
     render(this.#showMoreButtonComponent, this.#filmsListComponent.element);
   };
 
+  #renderNoCards = () => {
+    if(this.#filmsListComponent) {
+      remove(this.#filmsListComponent);
+    }
+    this.#noCardsHeadingComponent = new noCardsHeadingView(this.#filterType);
+    render(this.#filmsListComponent, this.#filmsSectionComponent.element, RenderPosition.AFTERBEGIN);
+    render(this.#noCardsHeadingComponent, this.#filmsListComponent.element);
+  };
+
   #clearBoard = ({resetRenderedCardCount = false, resetSortType = false} = {}) => {
     const cardCount = this.cards.length;
 
@@ -141,8 +150,11 @@ export default class BoardPresenter {
     this.#cardPresenters.clear();
 
     remove(this.#sortComponent);
-    remove(this.#noCardsHeadingComponent);
     remove(this.#showMoreButtonComponent);
+
+    if (this.#noCardsHeadingComponent) {
+      remove(this.#noCardsHeadingComponent);
+    }
 
     if (resetRenderedCardCount) {
       this.#renderedCardsCount = CARD_COUNT_PER_STEP;
@@ -159,15 +171,16 @@ export default class BoardPresenter {
     const cards = this.cards;
     const cardCount = cards.length;
 
-    if (cardCount === 0) {
-      render(this.#noCardsHeadingComponent, this.#filmsListComponent.element);
-      return;
-    }
     this.#renderSort();
 
     //отрисовка карточек в основном блоке
     render(this.#filmsSectionComponent, this.#boardContainer);
     render(this.#filmsListComponent, this.#filmsSectionComponent.element);
+
+    if (cardCount === 0) {
+      this.#renderNoCards();
+      return;
+    }
 
     // Теперь, когда #renderBoard рендерит доску не только на старте,
     // но и по ходу работы приложения, нужно заменить

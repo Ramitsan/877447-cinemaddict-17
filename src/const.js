@@ -1,4 +1,4 @@
-const TOTAL_CARD_COUNT = 23;
+const TOTAL_CARD_COUNT = 4;
 const CARD_COUNT_PER_STEP = 5;
 const CARD_COUNT_IN_EXTRA = 2;
 
