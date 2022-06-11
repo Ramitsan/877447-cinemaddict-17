@@ -10,7 +10,7 @@ import ShowMoreButtonView from '../view/show-more-button-view.js';
 import noCardsHeadingView from '../view/no-cards-heading-view.js';
 import CardPresenter from './card-presenter.js';
 import { CARD_COUNT_PER_STEP, CARD_COUNT_IN_EXTRA } from '../const.js';
-import { sortByDate, sortByRating } from '../utils/card-utils';
+import { sortByDate, sortByRating, sortByDefault } from '../utils/card-utils';
 import { filter } from '../utils/filter-utils.js';
 import { SortType, UpdateType, UserAction, FilterType } from '../const.js';
 
@@ -63,6 +63,8 @@ export default class BoardPresenter {
         return filteredCards.sort(sortByDate);
       case SortType.RATING:
         return filteredCards.sort(sortByRating);
+      case SortType.DEFAULT:
+        return filteredCards.sort(sortByDefault);
     }
     return filteredCards;
   }
@@ -97,17 +99,25 @@ export default class BoardPresenter {
   #renderTopRatedBlock = (arr) => {
     render(this.#filmsListExtraRated, this.#filmsSectionComponent.element);
     render(this.#filmsListExtraRatedContainerComponent, this.#filmsListExtraRated.element);
-    for (let i = 0; i < CARD_COUNT_IN_EXTRA; i++) {
+    for (let i = 0; i < Math.min(arr.length, CARD_COUNT_IN_EXTRA); i++) {
       render(new FilmCardView(arr[i]), this.#filmsListExtraRatedContainerComponent.element);
     }
+  };
+
+  #removeTopRatedBlock = () => {
+    remove(this.#filmsListExtraRatedContainerComponent);
   };
 
   #renderMostCommentedBlock = (arr) => {
     render(this.#filmsListExtraCommented, this.#filmsSectionComponent.element);
     render(this.#filmsListExtraCommentedContainerComponent, this.#filmsListExtraCommented.element);
-    for (let i = 0; i < CARD_COUNT_IN_EXTRA; i++) {
+    for (let i = 0; i < Math.min(arr.length, CARD_COUNT_IN_EXTRA); i++) {
       render(new FilmCardView(arr[i]), this.#filmsListExtraCommentedContainerComponent.element);
     }
+  };
+
+  #removeMostCommentedBlock = () => {
+    remove(this.#filmsListExtraCommentedContainerComponent);
   };
 
   #showMoreButtonClickHandler = (evt) => {
@@ -156,6 +166,9 @@ export default class BoardPresenter {
       remove(this.#noCardsHeadingComponent);
     }
 
+    this.#removeTopRatedBlock();
+    this.#removeMostCommentedBlock();
+
     if (resetRenderedCardCount) {
       this.#renderedCardsCount = CARD_COUNT_PER_STEP;
     } else {
@@ -179,18 +192,18 @@ export default class BoardPresenter {
 
     if (cardCount === 0) {
       this.#renderNoCards();
-      return;
-    }
-
+      // return;
+    } else {
     // Теперь, когда #renderBoard рендерит доску не только на старте,
     // но и по ходу работы приложения, нужно заменить
     // константу CARD_COUNT_PER_STEP на свойство #renderedCardCount,
     // чтобы в случае перерисовки сохранить N-показанных карточек
-    this.#renderCardList(cards.slice(0, Math.min(cardCount, this.#renderedCardsCount)));
+      this.#renderCardList(cards.slice(0, Math.min(cardCount, this.#renderedCardsCount)));
+    }
 
     //рендер блоков Top rated и Most commented
-    this.#ratedFilmsCards = cards.slice(0, 2);
-    this.#commentedFilmsCards = cards.slice(2, 4);
+    this.#ratedFilmsCards = this.#cardsModel.cards.slice(0, 2);
+    this.#commentedFilmsCards = this.#cardsModel.cards.slice(2, 4);
 
     this.#renderTopRatedBlock(this.#ratedFilmsCards);
     this.#renderMostCommentedBlock(this.#commentedFilmsCards);

@@ -56,7 +56,7 @@ export const generateCard = (commentsModel) => {
         'releaseCountry': generateRandomElement(FILM_RELEASE_COUNTRIES)
       },
       'runtime': getRandomInteger(MIN_RUNTIME, MAX_RUNTIME),
-      'genre': getRandomArray(FILM_GENRES),
+      'genres': getRandomArray(FILM_GENRES),
       'description': generateRandomElement(FILM_DESCRIPTIONS)
     },
     'userDetails': {

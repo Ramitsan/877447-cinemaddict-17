@@ -1,4 +1,4 @@
-const TOTAL_CARD_COUNT = 4;
+const TOTAL_CARD_COUNT = 17;
 const CARD_COUNT_PER_STEP = 5;
 const CARD_COUNT_IN_EXTRA = 2;
 
@@ -28,9 +28,9 @@ const SortType = {
 };
 
 const UserAction = {
-  UPDATE_TASK: 'UPDATE_TASK',
-  ADD_TASK: 'ADD_TASK',
-  DELETE_TASK: 'DELETE_TASK',
+  UPDATE_CARD: 'UPDATE_CARD',
+  ADD_CARD: 'ADD_CARD',
+  DELETE_CARD: 'DELETE_CARD',
 };
 
 const UpdateType = {
