@@ -1,7 +1,8 @@
 import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
 import CommentView from './comment-view.js';
 import { humanizeDateReleaseForPopup } from '../utils/card-utils.js';
-import { getFilmDuration } from '../utils/common.js';
+import { getFilmDuration} from '../utils/common.js';
+import {generateComment} from '../mock/comment';
 
 const createPopupTemplate = ({card, comments, commentEmoji, commentText}) => {
   const { comments: commentsId, filmInfo, userDetails } = card;
@@ -197,6 +198,10 @@ export default class PopupView extends AbstractStatefulView {
     this.element.scrollTop = this._state.scrollTop;
   };
 
+  updateComments = (comments) => {
+    this.updateElement({comments});
+  };
+
   #setInnerHandlers = () => {
     this.element.querySelectorAll('.film-details__emoji-item').forEach((item) => item.addEventListener('click', this.#chooseEmojiClickHandler));
     this.element.querySelector('.film-details__comment-input').addEventListener('input', this.#commentTextInputHandler);
@@ -204,18 +209,20 @@ export default class PopupView extends AbstractStatefulView {
 
   _restoreHandlers = () => {
     this.#setInnerHandlers();
-    this.setClickHandler(this._callback.click);
+    this.setClosePopupClickHandler(this._callback.click);
     this.setWatchlistClickHandler(this._callback.addWatchlistClick);
     this.setAlreadyWatchedClickHandler(this._callback.alreadyWatchedClick);
     this.setFavoriteClickHandler(this._callback.favoriteClick);
+    this.setCommentRemoveHandler(this._callback.removeComment);
+    this.setCommentAddHandler(this._callback.addComment);
   };
 
-  setClickHandler = (callback) => {
+  setClosePopupClickHandler = (callback) => {
     this._callback.click = callback;
-    this.element.querySelector('.film-details__close-btn').addEventListener('click', this.#clickHandler);
+    this.element.querySelector('.film-details__close-btn').addEventListener('click', this.#closePopupClickHandler);
   };
 
-  #clickHandler = (evt) => {
+  #closePopupClickHandler = (evt) => {
     evt.preventDefault();
     this._callback.click(evt);
   };
@@ -248,5 +255,32 @@ export default class PopupView extends AbstractStatefulView {
   #favoriteClickHandler = (evt) => {
     evt.preventDefault();
     this._callback.favoriteClick();
+  };
+
+  // удаление комментариев
+  setCommentRemoveHandler = (callback) => {
+    this._callback.removeComment = callback;
+    this.element.querySelectorAll('.film-details__comment-delete').forEach((item) => item.addEventListener('click', this.#handleRemoveComment));
+  };
+
+  #handleRemoveComment = (evt) => {
+    evt.preventDefault();
+    this._callback.removeComment(evt.target.dataset.id);
+  };
+
+  // добавление комментариев
+  setCommentAddHandler = (callback) => {
+    this._callback.addComment = callback;
+    this.element.querySelector('.film-details__comment-input').addEventListener('keydown', this.#addCommentHandler);
+  };
+
+  #addCommentHandler = (evt) => {
+    if (evt.key === 'Enter' && evt.ctrlKey) {
+      this._callback.addComment({
+        ...generateComment(),
+        emotion: this._state.commentEmoji,
+        comment: this._state.commentText,
+      });
+    }
   };
 }

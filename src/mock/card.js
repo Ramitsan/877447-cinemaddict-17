@@ -1,7 +1,7 @@
 import { getRandomInteger, getRandomArray, generateRandomElement, generateBooleanValue } from '../utils/common.js';
 import { generateComment } from './comment';
 import { initUid } from '../utils/uid';
-import {UpdateType} from '../const.js';
+import {UpdateType} from '../const';
 
 const FILM_TITLES = ['Popeye the Sailor Meets Sindbad the Sailor', 'Sagebrush Trail', 'The Dance of Life', 'The Man with the Golden Arm', 'The Great Flamarion'];
 const FILM_ALTERNATIVE_TITLES = ['Laziness Who Sold Themselves', 'Lorem ipsum dolor sit amet', 'Fusce tristique felis at fermentum pharetra'];
@@ -36,7 +36,7 @@ export const generateCard = (commentsModel) => {
   for (let i = 0; i < COMMENTS_COUNT; i++) {
     const comment = generateComment();
     commentsId.push(comment.id);
-    commentsModel.addComment(comment);
+    commentsModel.addComment(UpdateType.PATCH, comment);
   }
 
   const card = {
