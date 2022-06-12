@@ -1,4 +1,4 @@
-import { render, remove } from '../framework/render.js';
+import { render, remove, RenderPosition } from '../framework/render.js';
 import SortingView from '../view/sorting-view.js';
 import FilmsSectionView from '../view/films-section-view.js';
 import FilmsListView from '../view/films-list-view.js';
@@ -10,9 +10,9 @@ import ShowMoreButtonView from '../view/show-more-button-view.js';
 import noCardsHeadingView from '../view/no-cards-heading-view.js';
 import CardPresenter from './card-presenter.js';
 import { CARD_COUNT_PER_STEP, CARD_COUNT_IN_EXTRA } from '../const.js';
-import { updateItem } from '../utils/common.js';
-import { sortByDate, sortByRating } from '../utils/card-utils';
-import { SortType } from '../const.js';
+import { sortByDate, sortByRating, sortByDefault } from '../utils/card-utils';
+import { filter } from '../utils/filter-utils.js';
+import { SortType, UpdateType, UserAction, FilterType } from '../const.js';
 
 const siteMainElement = document.querySelector('.main');
 
@@ -20,12 +20,14 @@ export default class BoardPresenter {
   #boardContainer = null;
   #cardsModel = null;
   #commentsModel = null;
-  #boardFilmsCards = [];
+  #filterModel = null;
+  #sortComponent = null;
+  #showMoreButtonComponent = null;
+  #noCardsHeadingComponent = null;
   #ratedFilmsCards = [];
   #commentedFilmsCards = [];
   #renderedCardsCount = CARD_COUNT_PER_STEP;
 
-  #sortComponent = new SortingView();
   #filmsSectionComponent = new FilmsSectionView();
   #filmsListComponent = new FilmsListView();
   #headingComponent = new HeadingView('All movies. Upcoming');
@@ -36,50 +38,60 @@ export default class BoardPresenter {
 
   #filmsListExtraCommented = new FilmsListExtraView('Most commented');
   #filmsListExtraCommentedContainerComponent = new FilmsListContainerView();
-  #showMoreButtonComponent = new ShowMoreButtonView();
-
-  #noCardsHeadingComponent = new noCardsHeadingView('There are no movies in our database');
 
   #cardPresenters = new Map();
   #currentSortType = SortType.DEFAULT;
-  #sourcedBoardCards = [];
+  #filterType = FilterType.ALL;
 
-  constructor(boardContainer, cardsModel, commentsModel) {
+  constructor(boardContainer, cardsModel, commentsModel, filterModel) {
     this.#boardContainer = boardContainer;
     this.#cardsModel = cardsModel;
     this.#commentsModel = commentsModel;
+    this.#filterModel = filterModel;
+
+    this.#cardsModel.addObserver(this.#handleModelEvent);
+    this.#filterModel.addObserver(this.#handleModelEvent);
+  }
+
+  get cards() {
+    this.#filterType = this.#filterModel.filter;
+    const cards = this.#cardsModel.cards;
+    const filteredCards = filter[this.#filterType](cards);
+
+    switch (this.#currentSortType) {
+      case SortType.DATE:
+        return filteredCards.sort(sortByDate);
+      case SortType.RATING:
+        return filteredCards.sort(sortByRating);
+      case SortType.DEFAULT:
+        return filteredCards.sort(sortByDefault);
+    }
+    return filteredCards;
   }
 
   init = () => {
-    this.#boardFilmsCards = [...this.#cardsModel.cards];
-    this.#sourcedBoardCards = [...this.#cardsModel.cards]; // сохраняем исходный массив для сортировки
-    // Этот исходный массив задач необходим, потому что для сортировки мы будем мутировать исходный массив в свойстве #boardFilmsCards
-    this.#ratedFilmsCards = [...this.#cardsModel.cards].slice(0, 2);
-    this.#commentedFilmsCards = [...this.#cardsModel.cards].slice(2, 4);
-
-    this.#renderSort();
     this.#renderBoard();
   };
 
   #renderCard = (card) => {
-    const cardPresenter = new CardPresenter(this.#filmsListContainerComponent.element, this.#commentsModel, this.#handleCardChange, this.#handleModeChange);
+    const cardPresenter = new CardPresenter(this.#filmsListContainerComponent.element, this.#commentsModel, this.#handleViewAction, this.#handleModeChange);
     cardPresenter.init(card);
     this.#cardPresenters.set(card.id, cardPresenter);
   };
 
-  #renderCards = (from, to) => {
-    this.#boardFilmsCards
-      .slice(from, to)
-      .forEach((card) => this.#renderCard(card));
+  #renderCards = (cards) => {
+    cards.forEach((card) => this.#renderCard(card));
   };
 
   #renderCardList = () => {
+    const cardsCount = this.cards.length;
+    const cards = this.cards.slice(0, Math.min(cardsCount, CARD_COUNT_PER_STEP));
+
     render(this.#headingComponent, this.#filmsListComponent.element);
     render(this.#filmsListContainerComponent, this.#filmsListComponent.element);
+    this.#renderCards(cards);
 
-    this.#renderCards(0, Math.min(this.#boardFilmsCards.length, CARD_COUNT_PER_STEP));
-
-    if (this.#boardFilmsCards.length > CARD_COUNT_PER_STEP) {
+    if (cardsCount > CARD_COUNT_PER_STEP) {
       this.#renderShowMoreButton();
     }
   };
@@ -87,47 +99,114 @@ export default class BoardPresenter {
   #renderTopRatedBlock = (arr) => {
     render(this.#filmsListExtraRated, this.#filmsSectionComponent.element);
     render(this.#filmsListExtraRatedContainerComponent, this.#filmsListExtraRated.element);
-    for (let i = 0; i < CARD_COUNT_IN_EXTRA; i++) {
+    for (let i = 0; i < Math.min(arr.length, CARD_COUNT_IN_EXTRA); i++) {
       render(new FilmCardView(arr[i]), this.#filmsListExtraRatedContainerComponent.element);
     }
+  };
+
+  #removeTopRatedBlock = () => {
+    remove(this.#filmsListExtraRatedContainerComponent);
   };
 
   #renderMostCommentedBlock = (arr) => {
     render(this.#filmsListExtraCommented, this.#filmsSectionComponent.element);
     render(this.#filmsListExtraCommentedContainerComponent, this.#filmsListExtraCommented.element);
-    for (let i = 0; i < CARD_COUNT_IN_EXTRA; i++) {
+    for (let i = 0; i < Math.min(arr.length, CARD_COUNT_IN_EXTRA); i++) {
       render(new FilmCardView(arr[i]), this.#filmsListExtraCommentedContainerComponent.element);
     }
   };
 
+  #removeMostCommentedBlock = () => {
+    remove(this.#filmsListExtraCommentedContainerComponent);
+  };
+
   #showMoreButtonClickHandler = (evt) => {
     evt.preventDefault();
-    this.#renderCards(this.#renderedCardsCount, this.#renderedCardsCount + CARD_COUNT_PER_STEP);
-    this.#renderedCardsCount += CARD_COUNT_PER_STEP;
 
-    if (this.#renderedCardsCount >= this.#boardFilmsCards.length) {
+    const cardsCount = this.cards.length;
+    const newRenderedCardsCount = Math.min(cardsCount, this.#renderedCardsCount + CARD_COUNT_PER_STEP);
+    const cards = this.cards.slice(this.#renderedCardsCount, newRenderedCardsCount);
+
+    this.#renderCards(cards);
+    this.#renderedCardsCount = newRenderedCardsCount;
+
+    if (this.#renderedCardsCount >= cardsCount) {
       remove(this.#showMoreButtonComponent);
     }
   };
 
   #renderShowMoreButton = () => {
-    render(this.#showMoreButtonComponent, this.#filmsListComponent.element);
+    if(this.#showMoreButtonComponent) {
+      remove(this.#showMoreButtonComponent);
+    }
+    this.#showMoreButtonComponent = new ShowMoreButtonView();
     this.#showMoreButtonComponent.setClickHandler(this.#showMoreButtonClickHandler);
+    render(this.#showMoreButtonComponent, this.#filmsListComponent.element);
+  };
+
+  #renderNoCards = () => {
+    if(this.#filmsListComponent) {
+      remove(this.#filmsListComponent);
+    }
+    this.#noCardsHeadingComponent = new noCardsHeadingView(this.#filterType);
+    render(this.#filmsListComponent, this.#filmsSectionComponent.element, RenderPosition.AFTERBEGIN);
+    render(this.#noCardsHeadingComponent, this.#filmsListComponent.element);
+  };
+
+  #clearBoard = ({resetRenderedCardCount = false, resetSortType = false} = {}) => {
+    const cardCount = this.cards.length;
+
+    this.#cardPresenters.forEach((presenter) => presenter.destroy());
+    this.#cardPresenters.clear();
+
+    remove(this.#sortComponent);
+    remove(this.#showMoreButtonComponent);
+
+    if (this.#noCardsHeadingComponent) {
+      remove(this.#noCardsHeadingComponent);
+    }
+
+    this.#removeTopRatedBlock();
+    this.#removeMostCommentedBlock();
+
+    if (resetRenderedCardCount) {
+      this.#renderedCardsCount = CARD_COUNT_PER_STEP;
+    } else {
+      this.#renderedCardsCount = Math.min(cardCount, this.#renderedCardsCount);
+    }
+
+    if (resetSortType) {
+      this.#currentSortType = SortType.DEFAULT;
+    }
   };
 
   #renderBoard = () => {
+    const cards = this.cards;
+    const cardCount = cards.length;
+
+    this.#renderSort();
+
     //отрисовка карточек в основном блоке
     render(this.#filmsSectionComponent, this.#boardContainer);
     render(this.#filmsListComponent, this.#filmsSectionComponent.element);
 
-    if (!this.#boardFilmsCards.length) {
-      render(this.#noCardsHeadingComponent, this.#filmsListComponent.element);
+    if (cardCount === 0) {
+      this.#renderNoCards();
+      // return;
     } else {
-      this.#renderCardList();
-      this.#renderShowMoreButton(this.#boardFilmsCards);
-      this.#renderTopRatedBlock(this.#ratedFilmsCards);
-      this.#renderMostCommentedBlock(this.#commentedFilmsCards);
+    // Теперь, когда #renderBoard рендерит доску не только на старте,
+    // но и по ходу работы приложения, нужно заменить
+    // константу CARD_COUNT_PER_STEP на свойство #renderedCardCount,
+    // чтобы в случае перерисовки сохранить N-показанных карточек
+      this.#renderCardList(cards.slice(0, Math.min(cardCount, this.#renderedCardsCount)));
     }
+
+    //рендер блоков Top rated и Most commented
+    this.#ratedFilmsCards = this.#cardsModel.cards.slice(0, 2);
+    this.#commentedFilmsCards = this.#cardsModel.cards.slice(2, 4);
+
+    this.#renderTopRatedBlock(this.#ratedFilmsCards);
+    this.#renderMostCommentedBlock(this.#commentedFilmsCards);
   };
 
   #clearCardList = () => {
@@ -138,41 +217,60 @@ export default class BoardPresenter {
   };
 
   #renderSort = () => {
-    render(this.#sortComponent, siteMainElement);
+    this.#sortComponent = new SortingView(this.#currentSortType);
     this.#sortComponent.setSortTypeChangeHandler(this.#handleSortTypeChange);
-  };
-
-  #sortCards = (sortType) => {
-    switch (sortType) {
-      case SortType.DATE:
-        this.#boardFilmsCards.sort(sortByDate);
-        break;
-      case SortType.RATING:
-        this.#boardFilmsCards.sort(sortByRating);
-        break;
-      default:
-        // Записываем в #boardFilmsCards исходный массив для возврата сортировки по дефолту
-        this.#boardFilmsCards = [...this.#sourcedBoardCards];
-    }
-    this.#currentSortType = sortType;
+    render(this.#sortComponent, siteMainElement);
   };
 
   #handleSortTypeChange = (sortType) => {
     if (this.#currentSortType === sortType) {
       return;
     }
-    this.#sortCards(sortType);
-    this.#clearCardList();
-    this.#renderCardList();
+    this.#currentSortType = sortType;
+    this.#clearBoard({resetRenderedTaskCount: true});
+    this.#renderBoard();
   };
 
   #handleModeChange = () => {
     this.#cardPresenters.forEach((presenter) => presenter.resetView());
   };
 
-  #handleCardChange = (updatedCard) => {
-    this.#boardFilmsCards = updateItem(this.#boardFilmsCards, updatedCard);
-    this.#sourcedBoardCards = updateItem(this.#sourcedBoardCards, updatedCard);
-    this.#cardPresenters.get(updatedCard.id).init(updatedCard);
+  #handleViewAction = (actionType, updateType, update) => {
+    // Здесь будем вызывать обновление модели.
+    // actionType - действие пользователя, нужно чтобы понять, какой метод модели вызвать
+    // updateType - тип изменений, нужно чтобы понять, что после нужно обновить
+    // update - обновленные данные
+
+    switch (actionType) {
+      case UserAction.UPDATE_CARD:
+        this.#cardsModel.updateCard(updateType, update);
+        break;
+      case UserAction.ADD_CARD:
+        this.#cardsModel.addCard(updateType, update);
+        break;
+      case UserAction.DELETE_CARD:
+        this.#cardsModel.deleteCard(updateType, update);
+        break;
+    }
+  };
+
+  #handleModelEvent = (updateType, data) => {
+    // В зависимости от типа изменений решаем, что делать:
+    switch (updateType) {
+      case UpdateType.PATCH:
+        // - обновить часть списка (например, когда поменялось описание)
+        this.#cardPresenters.get(data.id).init(data);
+        break;
+      case UpdateType.MINOR:
+        // - обновить список
+        this.#clearBoard();
+        this.#renderBoard();
+        break;
+      case UpdateType.MAJOR:
+        // - обновить всю доску (например, при переключении фильтра)
+        this.#clearBoard({resetRenderedCardCount: true, resetSortType: true});
+        this.#renderBoard();
+        break;
+    }
   };
 }

@@ -1,6 +1,7 @@
 import { getRandomInteger, getRandomArray, generateRandomElement, generateBooleanValue } from '../utils/common.js';
 import { generateComment } from './comment';
 import { initUid } from '../utils/uid';
+import {UpdateType} from '../const';
 
 const FILM_TITLES = ['Popeye the Sailor Meets Sindbad the Sailor', 'Sagebrush Trail', 'The Dance of Life', 'The Man with the Golden Arm', 'The Great Flamarion'];
 const FILM_ALTERNATIVE_TITLES = ['Laziness Who Sold Themselves', 'Lorem ipsum dolor sit amet', 'Fusce tristique felis at fermentum pharetra'];
@@ -28,14 +29,14 @@ const generateTotalRating = () => (Math.random() * 10).toFixed(1);
 
 const nextId = initUid('card');
 
-export const generateCard = (cardsModel, commentsModel) => {
+export const generateCard = (commentsModel) => {
   const COMMENTS_COUNT = getRandomInteger(MIN_COUNT_COMMENTS, MAX_COUNT_COMMENTS);
   const commentsId = [];
 
   for (let i = 0; i < COMMENTS_COUNT; i++) {
     const comment = generateComment();
     commentsId.push(comment.id);
-    commentsModel.addComment(comment);
+    commentsModel.addComment(UpdateType.PATCH, comment);
   }
 
   const card = {
@@ -55,7 +56,7 @@ export const generateCard = (cardsModel, commentsModel) => {
         'releaseCountry': generateRandomElement(FILM_RELEASE_COUNTRIES)
       },
       'runtime': getRandomInteger(MIN_RUNTIME, MAX_RUNTIME),
-      'genre': getRandomArray(FILM_GENRES),
+      'genres': getRandomArray(FILM_GENRES),
       'description': generateRandomElement(FILM_DESCRIPTIONS)
     },
     'userDetails': {
@@ -66,6 +67,6 @@ export const generateCard = (cardsModel, commentsModel) => {
     }
   };
 
-  cardsModel.addCard(card);
+  return card;
 };
 

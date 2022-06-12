@@ -1,4 +1,4 @@
-const TOTAL_CARD_COUNT = 23;
+const TOTAL_CARD_COUNT = 17;
 const CARD_COUNT_PER_STEP = 5;
 const CARD_COUNT_IN_EXTRA = 2;
 
@@ -27,4 +27,16 @@ const SortType = {
   RATING: 'rating',
 };
 
-export { TOTAL_CARD_COUNT, CARD_COUNT_PER_STEP, CARD_COUNT_IN_EXTRA, FilterType, FilterName, Mode, SortType };
+const UserAction = {
+  UPDATE_CARD: 'UPDATE_CARD',
+  ADD_CARD: 'ADD_CARD',
+  DELETE_CARD: 'DELETE_CARD',
+};
+
+const UpdateType = {
+  PATCH: 'PATCH',
+  MINOR: 'MINOR',
+  MAJOR: 'MAJOR',
+};
+
+export { TOTAL_CARD_COUNT, CARD_COUNT_PER_STEP, CARD_COUNT_IN_EXTRA, FilterType, FilterName, Mode, SortType, UserAction, UpdateType };

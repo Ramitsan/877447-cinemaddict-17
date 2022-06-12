@@ -2,6 +2,7 @@ import { render, replace, remove } from '../framework/render.js';
 import FilmCardView from '../view/film-card-view.js';
 import PopupView from '../view/popup-view.js';
 import { Mode } from '../const.js';
+import {UserAction, UpdateType} from '../const.js';
 
 const bodyElement = document.querySelector('body');
 
@@ -13,48 +14,58 @@ export default class CardPresenter {
   #cardListContainer = null;
   #changeData = null;
   #changeMode = null;
-
+  #newCommentComponent = null;
+  #handleModelEvent = null;
   #card = null;
   #mode = Mode.DEFAULT;
-  #allComments = [];
 
   constructor(cardListContainer, commentsModel, changeData, changeMode) {
     this.#cardListContainer = cardListContainer;
     this.#commentsModel = commentsModel;
     this.#changeData = changeData;
     this.#changeMode = changeMode;
+
+    this.#commentsModel.addObserver(this.#handleCommentsModelEvent);
+  }
+
+  get comments () {
+    return this.#commentsModel.comments;
+  }
+
+  get currentCardComments () {
+    const cardComments = [];
+    for (const cardCommentId of this.#card.comments) {
+      if(this.#filmComments.has(cardCommentId)) {
+        cardComments.push(this.#filmComments.get(cardCommentId));
+      }
+    }
+    return cardComments;
   }
 
   init = (card) => {
-    this.#allComments = [...this.#commentsModel.comments];
     this.#card = card;
 
     const prevCardComponent = this.#filmCardComponent;
     const prevPopupComponent = this.#popupComponent;
 
     this.#filmComments = new Map();
-    for (const item of this.#allComments) {
+    for (const item of this.comments) {
       this.#filmComments.set(item.id, item);
     }
 
-    const cardComments = [];
-    for (const cardCommentId of card.comments) {
-      if(this.#filmComments.has(cardCommentId)) {
-        cardComments.push(this.#filmComments.get(cardCommentId));
-      }
-    }
-
     this.#filmCardComponent = new FilmCardView(card);
-    this.#popupComponent = new PopupView({card, comments: cardComments});
+    this.#popupComponent = new PopupView({card, comments: this.currentCardComments});
 
     this.#filmCardComponent.setWatchlistClickHandler(this.#handleWatchlistClick);
     this.#filmCardComponent.setAlreadyWatchedClickHandler(this.#handleAlreadyWatchedClick);
     this.#filmCardComponent.setFavoriteClickHandler(this.#handleFavoriteClick);
     this.#filmCardComponent.setClickHandler(this.#openPopup);
-    this.#popupComponent.setClickHandler(this.#closePopup);
+    this.#popupComponent.setClosePopupClickHandler(this.#closePopup);
     this.#popupComponent.setWatchlistClickHandler(this.#handleWatchlistClick);
     this.#popupComponent.setAlreadyWatchedClickHandler(this.#handleAlreadyWatchedClick);
     this.#popupComponent.setFavoriteClickHandler(this.#handleFavoriteClick);
+    this.#popupComponent.setCommentRemoveHandler(this.#handleRemoveComment);
+    this.#popupComponent.setCommentAddHandler(this.#handleAddComment);
 
     if (prevCardComponent === null || prevPopupComponent === null) {
       render(this.#filmCardComponent, this.#cardListContainer);
@@ -112,14 +123,55 @@ export default class CardPresenter {
   };
 
   #handleWatchlistClick = () => {
-    this.#changeData({...this.#card,  userDetails: {...this.#card.userDetails, isWatchlist: !this.#card.userDetails.isWatchlist}});
+    this.#changeData(
+      UserAction.UPDATE_CARD,
+      UpdateType.PATCH,
+      {...this.#card,  userDetails: {...this.#card.userDetails, isWatchlist: !this.#card.userDetails.isWatchlist}},
+    );
   };
 
   #handleAlreadyWatchedClick = () => {
-    this.#changeData({...this.#card, userDetails: {...this.#card.userDetails, isAlreadyWatched: !this.#card.userDetails.isAlreadyWatched}});
+    this.#changeData(
+      UserAction.UPDATE_CARD,
+      UpdateType.PATCH,
+      {...this.#card, userDetails: {...this.#card.userDetails, isAlreadyWatched: !this.#card.userDetails.isAlreadyWatched}},
+    );
   };
 
   #handleFavoriteClick = () => {
-    this.#changeData({...this.#card, userDetails: {...this.#card.userDetails, isFavorite: !this.#card.userDetails.isFavorite}});
+    this.#changeData(
+      UserAction.UPDATE_CARD,
+      UpdateType.PATCH,
+      {...this.#card, userDetails: {...this.#card.userDetails, isFavorite: !this.#card.userDetails.isFavorite}},
+    );
+  };
+
+  #handleRemoveComment = (idToDelete) => {
+    this.#commentsModel.deleteComment(UpdateType.MAJOR, idToDelete);
+    const newComments = this.#card.comments.filter((id) => id !== idToDelete);
+    this.#changeData(
+      UserAction.UPDATE_CARD,
+      UpdateType.PATCH,
+      {...this.#card, comments: newComments},
+    );
+  };
+
+  #handleAddComment = (newComment) => {
+    this.#commentsModel.addComment(UpdateType.MAJOR, newComment);
+    this.#changeData(
+      UserAction.UPDATE_CARD,
+      UpdateType.PATCH,
+      {...this.#card, comments: [...this.#card.comments, newComment.id]},
+    );
+  };
+
+  #handleCommentsModelEvent = (updateType) => {
+    switch (updateType) {
+      case UpdateType.PATCH:
+      case UpdateType.MINOR:
+      case UpdateType.MAJOR:
+        this.#popupComponent.updateComments(this.currentCardComments);
+        break;
+    }
   };
 }
