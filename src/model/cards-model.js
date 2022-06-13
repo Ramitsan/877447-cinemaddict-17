@@ -1,7 +1,17 @@
 import Observable from '../framework/observable';
 
 export default class CardsModel extends Observable {
+  #cardsApiService = null;
   #cards = [];
+
+  constructor(cardsApiService) {
+    super();
+    this.#cardsApiService = cardsApiService;
+
+    this.#cardsApiService.movies.then((movies) => {
+      console.log(movies);
+    });
+  }
 
   get cards() {
     return this.#cards;

@@ -2,7 +2,7 @@ import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
 import CommentView from './comment-view.js';
 import { humanizeDateReleaseForPopup } from '../utils/card-utils.js';
 import { getFilmDuration } from '../utils/common.js';
-import { generateComment } from '../mock/comment';
+// import { generateComment } from '../mock/comment';
 
 const createPopupTemplate = ({card, comments, commentEmoji, commentText}) => {
   const { comments: commentsId, filmInfo, userDetails } = card;
