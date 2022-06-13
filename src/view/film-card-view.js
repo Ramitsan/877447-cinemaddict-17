@@ -4,7 +4,7 @@ import { getFilmDuration } from '../utils/common.js';
 
 const createFilmCardTemplate = (card) => {
   const { filmInfo, userDetails} = card;
-  const { title, totalRating, poster, release, genres, runtime, description} = filmInfo;
+  const { title, totalRating, poster, release, genre, runtime, description} = filmInfo;
   const { date } = release;
   const {isWatchlist, isAlreadyWatched, isFavorite} = userDetails;
 
@@ -23,9 +23,9 @@ const createFilmCardTemplate = (card) => {
       <p class="film-card__info">
         <span class="film-card__year">${filmReleaseDate}</span>
         <span class="film-card__duration">${filmRuntime}</span>
-        <span class="film-card__genre">${genres[0]}</span>
+        <span class="film-card__genre">${genre[0]}</span>
       </p>
-      <img src="./images/posters/${poster}" alt="" class="film-card__poster">
+      <img src="${poster}" alt="" class="film-card__poster">
       <p class="film-card__description">${description}</p>
       <span class="film-card__comments">${commentsCount} comments</span>
     </a>

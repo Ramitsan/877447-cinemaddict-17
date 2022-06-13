@@ -15,12 +15,43 @@ export default class CardsApiService extends ApiService {
     const response = await this._load({
       url: `movies/${card.id}`,
       method: Method.PUT,
-      body: JSON.stringify(card),
+      body: JSON.stringify(this.#adaptToServer(card)),
       headers: new Headers({'Content-Type': 'application/json'}),
     });
 
     const parsedResponse = await ApiService.parseResponse(response);
 
     return parsedResponse;
+  };
+
+  #adaptToServer = (card) => {
+    const adaptedCard = {...card,
+      'film_info': card.filmInfo,
+      'alternative_title': card.filmInfo.alternativeTitle,
+      'age_rating': card.filmInfo.ageRating,
+      'total_rating': card.filmInfo.totalRating,
+      'date': card.filmInfo.release.date instanceof Date ? card.userDetails.watchingDate.toISOString() : null,
+      'release_country': card.filmInfo.release.releaseCountry,
+      'user_details': card.userDetails,
+      'watchlist': card.userDetails.isWatchlist,
+      'already_watched': card.userDetails.isAlreadyWatched,
+      'watching_date': card.userDetails.watchingDate instanceof Date ? card.userDetails.watchingDate.toISOString() : null,
+      'favorite': card.userDetails.isFavorite,
+    };
+
+    // Ненужные ключи мы удаляем
+    delete adaptedCard.filmInfo;
+    delete adaptedCard.filmInfo.alternativeTitle;
+    delete adaptedCard.filmInfo.ageRating;
+    delete adaptedCard.filmInfo.totalRating;
+    delete adaptedCard.filmInfo.release.date;
+    delete adaptedCard.filmInfo.release.releaseCountry;
+    delete adaptedCard.userDetails;
+    delete adaptedCard.userDetails.isWatchlist;
+    delete adaptedCard.userDetails.isAlreadyWatched;
+    delete adaptedCard.userDetails.watchingDate;
+    delete adaptedCard.userDetails.isFavorite;
+
+    return adaptedCard;
   };
 }

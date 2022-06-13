@@ -6,7 +6,7 @@ import { getFilmDuration } from '../utils/common.js';
 
 const createPopupTemplate = ({card, comments, commentEmoji, commentText}) => {
   const { comments: commentsId, filmInfo, userDetails } = card;
-  const { title, totalRating, poster, ageRating, director, writers, actors, release, genres, runtime, description } = filmInfo;
+  const { title, totalRating, poster, ageRating, director, writers, actors, release, genre, runtime, description } = filmInfo;
   const { date, releaseCountry } = release;
   const {isWatchlist, isAlreadyWatched, isFavorite} = userDetails;
   const commentsCount = commentsId.length;
@@ -15,8 +15,8 @@ const createPopupTemplate = ({card, comments, commentEmoji, commentText}) => {
   const filmRuntime = getFilmDuration(runtime);
 
   const createFilmGenresTemplate = (arr) => arr.map((elem) => `<span class="film-details__genre">${elem}</span>`).join('');
-  const filmGenresTemplate = createFilmGenresTemplate(genres);
-  const genresCount = genres.length > 1 ? 'Genres' : 'Genre';
+  const filmGenresTemplate = createFilmGenresTemplate(genre);
+  const genresCount = genre.length > 1 ? 'Genres' : 'Genre';
 
   const setActiveControl = (param) => param ? 'film-details__control-button--active' : '';
 
