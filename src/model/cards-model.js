@@ -81,7 +81,6 @@ export default class CardsModel extends Observable {
         ageRating: card['film_info']['age_rating'],
         totalRating: card['film_info']['total_rating'],
         release: {
-          date: card['film_info']['release']['date'] !== null ? new Date(card['film_info']['release']['date']) : card['film_info']['release']['date'],
           releaseCountry: card['film_info']['release']['release_country'],
         }
       },
@@ -98,7 +97,6 @@ export default class CardsModel extends Observable {
     delete adaptedCard.filmInfo['alternative_title'];
     delete adaptedCard.filmInfo['age_rating'];
     delete adaptedCard.filmInfo['total_rating'];
-    delete adaptedCard.filmInfo.release['date'];
     delete adaptedCard.filmInfo.release['release_country'];
     delete adaptedCard['user_details'];
     delete adaptedCard.userDetails['watchlist'];

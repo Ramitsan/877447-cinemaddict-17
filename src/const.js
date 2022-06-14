@@ -40,4 +40,11 @@ const UpdateType = {
   INIT: 'INIT',
 };
 
-export { TOTAL_CARD_COUNT, CARD_COUNT_PER_STEP, CARD_COUNT_IN_EXTRA, FilterType, FilterName, Mode, SortType, UserAction, UpdateType };
+const RequestMethod  = {
+  GET: 'GET',
+  PUT: 'PUT',
+  DELETE: 'DELETE',
+  POST: 'POST'
+};
+
+export { TOTAL_CARD_COUNT, CARD_COUNT_PER_STEP, CARD_COUNT_IN_EXTRA, FilterType, FilterName, Mode, SortType, UserAction, UpdateType, RequestMethod };

@@ -149,6 +149,7 @@ export default class BoardPresenter {
   };
 
   #renderLoading = () => {
+    render(this.#filmsListComponent, this.#filmsSectionComponent.element);
     render(this.#loadingComponent, this.#filmsListComponent.element, RenderPosition.AFTERBEGIN);
   };
 
@@ -268,7 +269,6 @@ export default class BoardPresenter {
   };
 
   #handleModelEvent = (updateType, data) => {
-    console.log(updateType);
     // В зависимости от типа изменений решаем, что делать:
     switch (updateType) {
       case UpdateType.PATCH:
