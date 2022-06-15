@@ -49,9 +49,6 @@ const sortByDate = (cardA, cardB) => {
 const sortByRating = (cardA, cardB) => cardB.filmInfo.totalRating - cardA.filmInfo.totalRating;
 
 // сортировка по дефолту
-// логическое выражение с оператором "<" вернет true или false
-// умножением на 2 приводим его к числу
-// вычитаем 1
-const sortByDefault = (cardA, cardB) => (cardB.id < cardA.id) * 2 - 1;
+const sortByDefault = (cardA, cardB) => (+cardA.id - +cardB.id);
 
 export { getCropDescription, humanizeDateReleaseForCard, humanizeDateReleaseForPopup, humanizeDateComment, sortByDate, sortByRating, sortByDefault };

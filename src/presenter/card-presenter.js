@@ -3,6 +3,7 @@ import FilmCardView from '../view/film-card-view.js';
 import PopupView from '../view/popup-view.js';
 import { Mode } from '../const.js';
 import {UserAction, UpdateType} from '../const.js';
+import CardsModel from '../model/cards-model.js';
 
 const bodyElement = document.querySelector('body');
 
@@ -18,6 +19,7 @@ export default class CardPresenter {
   #handleModelEvent = null;
   #card = null;
   #mode = Mode.DEFAULT;
+  #cardComments = [];
 
   constructor(cardListContainer, commentsModel, changeData, changeMode) {
     this.#cardListContainer = cardListContainer;
@@ -28,33 +30,21 @@ export default class CardPresenter {
     this.#commentsModel.addObserver(this.#handleCommentsModelEvent);
   }
 
-  get comments () {
-    return this.#commentsModel.comments;
-  }
+  #requestCurrentCardComments = async () => await this.#commentsModel.getComments(this.#card.id);
 
-  get currentCardComments () {
-    const cardComments = [];
-    for (const cardCommentId of this.#card.comments) {
-      if(this.#filmComments.has(cardCommentId)) {
-        cardComments.push(this.#filmComments.get(cardCommentId));
-      }
-    }
-    return cardComments;
-  }
-
-  init = (card) => {
+  init = async (card) => {
     this.#card = card;
 
     const prevCardComponent = this.#filmCardComponent;
     const prevPopupComponent = this.#popupComponent;
 
-    this.#filmComments = new Map();
-    for (const item of this.comments) {
-      this.#filmComments.set(item.id, item);
-    }
+    // this.#filmComments = new Map();
+    // for (const item of this.comments) {
+    //   this.#filmComments.set(item.id, item);
+    // }
 
     this.#filmCardComponent = new FilmCardView(card);
-    this.#popupComponent = new PopupView({card, comments: this.currentCardComments});
+    this.#popupComponent = new PopupView(card);
 
     this.#filmCardComponent.setWatchlistClickHandler(this.#handleWatchlistClick);
     this.#filmCardComponent.setAlreadyWatchedClickHandler(this.#handleAlreadyWatchedClick);
@@ -80,6 +70,7 @@ export default class CardPresenter {
 
     if (this.#mode === Mode.OPENED) {
       replace(this.#popupComponent, prevPopupComponent);
+      this.#updatePopupComments();
     }
 
     remove(prevCardComponent);
@@ -98,12 +89,13 @@ export default class CardPresenter {
     }
   };
 
-  #openPopup = () => {
+  #openPopup = async () => {
     this.#changeMode();
     bodyElement.appendChild(this.#popupComponent.element);
     bodyElement.classList.add('hide-overflow');
     document.addEventListener('keydown', this.#onEscKeyDown);
     this.#mode = Mode.OPENED;
+    this.#updatePopupComments();
   };
 
   #closePopup = () => {
@@ -120,6 +112,11 @@ export default class CardPresenter {
       this.#closePopup();
       document.removeEventListener('keydown', this.#onEscKeyDown);
     }
+  };
+
+  #updatePopupComments = async () => {
+    this.#cardComments = await this.#requestCurrentCardComments();
+    this.#popupComponent.updateComments(this.#cardComments);
   };
 
   #handleWatchlistClick = () => {
@@ -146,8 +143,8 @@ export default class CardPresenter {
     );
   };
 
-  #handleRemoveComment = (idToDelete) => {
-    this.#commentsModel.deleteComment(UpdateType.MAJOR, idToDelete);
+  #handleRemoveComment = async (idToDelete) => {
+    await this.#commentsModel.deleteComment(UpdateType.MAJOR, idToDelete, this.#card.id);
     const newComments = this.#card.comments.filter((id) => id !== idToDelete);
     this.#changeData(
       UserAction.UPDATE_CARD,
@@ -156,21 +153,23 @@ export default class CardPresenter {
     );
   };
 
-  #handleAddComment = (newComment) => {
-    this.#commentsModel.addComment(UpdateType.MAJOR, newComment);
+  #handleAddComment = async (newComment) => {
+    const {movie} = await this.#commentsModel.addComment(UpdateType.MAJOR, newComment, this.#card.id);
     this.#changeData(
       UserAction.UPDATE_CARD,
       UpdateType.PATCH,
-      {...this.#card, comments: [...this.#card.comments, newComment.id]},
+      CardsModel.adaptToClient(movie),
     );
   };
 
-  #handleCommentsModelEvent = (updateType) => {
+  #handleCommentsModelEvent = (updateType, {comments}) => {
     switch (updateType) {
       case UpdateType.PATCH:
+        break;
       case UpdateType.MINOR:
+        this.#popupComponent.updateComments(comments);
+        break;
       case UpdateType.MAJOR:
-        this.#popupComponent.updateComments(this.currentCardComments);
         break;
     }
   };

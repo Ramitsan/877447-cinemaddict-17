@@ -2,7 +2,6 @@ import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
 import CommentView from './comment-view.js';
 import { humanizeDateReleaseForPopup } from '../utils/card-utils.js';
 import { getFilmDuration } from '../utils/common.js';
-// import { generateComment } from '../mock/comment';
 
 const createPopupTemplate = ({card, comments, commentEmoji, commentText}) => {
   const { comments: commentsId, filmInfo, userDetails } = card;
@@ -140,11 +139,9 @@ const createPopupTemplate = ({card, comments, commentEmoji, commentText}) => {
 };
 
 export default class PopupView extends AbstractStatefulView {
-  constructor(props) {
+  constructor(card) {
     super();
-    const {card, comments} = props;
-    this._state = PopupView.parsePropsToState({card, comments});
-
+    this._state = PopupView.parsePropsToState({card});
     this.#setInnerHandlers();
   }
 
@@ -162,6 +159,7 @@ export default class PopupView extends AbstractStatefulView {
   static parsePropsToState = (props) => ({...props,
     commentEmoji: null,
     commentText: '',
+    comments: [],
     scrollTop: null
   });
 
@@ -277,7 +275,6 @@ export default class PopupView extends AbstractStatefulView {
   #addCommentHandler = (evt) => {
     if (evt.key === 'Enter' && evt.ctrlKey) {
       this._callback.addComment({
-        ...generateComment(),
         emotion: this._state.commentEmoji,
         comment: this._state.commentText,
       });

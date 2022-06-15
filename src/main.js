@@ -7,7 +7,6 @@ import FilterPresenter from './presenter/filter-presenter.js';
 import CardsModel from './model/cards-model.js';
 import CommentsModel from './model/comments-model.js';
 import FilterModel from './model/filters-model.js';
-import { UpdateType } from './const.js';
 import CardsApiService from './services/cards-api-service.js';
 import CommentsApiService from './services/comments-api-service.js';
 
@@ -30,10 +29,3 @@ render(new FooterStatisticsView(), footerElement);
 filterPresenter.init();
 boardPresenter.init();
 cardsModel.init();
-
-const cards = [];
-// for (let i = 0; i < TOTAL_CARD_COUNT; i++) {
-//   cards.push(generateCard(commentsModel));
-// }
-
-cardsModel.setCards(UpdateType.MAJOR, cards);

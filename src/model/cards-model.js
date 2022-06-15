@@ -11,7 +11,7 @@ export default class CardsModel extends Observable {
 
     this.#cardsApiService.movies.then((movies) => {
       console.log('Исходный массив фильмов', movies);
-      console.log('Адаптированный массив фильмов', movies.map(this.#adaptToClient));
+      console.log('Адаптированный массив фильмов', movies.map(CardsModel.adaptToClient));
     });
   }
 
@@ -22,7 +22,7 @@ export default class CardsModel extends Observable {
   init = async () => {
     try {
       const cards = await this.#cardsApiService.movies;
-      this.#cards = cards.map(this.#adaptToClient);
+      this.#cards = cards.map(CardsModel.adaptToClient);
     } catch(err) {
       this.#cards = [];
     }
@@ -74,7 +74,7 @@ export default class CardsModel extends Observable {
     this._notify(updateType);
   };
 
-  #adaptToClient = (card) => {
+  static adaptToClient = (card) => {
     const adaptedCard = {...card,
       filmInfo: {...card['film_info'],
         alternativeTitle: card['film_info']['alternative_title'],
