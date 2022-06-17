@@ -30,6 +30,10 @@ export default class CardPresenter {
     this.#commentsModel.addObserver(this.#handleCommentsModelEvent);
   }
 
+  get isOpened() {
+    return this.#mode === Mode.OPENED;
+  }
+
   #requestCurrentCardComments = async () => await this.#commentsModel.getComments(this.#card.id);
 
   init = async (card) => {
@@ -37,11 +41,6 @@ export default class CardPresenter {
 
     const prevCardComponent = this.#filmCardComponent;
     const prevPopupComponent = this.#popupComponent;
-
-    // this.#filmComments = new Map();
-    // for (const item of this.comments) {
-    //   this.#filmComments.set(item.id, item);
-    // }
 
     this.#filmCardComponent = new FilmCardView(card);
     this.#popupComponent = new PopupView(card);
@@ -70,6 +69,7 @@ export default class CardPresenter {
 
     if (this.#mode === Mode.OPENED) {
       replace(this.#popupComponent, prevPopupComponent);
+      this.#popupComponent._setState({commentText: prevPopupComponent._state.commentText, commentEmoji: prevPopupComponent._state.commentEmoji});
       this.#updatePopupComments();
     }
 
@@ -90,20 +90,21 @@ export default class CardPresenter {
   };
 
   #openPopup = async () => {
-    this.#changeMode();
     bodyElement.appendChild(this.#popupComponent.element);
     bodyElement.classList.add('hide-overflow');
     document.addEventListener('keydown', this.#onEscKeyDown);
     this.#mode = Mode.OPENED;
+    this.#changeMode();
     this.#updatePopupComments();
   };
 
   #closePopup = () => {
+    this.#popupComponent.reset(this.#card);
     bodyElement.removeChild(this.#popupComponent.element);
     bodyElement.classList.remove('hide-overflow');
     document.removeEventListener('keydown', this.#onEscKeyDown);
-
     this.#mode = Mode.DEFAULT;
+    this.#changeMode();
   };
 
   #onEscKeyDown = (evt) => {

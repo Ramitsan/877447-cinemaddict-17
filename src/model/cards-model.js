@@ -8,11 +8,6 @@ export default class CardsModel extends Observable {
   constructor(cardsApiService) {
     super();
     this.#cardsApiService = cardsApiService;
-
-    this.#cardsApiService.movies.then((movies) => {
-      console.log('Исходный массив фильмов', movies);
-      console.log('Адаптированный массив фильмов', movies.map(CardsModel.adaptToClient));
-    });
   }
 
   get cards() {

@@ -46,6 +46,7 @@ export default class BoardPresenter {
   #currentSortType = SortType.DEFAULT;
   #filterType = FilterType.ALL;
   #isLoading = true;
+  #openedPresenter = undefined;
 
   constructor(boardContainer, cardsModel, commentsModel, filterModel) {
     this.#boardContainer = boardContainer;
@@ -149,6 +150,7 @@ export default class BoardPresenter {
   };
 
   #renderLoading = () => {
+    render(this.#filmsSectionComponent, siteMainElement);
     render(this.#filmsListComponent, this.#filmsSectionComponent.element);
     render(this.#loadingComponent, this.#filmsListComponent.element, RenderPosition.AFTERBEGIN);
   };
@@ -206,7 +208,6 @@ export default class BoardPresenter {
 
     if (cardCount === 0) {
       this.#renderNoCards();
-      // return;
     } else {
     // Теперь, когда #renderBoard рендерит доску не только на старте,
     // но и по ходу работы приложения, нужно заменить
@@ -246,7 +247,10 @@ export default class BoardPresenter {
   };
 
   #handleModeChange = () => {
-    this.#cardPresenters.forEach((presenter) => presenter.resetView());
+    this.#openedPresenter = [...this.#cardPresenters.values()].find((presenter) => presenter.isOpened);
+    if(!this.#openedPresenter) {
+      this.#filterModel.setFilter(UpdateType.MAJOR, this.#filterModel.filter);
+    }
   };
 
   #handleViewAction = (actionType, updateType, update) => {
@@ -265,6 +269,9 @@ export default class BoardPresenter {
       case UserAction.DELETE_CARD:
         this.#cardsModel.deleteCard(updateType, update);
         break;
+    }
+    if(!this.#openedPresenter) {
+      this.#filterModel.setFilter(UpdateType.MAJOR, this.#filterModel.filter);
     }
   };
 
