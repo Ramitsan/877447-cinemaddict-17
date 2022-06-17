@@ -21,11 +21,13 @@ export default class CardsApiService extends ApiService {
   };
 
   #adaptToServer = (card) => {
-    const adaptedCard = {...card,
+    const adaptedCard = {
+      ...card,
       'film_info': card.filmInfo,
       'alternative_title': card.filmInfo.alternativeTitle,
       'age_rating': card.filmInfo.ageRating,
       'total_rating': card.filmInfo.totalRating,
+      'date': card.filmInfo.release.date instanceof Date ? card.filmInfo.release.date.toISOString() : null,
       'release_country': card.filmInfo.release.releaseCountry,
       'user_details': card.userDetails,
       'watchlist': card.userDetails.isWatchlist,

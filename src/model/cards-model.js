@@ -70,16 +70,20 @@ export default class CardsModel extends Observable {
   };
 
   static adaptToClient = (card) => {
-    const adaptedCard = {...card,
-      filmInfo: {...card['film_info'],
+    const adaptedCard = {
+      ...card,
+      filmInfo: {
+        ...card['film_info'],
         alternativeTitle: card['film_info']['alternative_title'],
         ageRating: card['film_info']['age_rating'],
         totalRating: card['film_info']['total_rating'],
         release: {
+          date: card['film_info']['release']['date'],
           releaseCountry: card['film_info']['release']['release_country'],
         }
       },
-      userDetails: { ...card['user_details'],
+      userDetails: {
+        ...card['user_details'],
         isWatchlist: card['user_details']['watchlist'],
         isAlreadyWatched: card['user_details']['already_watched'],
         watchingDate: card['user_details']['watching_date'] !== null ? new Date(card['user_details']['watching_date']) : card['user_details']['watching_date'],
