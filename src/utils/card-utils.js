@@ -1,5 +1,23 @@
 import dayjs from 'dayjs';
 
+// Функция, которая обрезает текстовое содержимое, если оно превышает заданное число символов
+function getCropDescription(description, symbolsCountDefault = 140) {
+  const chars = [];
+  let symbolsCountCurrent = 0;
+  for (const char of description) {
+    symbolsCountCurrent++;
+    if (symbolsCountCurrent < symbolsCountDefault) {
+      chars.push(char);
+    } else {
+      break;
+    }
+  }
+
+  const newDescription = chars.join('');
+  return symbolsCountCurrent >= symbolsCountDefault ? `${newDescription}...` : `${newDescription}`;
+}
+
+
 // функция отображения дат в человекочитаемом формате
 const humanizeDateReleaseForCard = (date) => dayjs(date).format('YYYY');
 const humanizeDateReleaseForPopup = (date) => dayjs(date).format('D MMMM YYYY');
@@ -31,9 +49,6 @@ const sortByDate = (cardA, cardB) => {
 const sortByRating = (cardA, cardB) => cardB.filmInfo.totalRating - cardA.filmInfo.totalRating;
 
 // сортировка по дефолту
-// логическое выражение с оператором "<" вернет true или false
-// умножением на 2 приводим его к числу
-// вычитаем 1
-const sortByDefault = (cardA, cardB) => (cardB.id < cardA.id) * 2 - 1;
+const sortByDefault = (cardA, cardB) => (+cardA.id - +cardB.id);
 
-export { humanizeDateReleaseForCard, humanizeDateReleaseForPopup, humanizeDateComment, sortByDate, sortByRating, sortByDefault };
+export { getCropDescription, humanizeDateReleaseForCard, humanizeDateReleaseForPopup, humanizeDateComment, sortByDate, sortByRating, sortByDefault };

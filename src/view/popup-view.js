@@ -2,11 +2,10 @@ import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
 import CommentView from './comment-view.js';
 import { humanizeDateReleaseForPopup } from '../utils/card-utils.js';
 import { getFilmDuration } from '../utils/common.js';
-import { generateComment } from '../mock/comment';
 
 const createPopupTemplate = ({card, comments, commentEmoji, commentText}) => {
   const { comments: commentsId, filmInfo, userDetails } = card;
-  const { title, totalRating, poster, ageRating, director, writers, actors, release, genres, runtime, description } = filmInfo;
+  const { title, totalRating, poster, ageRating, director, writers, actors, release, genre, runtime, description } = filmInfo;
   const { date, releaseCountry } = release;
   const {isWatchlist, isAlreadyWatched, isFavorite} = userDetails;
   const commentsCount = commentsId.length;
@@ -15,8 +14,8 @@ const createPopupTemplate = ({card, comments, commentEmoji, commentText}) => {
   const filmRuntime = getFilmDuration(runtime);
 
   const createFilmGenresTemplate = (arr) => arr.map((elem) => `<span class="film-details__genre">${elem}</span>`).join('');
-  const filmGenresTemplate = createFilmGenresTemplate(genres);
-  const genresCount = genres.length > 1 ? 'Genres' : 'Genre';
+  const filmGenresTemplate = createFilmGenresTemplate(genre);
+  const genresCount = genre.length > 1 ? 'Genres' : 'Genre';
 
   const setActiveControl = (param) => param ? 'film-details__control-button--active' : '';
 
@@ -35,7 +34,7 @@ const createPopupTemplate = ({card, comments, commentEmoji, commentText}) => {
           </div>
           <div class="film-details__info-wrap">
             <div class="film-details__poster">
-              <img class="film-details__poster-img" src="./images/posters/${poster}" alt="">
+              <img class="film-details__poster-img" src="${poster}" alt="">
     
               <p class="film-details__age">${ageRating}</p>
             </div>
@@ -140,11 +139,9 @@ const createPopupTemplate = ({card, comments, commentEmoji, commentText}) => {
 };
 
 export default class PopupView extends AbstractStatefulView {
-  constructor(props) {
+  constructor(card) {
     super();
-    const {card, comments} = props;
-    this._state = PopupView.parsePropsToState({card, comments});
-
+    this._state = PopupView.parsePropsToState({card});
     this.#setInnerHandlers();
   }
 
@@ -162,6 +159,7 @@ export default class PopupView extends AbstractStatefulView {
   static parsePropsToState = (props) => ({...props,
     commentEmoji: null,
     commentText: '',
+    comments: [],
     scrollTop: null
   });
 
@@ -277,7 +275,6 @@ export default class PopupView extends AbstractStatefulView {
   #addCommentHandler = (evt) => {
     if (evt.key === 'Enter' && evt.ctrlKey) {
       this._callback.addComment({
-        ...generateComment(),
         emotion: this._state.commentEmoji,
         comment: this._state.commentText,
       });

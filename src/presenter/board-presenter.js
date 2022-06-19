@@ -8,6 +8,7 @@ import FilmsListContainerView from '../view/films-list-container-view.js';
 import FilmCardView from '../view/film-card-view.js';
 import ShowMoreButtonView from '../view/show-more-button-view.js';
 import noCardsHeadingView from '../view/no-cards-heading-view.js';
+import LoadingView from '../view/loading-view.js';
 import CardPresenter from './card-presenter.js';
 import { CARD_COUNT_PER_STEP, CARD_COUNT_IN_EXTRA } from '../const.js';
 import { sortByDate, sortByRating, sortByDefault } from '../utils/card-utils';
@@ -30,6 +31,8 @@ export default class BoardPresenter {
 
   #filmsSectionComponent = new FilmsSectionView();
   #filmsListComponent = new FilmsListView();
+  #loadingComponent = new LoadingView();
+
   #headingComponent = new HeadingView('All movies. Upcoming');
   #filmsListContainerComponent = new FilmsListContainerView();
 
@@ -42,6 +45,8 @@ export default class BoardPresenter {
   #cardPresenters = new Map();
   #currentSortType = SortType.DEFAULT;
   #filterType = FilterType.ALL;
+  #isLoading = true;
+  #openedPresenter = undefined;
 
   constructor(boardContainer, cardsModel, commentsModel, filterModel) {
     this.#boardContainer = boardContainer;
@@ -144,6 +149,12 @@ export default class BoardPresenter {
     render(this.#showMoreButtonComponent, this.#filmsListComponent.element);
   };
 
+  #renderLoading = () => {
+    render(this.#filmsSectionComponent, siteMainElement);
+    render(this.#filmsListComponent, this.#filmsSectionComponent.element);
+    render(this.#loadingComponent, this.#filmsListComponent.element, RenderPosition.AFTERBEGIN);
+  };
+
   #renderNoCards = () => {
     if(this.#filmsListComponent) {
       remove(this.#filmsListComponent);
@@ -160,6 +171,7 @@ export default class BoardPresenter {
     this.#cardPresenters.clear();
 
     remove(this.#sortComponent);
+    remove(this.#loadingComponent);
     remove(this.#showMoreButtonComponent);
 
     if (this.#noCardsHeadingComponent) {
@@ -181,6 +193,10 @@ export default class BoardPresenter {
   };
 
   #renderBoard = () => {
+    if(this.#isLoading) {
+      this.#renderLoading();
+      return;
+    }
     const cards = this.cards;
     const cardCount = cards.length;
 
@@ -192,7 +208,6 @@ export default class BoardPresenter {
 
     if (cardCount === 0) {
       this.#renderNoCards();
-      // return;
     } else {
     // Теперь, когда #renderBoard рендерит доску не только на старте,
     // но и по ходу работы приложения, нужно заменить
@@ -232,7 +247,10 @@ export default class BoardPresenter {
   };
 
   #handleModeChange = () => {
-    this.#cardPresenters.forEach((presenter) => presenter.resetView());
+    this.#openedPresenter = [...this.#cardPresenters.values()].find((presenter) => presenter.isOpened);
+    if(!this.#openedPresenter) {
+      this.#filterModel.setFilter(UpdateType.MAJOR, this.#filterModel.filter);
+    }
   };
 
   #handleViewAction = (actionType, updateType, update) => {
@@ -252,6 +270,9 @@ export default class BoardPresenter {
         this.#cardsModel.deleteCard(updateType, update);
         break;
     }
+    if(!this.#openedPresenter) {
+      this.#filterModel.setFilter(UpdateType.MAJOR, this.#filterModel.filter);
+    }
   };
 
   #handleModelEvent = (updateType, data) => {
@@ -269,6 +290,11 @@ export default class BoardPresenter {
       case UpdateType.MAJOR:
         // - обновить всю доску (например, при переключении фильтра)
         this.#clearBoard({resetRenderedCardCount: true, resetSortType: true});
+        this.#renderBoard();
+        break;
+      case UpdateType.INIT:
+        this.#isLoading = false;
+        remove(this.#loadingComponent);
         this.#renderBoard();
         break;
     }
