@@ -31,6 +31,8 @@ const UserAction = {
   UPDATE_CARD: 'UPDATE_CARD',
   ADD_CARD: 'ADD_CARD',
   DELETE_CARD: 'DELETE_CARD',
+  ADD_COMMENT: 'ADD_COMMENT',
+  DELETE_COMMENT: 'DELETE_COMMENT',
 };
 
 const UpdateType = {
@@ -47,4 +49,9 @@ const RequestMethod  = {
   POST: 'POST'
 };
 
-export { TOTAL_CARD_COUNT, CARD_COUNT_PER_STEP, CARD_COUNT_IN_EXTRA, FilterType, FilterName, Mode, SortType, UserAction, UpdateType, RequestMethod };
+const TimeLimit = {
+  LOWER_LIMIT: 300,
+  UPPER_LIMIT: 1000,
+};
+
+export { TOTAL_CARD_COUNT, CARD_COUNT_PER_STEP, CARD_COUNT_IN_EXTRA, FilterType, FilterName, Mode, SortType, UserAction, UpdateType, RequestMethod, TimeLimit };

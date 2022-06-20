@@ -3,7 +3,7 @@ import CommentView from './comment-view.js';
 import { humanizeDateReleaseForPopup } from '../utils/card-utils.js';
 import { getFilmDuration } from '../utils/common.js';
 
-const createPopupTemplate = ({card, comments, commentEmoji, commentText}) => {
+const createPopupTemplate = ({card, comments, commentEmoji, commentText, deletingComments, isSending}) => {
   const { comments: commentsId, filmInfo, userDetails } = card;
   const { title, totalRating, poster, ageRating, director, writers, actors, release, genre, runtime, description } = filmInfo;
   const { date, releaseCountry } = release;
@@ -23,7 +23,13 @@ const createPopupTemplate = ({card, comments, commentEmoji, commentText}) => {
     `<img src="./images/emoji/${commentEmoji}.png" width="55" height="55" alt="emoji-${commentEmoji}"></img>`
     : '';
 
-  const commentsList = comments.map((comment) => (new CommentView(comment)).element.outerHTML).join('');
+  const deletingCommentsIds = new Set(deletingComments);
+  const commentsList = comments.map((comment) => {
+    const commentComponent = new CommentView(comment, deletingCommentsIds.has(comment.id), isSending || deletingCommentsIds.size > 0);
+    return commentComponent.element.outerHTML;
+  }).join('');
+
+  const disabledValue = isSending ? 'disabled' : '';
 
   return (
     `<section class="film-details">
@@ -106,10 +112,10 @@ const createPopupTemplate = ({card, comments, commentEmoji, commentText}) => {
               <div class="film-details__add-emoji-label">${chooseEmoji}</div>
     
               <label class="film-details__comment-label">
-                <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment">${commentText}</textarea>
+                <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment" ${disabledValue}>${commentText}</textarea>
               </label>
     
-              <div class="film-details__emoji-list">
+              <div class="film-details__emoji-list" ${disabledValue}>
                 <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-smile" value="smile">
                 <label class="film-details__emoji-label" for="emoji-smile">
                   <img src="./images/emoji/smile.png" width="30" height="30" alt="emoji">
@@ -160,7 +166,9 @@ export default class PopupView extends AbstractStatefulView {
     commentEmoji: null,
     commentText: '',
     comments: [],
-    scrollTop: null
+    scrollTop: null,
+    deletingComments: [],
+    isSending: false,
   });
 
   static parseStateToProps = (state) => {
@@ -169,8 +177,20 @@ export default class PopupView extends AbstractStatefulView {
     delete card.commentEmoji;
     delete card.commentText;
     delete card.scrollTop;
+    delete card.deletingComments;
+    delete card.isSending;
 
     return card;
+  };
+
+  setSending = (isSending) => {
+    this.updateElement({isSending});
+  };
+
+  setDeleting = (id) => {
+    this.updateElement({
+      deletingComments: [...this._state.deletingComments, id]
+    });
   };
 
   #chooseEmojiClickHandler = (evt) => {
@@ -192,12 +212,14 @@ export default class PopupView extends AbstractStatefulView {
       commentText: evt.target.value,
       scrollTop: this.element.scrollTop,
     });
-
-    this.element.scrollTop = this._state.scrollTop;
   };
 
   updateComments = (comments) => {
-    this.updateElement({comments});
+    this.updateElement({comments, deletingComments: [], isSending: false});
+  };
+
+  updateCard = (card) => {
+    this.updateElement(card);
   };
 
   #setInnerHandlers = () => {
@@ -213,6 +235,7 @@ export default class PopupView extends AbstractStatefulView {
     this.setFavoriteClickHandler(this._callback.favoriteClick);
     this.setCommentRemoveHandler(this._callback.removeComment);
     this.setCommentAddHandler(this._callback.addComment);
+    this.element.scrollTop = this._state.scrollTop;
   };
 
   setClosePopupClickHandler = (callback) => {
@@ -273,10 +296,14 @@ export default class PopupView extends AbstractStatefulView {
   };
 
   #addCommentHandler = (evt) => {
-    if (evt.key === 'Enter' && evt.ctrlKey) {
+    if (evt.key === 'Enter' && evt.ctrlKey && !this._state.isSending) {
       this._callback.addComment({
         emotion: this._state.commentEmoji,
         comment: this._state.commentText,
+      });
+      this._setState({scrollTop: this.element.scrollTop,
+        commentText: '',
+        commentEmoji: null,
       });
     }
   };
