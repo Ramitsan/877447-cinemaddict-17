@@ -10,7 +10,7 @@ export default class CommentsApiService extends ApiService {
   };
 
   deleteComment = async (commentId) => {
-    await wait(5000);
+    await wait(1000);
     await this._load({
       url: `comments/${commentId}`,
       method: RequestMethod.DELETE,
@@ -19,7 +19,7 @@ export default class CommentsApiService extends ApiService {
   };
 
   addComment = async(cardId, comment) => {
-    await wait(5000);
+    await wait(1000);
     const response = await this._load({
       url: `comments/${cardId}`,
       method: RequestMethod.POST,

@@ -13,7 +13,7 @@ const createPopupTemplate = ({card, comments, commentEmoji, commentText, deletin
   const filmReleaseDate = date !== null ? humanizeDateReleaseForPopup(date) : '';
   const filmRuntime = getFilmDuration(runtime);
 
-  const createFilmGenresTemplate = (arr) => arr.map((elem) => `<span class="film-details__genre">${elem}</span>`).join('');
+  const createFilmGenresTemplate = (genres) => genres.map((item) => `<span class="film-details__genre">${item}</span>`).join('');
   const filmGenresTemplate = createFilmGenresTemplate(genre);
   const genresCount = genre.length > 1 ? 'Genres' : 'Genre';
 

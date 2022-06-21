@@ -11,11 +11,9 @@ export default class CardPresenter {
   #commentsModel = null;
   #filmCardComponent = null;
   #popupComponent = null;
-  #filmComments = null;
   #cardListContainer = null;
   #changeData = null;
   #changeMode = null;
-  #newCommentComponent = null;
   #handleModelEvent = null;
   #card = null;
   #mode = Mode.DEFAULT;
