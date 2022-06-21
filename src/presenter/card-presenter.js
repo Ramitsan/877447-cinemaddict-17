@@ -1,9 +1,9 @@
 import { render, replace, remove } from '../framework/render.js';
+import UiBlocker from '../framework/ui-blocker/ui-blocker.js';
 import FilmCardView from '../view/film-card-view.js';
 import PopupView from '../view/popup-view.js';
 import { Mode } from '../const.js';
-import {UserAction, UpdateType} from '../const.js';
-import CardsModel from '../model/cards-model.js';
+import {UserAction, UpdateType, TimeLimit} from '../const.js';
 
 const bodyElement = document.querySelector('body');
 
@@ -11,15 +11,14 @@ export default class CardPresenter {
   #commentsModel = null;
   #filmCardComponent = null;
   #popupComponent = null;
-  #filmComments = null;
   #cardListContainer = null;
   #changeData = null;
   #changeMode = null;
-  #newCommentComponent = null;
   #handleModelEvent = null;
   #card = null;
   #mode = Mode.DEFAULT;
   #cardComments = [];
+  #uiBlocker = new UiBlocker(TimeLimit.LOWER_LIMIT, TimeLimit.UPPER_LIMIT);
 
   constructor(cardListContainer, commentsModel, changeData, changeMode) {
     this.#cardListContainer = cardListContainer;
@@ -69,7 +68,6 @@ export default class CardPresenter {
 
     if (this.#mode === Mode.OPENED) {
       replace(this.#popupComponent, prevPopupComponent);
-      this.#popupComponent._setState({commentText: prevPopupComponent._state.commentText, commentEmoji: prevPopupComponent._state.commentEmoji});
       this.#updatePopupComments();
     }
 
@@ -80,13 +78,6 @@ export default class CardPresenter {
   destroy = () => {
     remove(this.#filmCardComponent);
     remove(this.#popupComponent);
-  };
-
-  resetView = () => {
-    if (this.#mode !== Mode.DEFAULT) {
-      this.#popupComponent.reset(this.#card);// метод для сброса введенного текста после закрытия окна
-      this.#closePopup();
-    }
   };
 
   #openPopup = async () => {
@@ -144,26 +135,35 @@ export default class CardPresenter {
     );
   };
 
-  #handleRemoveComment = async (idToDelete) => {
-    await this.#commentsModel.deleteComment(UpdateType.MAJOR, idToDelete, this.#card.id);
-    const newComments = this.#card.comments.filter((id) => id !== idToDelete);
-    this.#changeData(
-      UserAction.UPDATE_CARD,
-      UpdateType.PATCH,
-      {...this.#card, comments: newComments},
-    );
+  #handleRemoveComment = async (id) => {
+    this.#handleCommentAction(UserAction.DELETE_COMMENT, UpdateType.MAJOR, {id});
   };
 
-  #handleAddComment = async (newComment) => {
-    const {movie} = await this.#commentsModel.addComment(UpdateType.MAJOR, newComment, this.#card.id);
-    this.#changeData(
-      UserAction.UPDATE_CARD,
-      UpdateType.PATCH,
-      CardsModel.adaptToClient(movie),
-    );
+  #handleAddComment = async (comment) => {
+    this.#handleCommentAction(UserAction.ADD_COMMENT, UpdateType.MAJOR, {comment});
   };
 
-  #handleCommentsModelEvent = (updateType, {comments}) => {
+  #handleCommentAction = async (actionType, updateType, {id, comment}) => {
+    // Здесь будем вызывать обновление модели.
+    // actionType - действие пользователя, нужно чтобы понять, какой метод модели вызвать
+    // updateType - тип изменений, нужно чтобы понять, что после нужно обновить
+    // update - обновленные данные
+    this.#uiBlocker.block();
+
+    switch (actionType) {
+      case UserAction.ADD_COMMENT:
+        this.#popupComponent.setSending(true);
+        await this.#commentsModel.addComment(updateType, comment, this.#card.id);
+        break;
+      case UserAction.DELETE_COMMENT:
+        this.#popupComponent.setDeleting(id);
+        await this.#commentsModel.deleteComment(updateType, id, this.#card.id);
+        break;
+    }
+    this.#uiBlocker.unblock();
+  };
+
+  #handleCommentsModelEvent = (updateType, comments) => {
     switch (updateType) {
       case UpdateType.PATCH:
         break;
@@ -171,6 +171,7 @@ export default class CardPresenter {
         this.#popupComponent.updateComments(comments);
         break;
       case UpdateType.MAJOR:
+        this.#popupComponent.updateComments(comments);
         break;
     }
   };

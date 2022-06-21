@@ -1,4 +1,5 @@
 import { render, remove, RenderPosition } from '../framework/render.js';
+import UiBlocker from '../framework/ui-blocker/ui-blocker.js';
 import SortingView from '../view/sorting-view.js';
 import FilmsSectionView from '../view/films-section-view.js';
 import FilmsListView from '../view/films-list-view.js';
@@ -10,7 +11,7 @@ import ShowMoreButtonView from '../view/show-more-button-view.js';
 import noCardsHeadingView from '../view/no-cards-heading-view.js';
 import LoadingView from '../view/loading-view.js';
 import CardPresenter from './card-presenter.js';
-import { CARD_COUNT_PER_STEP, CARD_COUNT_IN_EXTRA } from '../const.js';
+import { CARD_COUNT_PER_STEP, CARD_COUNT_IN_EXTRA, TimeLimit } from '../const.js';
 import { sortByDate, sortByRating, sortByDefault } from '../utils/card-utils';
 import { filter } from '../utils/filter-utils.js';
 import { SortType, UpdateType, UserAction, FilterType } from '../const.js';
@@ -47,6 +48,7 @@ export default class BoardPresenter {
   #filterType = FilterType.ALL;
   #isLoading = true;
   #openedPresenter = undefined;
+  #uiBlocker = new UiBlocker(TimeLimit.LOWER_LIMIT, TimeLimit.UPPER_LIMIT);
 
   constructor(boardContainer, cardsModel, commentsModel, filterModel) {
     this.#boardContainer = boardContainer;
@@ -258,6 +260,7 @@ export default class BoardPresenter {
     // actionType - действие пользователя, нужно чтобы понять, какой метод модели вызвать
     // updateType - тип изменений, нужно чтобы понять, что после нужно обновить
     // update - обновленные данные
+    this.#uiBlocker.block();
 
     switch (actionType) {
       case UserAction.UPDATE_CARD:
@@ -273,6 +276,7 @@ export default class BoardPresenter {
     if(!this.#openedPresenter) {
       this.#filterModel.setFilter(UpdateType.MAJOR, this.#filterModel.filter);
     }
+    this.#uiBlocker.unblock();
   };
 
   #handleModelEvent = (updateType, data) => {
