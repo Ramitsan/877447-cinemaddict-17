@@ -1,4 +1,3 @@
-const TOTAL_CARD_COUNT = 17;
 const CARD_COUNT_PER_STEP = 5;
 const CARD_COUNT_IN_EXTRA = 2;
 
@@ -54,4 +53,4 @@ const TimeLimit = {
   UPPER_LIMIT: 1000,
 };
 
-export { TOTAL_CARD_COUNT, CARD_COUNT_PER_STEP, CARD_COUNT_IN_EXTRA, FilterType, FilterName, Mode, SortType, UserAction, UpdateType, RequestMethod, TimeLimit };
+export { CARD_COUNT_PER_STEP, CARD_COUNT_IN_EXTRA, FilterType, FilterName, Mode, SortType, UserAction, UpdateType, RequestMethod, TimeLimit };
