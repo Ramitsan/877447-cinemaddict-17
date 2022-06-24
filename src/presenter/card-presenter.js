@@ -3,7 +3,7 @@ import UiBlocker from '../framework/ui-blocker/ui-blocker.js';
 import FilmCardView from '../view/film-card-view.js';
 import PopupView from '../view/popup-view.js';
 import { Mode } from '../const.js';
-import {UserAction, UpdateType, TimeLimit} from '../const.js';
+import { UserAction, UpdateType, TimeLimit } from '../const.js';
 
 const bodyElement = document.querySelector('body');
 
@@ -80,7 +80,7 @@ export default class CardPresenter {
     remove(this.#popupComponent);
   };
 
-  #openPopup = async () => {
+  #openPopup = () => {
     bodyElement.appendChild(this.#popupComponent.element);
     bodyElement.classList.add('hide-overflow');
     document.addEventListener('keydown', this.#onEscKeyDown);
@@ -115,7 +115,7 @@ export default class CardPresenter {
     this.#changeData(
       UserAction.UPDATE_CARD,
       UpdateType.PATCH,
-      {...this.#card,  userDetails: {...this.#card.userDetails, isWatchlist: !this.#card.userDetails.isWatchlist}},
+      { ...this.#card, userDetails: { ...this.#card.userDetails, isWatchlist: !this.#card.userDetails.isWatchlist } },
     );
   };
 
@@ -123,7 +123,7 @@ export default class CardPresenter {
     this.#changeData(
       UserAction.UPDATE_CARD,
       UpdateType.PATCH,
-      {...this.#card, userDetails: {...this.#card.userDetails, isAlreadyWatched: !this.#card.userDetails.isAlreadyWatched}},
+      { ...this.#card, userDetails: { ...this.#card.userDetails, isAlreadyWatched: !this.#card.userDetails.isAlreadyWatched } },
     );
   };
 
@@ -131,19 +131,19 @@ export default class CardPresenter {
     this.#changeData(
       UserAction.UPDATE_CARD,
       UpdateType.PATCH,
-      {...this.#card, userDetails: {...this.#card.userDetails, isFavorite: !this.#card.userDetails.isFavorite}},
+      { ...this.#card, userDetails: { ...this.#card.userDetails, isFavorite: !this.#card.userDetails.isFavorite } },
     );
   };
 
   #handleRemoveComment = async (id) => {
-    this.#handleCommentAction(UserAction.DELETE_COMMENT, UpdateType.MAJOR, {id});
+    this.#handleCommentAction(UserAction.DELETE_COMMENT, UpdateType.MAJOR, { id });
   };
 
   #handleAddComment = async (comment) => {
-    this.#handleCommentAction(UserAction.ADD_COMMENT, UpdateType.MAJOR, {comment});
+    this.#handleCommentAction(UserAction.ADD_COMMENT, UpdateType.MAJOR, { comment });
   };
 
-  #handleCommentAction = async (actionType, updateType, {id, comment}) => {
+  #handleCommentAction = async (actionType, updateType, { id, comment }) => {
     // Здесь будем вызывать обновление модели.
     // actionType - действие пользователя, нужно чтобы понять, какой метод модели вызвать
     // updateType - тип изменений, нужно чтобы понять, что после нужно обновить

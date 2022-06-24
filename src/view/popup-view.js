@@ -4,11 +4,11 @@ import { humanizeDateReleaseForPopup } from '../utils/card-utils.js';
 import { getFilmDuration } from '../utils/common.js';
 
 const createPopupTemplate = ({card, comments, commentEmoji, commentText, deletingComments, isSending}) => {
-  const { comments: commentsId, filmInfo, userDetails } = card;
+  const { filmInfo, userDetails } = card;
   const { title, totalRating, poster, ageRating, director, writers, actors, release, genre, runtime, description } = filmInfo;
   const { date, releaseCountry } = release;
   const {isWatchlist, isAlreadyWatched, isFavorite} = userDetails;
-  const commentsCount = commentsId.length;
+  const commentsCount = comments.length;
 
   const filmReleaseDate = date !== null ? humanizeDateReleaseForPopup(date) : '';
   const filmRuntime = getFilmDuration(runtime);
@@ -170,18 +170,6 @@ export default class PopupView extends AbstractStatefulView {
     deletingComments: [],
     isSending: false,
   });
-
-  static parseStateToProps = (state) => {
-    const card = {...state};
-
-    delete card.commentEmoji;
-    delete card.commentText;
-    delete card.scrollTop;
-    delete card.deletingComments;
-    delete card.isSending;
-
-    return card;
-  };
 
   setSending = (isSending) => {
     this.updateElement({isSending});

@@ -16,7 +16,7 @@ const createNoCardsHeadingTemplate = (filterType) => {
   );
 };
 
-export default class noCardsHeadingView extends AbstractView {
+export default class NoCardsHeadingView extends AbstractView {
   #filterType = null;
 
   constructor(filterType) {

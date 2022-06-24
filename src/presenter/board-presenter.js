@@ -8,7 +8,7 @@ import FilmsListExtraView from '../view/films-list-extra-view.js';
 import FilmsListContainerView from '../view/films-list-container-view.js';
 import FilmCardView from '../view/film-card-view.js';
 import ShowMoreButtonView from '../view/show-more-button-view.js';
-import noCardsHeadingView from '../view/no-cards-heading-view.js';
+import NoCardsHeadingView from '../view/no-cards-heading-view.js';
 import LoadingView from '../view/loading-view.js';
 import CardPresenter from './card-presenter.js';
 import { CARD_COUNT_PER_STEP, CARD_COUNT_IN_EXTRA, TimeLimit } from '../const.js';
@@ -161,7 +161,7 @@ export default class BoardPresenter {
     if(this.#filmsListComponent) {
       remove(this.#filmsListComponent);
     }
-    this.#noCardsHeadingComponent = new noCardsHeadingView(this.#filterType);
+    this.#noCardsHeadingComponent = new NoCardsHeadingView(this.#filterType);
     render(this.#filmsListComponent, this.#filmsSectionComponent.element, RenderPosition.AFTERBEGIN);
     render(this.#noCardsHeadingComponent, this.#filmsListComponent.element);
   };
@@ -224,13 +224,6 @@ export default class BoardPresenter {
 
     this.#renderTopRatedBlock(this.#ratedFilmsCards);
     this.#renderMostCommentedBlock(this.#commentedFilmsCards);
-  };
-
-  #clearCardList = () => {
-    this.#cardPresenters.forEach((presenter) => presenter.destroy());
-    this.#cardPresenters.clear();
-    this.#renderedCardsCount = CARD_COUNT_PER_STEP;
-    remove(this.#showMoreButtonComponent);
   };
 
   #renderSort = () => {

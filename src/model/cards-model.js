@@ -24,11 +24,6 @@ export default class CardsModel extends Observable {
     this._notify(UpdateType.INIT);
   };
 
-  setCards = (updateType, cards) => {
-    this.#cards = cards;
-    this._notify(updateType, cards);
-  };
-
   updateCard = (updateType, update) => {
     const index = this.#cards.findIndex((card) => card.id === update.id);
 

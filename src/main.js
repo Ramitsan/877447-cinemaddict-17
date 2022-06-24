@@ -1,7 +1,6 @@
 import { render} from './framework/render.js';
 import UserProfileView from './view/user-profile-view.js';
 import FooterStatisticsView from './view/footer-statistics-view.js';
-// import { generateCard } from './mock/card.js';
 import BoardPresenter from './presenter/board-presenter.js';
 import FilterPresenter from './presenter/filter-presenter.js';
 import CardsModel from './model/cards-model.js';
