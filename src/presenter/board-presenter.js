@@ -15,6 +15,7 @@ import { CARD_COUNT_PER_STEP, CARD_COUNT_IN_EXTRA, TimeLimit } from '../const.js
 import { sortByDate, sortByRating, sortByDefault } from '../utils/card-utils';
 import { filter } from '../utils/filter-utils.js';
 import { SortType, UpdateType, UserAction, FilterType } from '../const.js';
+import { Mode } from '../const.js';
 
 const siteMainElement = document.querySelector('.main');
 
@@ -241,11 +242,19 @@ export default class BoardPresenter {
     this.#renderBoard();
   };
 
-  #handleModeChange = () => {
-    this.#openedPresenter = [...this.#cardPresenters.values()].find((presenter) => presenter.isOpened);
-    if(!this.#openedPresenter) {
-      this.#filterModel.setFilter(UpdateType.MAJOR, this.#filterModel.filter);
+  #handleModeChange = (cardId, mode) => {
+    // this.#openedPresenter = [...this.#cardPresenters.values()].find((presenter) => presenter.isOpened);
+    // if(!this.#openedPresenter) {
+    //   this.#filterModel.setFilter(UpdateType.MAJOR, this.#filterModel.filter);
+    // }
+    if(mode === Mode.DEFAULT) {
+      this.#openedPresenter = null;
+      return;
     }
+    if(this.#openedPresenter) {
+      this.#openedPresenter.resetView();
+    }
+    this.#openedPresenter = this.#cardPresenters.get(cardId);
   };
 
   #handleViewAction = (actionType, updateType, update) => {

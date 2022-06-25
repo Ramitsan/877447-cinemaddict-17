@@ -1,9 +1,8 @@
 import dayjs from 'dayjs';
-
-const symbolsCountDefault = 140;
+import { DESCRIPTION_MAX_SYMBOLS } from '../const.js';
 
 // Функция, которая обрезает текстовое содержимое, если оно превышает заданное число символов
-function getCropDescription(description, symbolsCount = symbolsCountDefault) {
+function getCropDescription(description, symbolsCount = DESCRIPTION_MAX_SYMBOLS) {
   const chars = [];
   let symbolsCountCurrent = 0;
   for (const char of description) {

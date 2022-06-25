@@ -80,22 +80,29 @@ export default class CardPresenter {
     remove(this.#popupComponent);
   };
 
+  resetView = () => {
+    if (this.#mode !== Mode.DEFAULT) {
+      this.#popupComponent.reset(this.#card);// метод для сброса введенного текста после закрытия окна
+      this.#closePopup();
+    }
+  };
+
   #openPopup = () => {
+    this.#changeMode(this.#card.id, Mode.OPENED);
     bodyElement.appendChild(this.#popupComponent.element);
     bodyElement.classList.add('hide-overflow');
     document.addEventListener('keydown', this.#onEscKeyDown);
     this.#mode = Mode.OPENED;
-    this.#changeMode();
     this.#updatePopupComments();
   };
 
   #closePopup = () => {
+    this.#changeMode(this.#card.id, Mode.DEFAULT);
     this.#popupComponent.reset(this.#card);
     bodyElement.removeChild(this.#popupComponent.element);
     bodyElement.classList.remove('hide-overflow');
     document.removeEventListener('keydown', this.#onEscKeyDown);
-    this.#mode = Mode.DEFAULT;
-    this.#changeMode();
+    this.#mode = Mode.DEFAULT;   
   };
 
   #onEscKeyDown = (evt) => {

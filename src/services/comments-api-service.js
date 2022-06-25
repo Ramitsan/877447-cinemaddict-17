@@ -1,14 +1,14 @@
 import ApiService from '../framework/api-service';
 import { RequestMethod } from '../const.js';
+import { DELAY } from '../const.js';
 
-const delay = 1000;
 const wait = async (ms) => new Promise((res) => setTimeout(res,ms));
 
 export default class CommentsApiService extends ApiService {
   getMovieComments = (id) => this._load({ url: `comments/${id}`}).then(ApiService.parseResponse);
 
   deleteComment = async (commentId) => {
-    await wait(delay);
+    await wait(DELAY);
     await this._load({
       url: `comments/${commentId}`,
       method: RequestMethod.DELETE,
@@ -17,7 +17,7 @@ export default class CommentsApiService extends ApiService {
   };
 
   addComment = async(cardId, comment) => {
-    await wait(delay);
+    await wait(DELAY);
     const response = await this._load({
       url: `comments/${cardId}`,
       method: RequestMethod.POST,
