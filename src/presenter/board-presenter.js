@@ -243,10 +243,6 @@ export default class BoardPresenter {
   };
 
   #handleModeChange = (cardId, mode) => {
-    // this.#openedPresenter = [...this.#cardPresenters.values()].find((presenter) => presenter.isOpened);
-    // if(!this.#openedPresenter) {
-    //   this.#filterModel.setFilter(UpdateType.MAJOR, this.#filterModel.filter);
-    // }
     if(mode === Mode.DEFAULT) {
       this.#openedPresenter = null;
       return;
