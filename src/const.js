@@ -1,5 +1,7 @@
 const CARD_COUNT_PER_STEP = 5;
 const CARD_COUNT_IN_EXTRA = 2;
+const DESCRIPTION_MAX_SYMBOLS = 140;
+const DELAY = 1000;
 
 const FilterType = {
   ALL: 'all',
@@ -53,4 +55,4 @@ const TimeLimit = {
   UPPER_LIMIT: 1000,
 };
 
-export { CARD_COUNT_PER_STEP, CARD_COUNT_IN_EXTRA, FilterType, FilterName, Mode, SortType, UserAction, UpdateType, RequestMethod, TimeLimit };
+export { CARD_COUNT_PER_STEP, CARD_COUNT_IN_EXTRA, DESCRIPTION_MAX_SYMBOLS, DELAY, FilterType, FilterName, Mode, SortType, UserAction, UpdateType, RequestMethod, TimeLimit };

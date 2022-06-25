@@ -21,12 +21,7 @@ export default class CardsModel extends Observable {
     } catch(err) {
       this.#cards = [];
     }
-    this._notify(UpdateType.INIT);
-  };
-
-  setCards = (updateType, cards) => {
-    this.#cards = cards;
-    this._notify(updateType, cards);
+    this._notify(UpdateType.INIT, this.#cards);
   };
 
   updateCard = (updateType, update) => {

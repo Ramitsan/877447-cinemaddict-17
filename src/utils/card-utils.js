@@ -1,12 +1,13 @@
 import dayjs from 'dayjs';
+import { DESCRIPTION_MAX_SYMBOLS } from '../const.js';
 
 // Функция, которая обрезает текстовое содержимое, если оно превышает заданное число символов
-function getCropDescription(description, symbolsCountDefault = 140) {
+function getCropDescription(description, symbolsCount = DESCRIPTION_MAX_SYMBOLS) {
   const chars = [];
   let symbolsCountCurrent = 0;
   for (const char of description) {
     symbolsCountCurrent++;
-    if (symbolsCountCurrent < symbolsCountDefault) {
+    if (symbolsCountCurrent < symbolsCount) {
       chars.push(char);
     } else {
       break;
@@ -14,9 +15,8 @@ function getCropDescription(description, symbolsCountDefault = 140) {
   }
 
   const newDescription = chars.join('');
-  return symbolsCountCurrent >= symbolsCountDefault ? `${newDescription}...` : `${newDescription}`;
+  return symbolsCountCurrent >= symbolsCount ? `${newDescription}...` : `${newDescription}`;
 }
-
 
 // функция отображения дат в человекочитаемом формате
 const humanizeDateReleaseForCard = (date) => dayjs(date).format('YYYY');

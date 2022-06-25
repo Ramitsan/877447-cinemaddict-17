@@ -42,6 +42,9 @@ export default class FiltersView extends AbstractView {
 
   #filterTypeChangeHandler = (evt) => {
     evt.preventDefault();
-    this._callback.filterTypeChange(evt.target.dataset.type);
+    const link = evt.target?.closest?.('a');
+    if (link) {
+      this._callback.filterTypeChange(link.dataset.type);
+    }
   };
 }
