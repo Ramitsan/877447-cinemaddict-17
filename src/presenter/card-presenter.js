@@ -102,7 +102,7 @@ export default class CardPresenter {
     bodyElement.removeChild(this.#popupComponent.element);
     bodyElement.classList.remove('hide-overflow');
     document.removeEventListener('keydown', this.#onEscKeyDown);
-    this.#mode = Mode.DEFAULT;   
+    this.#mode = Mode.DEFAULT;
   };
 
   #onEscKeyDown = (evt) => {
