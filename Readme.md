@@ -1,6 +1,6 @@
 # Проект «Киноман»
 
-
+![screen](https://user-images.githubusercontent.com/45296707/225750749-45d12e9b-129d-4901-945c-7ea27dc77058.jpg)
 
 * Студент: [Ирина Рамицан](https://up.htmlacademy.ru/ecmascript/17/user/877447).
 * Наставник: [Кирилл Чистяков](https://htmlacademy.ru/profile/id149394).
