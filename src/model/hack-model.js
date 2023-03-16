@@ -23,15 +23,15 @@ export default class HackModel {
     const cards = await this.getCards();
     const comments = [];
     for (const card of cards) {
-      await new Promise(res => {
+      await new Promise((res) => {
         setTimeout(() => {
           res();
-        }, 500)
-      })
+        }, 500);
+      });
       const comment = await this.getComments(card.id);
       comments.push(comment);
-    } 
-    console.log(cards);
-    console.log(comments);
-  }
+    }
+    // console.log(cards);
+    // console.log(comments);
+  };
 }

@@ -8,7 +8,7 @@ import CommentsModel from './model/comments-model.js';
 import FilterModel from './model/filters-model.js';
 import CardsApiService from './services/cards-api-service.js';
 import CommentsApiService from './services/comments-api-service.js';
-import HackModel from './model/hack-model';
+// import HackModel from './model/hack-model';
 
 const AUTORIZATION = 'Basic 68jfdgisjw9508jdkgkl';
 const END_POINT = 'https://17.ecmascript.pages.academy/cinemaddict/';
