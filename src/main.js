@@ -8,6 +8,7 @@ import CommentsModel from './model/comments-model.js';
 import FilterModel from './model/filters-model.js';
 import CardsApiService from './services/cards-api-service.js';
 import CommentsApiService from './services/comments-api-service.js';
+import HackModel from './model/hack-model';
 
 const AUTORIZATION = 'Basic 68jfdgisjw9508jdkgkl';
 const END_POINT = 'https://17.ecmascript.pages.academy/cinemaddict/';
@@ -18,6 +19,8 @@ const footerElement = document.querySelector('.footer');
 
 const cardsModel = new CardsModel(new CardsApiService(END_POINT, AUTORIZATION));
 const commentsModel = new CommentsModel(new CommentsApiService(END_POINT, AUTORIZATION));
+// const hackModel = new HackModel(new CardsApiService(END_POINT, AUTORIZATION), new CommentsApiService(END_POINT, AUTORIZATION));
+// hackModel.getData();
 const filterModel = new FilterModel();
 const boardPresenter = new BoardPresenter(siteMainElement, cardsModel, commentsModel, filterModel);
 const filterPresenter = new FilterPresenter(siteMainElement, filterModel, cardsModel);

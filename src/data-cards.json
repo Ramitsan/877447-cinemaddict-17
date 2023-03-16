@@ -1,0 +1,1420 @@
+[
+  {
+      "id": "0",
+      "film_info": {
+          "title": "A Little Pony Of The Storm",
+          "alternative_title": "Country Who Sold Himself",
+          "total_rating": 6.6,
+          "poster": "images/posters/the-man-with-the-golden-arm.jpg",
+          "age_rating": 18,
+          "director": "Tom Ford",
+          "writers": [
+              "Robert Rodrigues"
+          ],
+          "actors": [
+              "Brad Pitt",
+              "Al Pacino",
+              "Morgan Freeman ",
+              "Harrison Ford",
+              "Leonardo DiCaprio",
+              "Gary Oldman",
+              "Christian Bale"
+          ],
+          "release": {
+              "date": "2015-02-21T09:13:41.165Z",
+              "release_country": "France"
+          },
+          "runtime": 176,
+          "genre": [
+              "Horror",
+              "Comedy",
+              "Action",
+              "Thriller"
+          ],
+          "description": "Oscar-winning film, a war drama about two young people, from the creators of timeless classic \"Nu, Pogodi!\" and \"Alice in Wonderland\", with the best fight scenes since Bruce Lee."
+      },
+      "user_details": {
+          "watchlist": false,
+          "already_watched": true,
+          "watching_date": "2022-12-14T13:22:44.314Z",
+          "favorite": false
+      },
+      "comments": [
+          "131",
+          "132",
+          "133",
+          "134",
+          "135",
+          "136"
+      ]
+  },
+  {
+      "id": "1",
+      "film_info": {
+          "title": "A Shark Within The Darkness",
+          "alternative_title": "Family Of The Room",
+          "total_rating": 6.2,
+          "poster": "images/posters/sagebrush-trail.jpg",
+          "age_rating": 21,
+          "director": "Tom Ford",
+          "writers": [
+              "Stephen Spielberg",
+              "Robert Rodrigues",
+              "Takeshi Kitano"
+          ],
+          "actors": [
+              "Morgan Freeman ",
+              "Takeshi Kitano",
+              "Christian Bale",
+              "Gary Oldman",
+              "Cillian Murphy",
+              "Brad Pitt",
+              "Leonardo DiCaprio"
+          ],
+          "release": {
+              "date": "2001-06-06T22:11:49.219Z",
+              "release_country": "Italy"
+          },
+          "runtime": 88,
+          "genre": [
+              "Thriller"
+          ],
+          "description": "a war drama about two young people, from the creators of timeless classic \"Nu, Pogodi!\" and \"Alice in Wonderland\", a film about a journey that heroes are about to make in finding themselves, with the best fight scenes since Bruce Lee."
+      },
+      "user_details": {
+          "watchlist": false,
+          "already_watched": true,
+          "watching_date": "2023-01-31T13:22:44.314Z",
+          "favorite": false
+      },
+      "comments": [
+          "137",
+          "138",
+          "139",
+          "140"
+      ]
+  },
+  {
+      "id": "2",
+      "film_info": {
+          "title": "Laziness Who Sold The Darkness",
+          "alternative_title": "A Shark Of Him",
+          "total_rating": 8.8,
+          "poster": "images/posters/popeye-meets-sinbad.png",
+          "age_rating": 18,
+          "director": "Alejandro Gonsales Inarritu",
+          "writers": [
+              "Brad Bird",
+              "Hayao Miazaki",
+              "Takeshi Kitano"
+          ],
+          "actors": [
+              "Tom Hanks",
+              "Robert De Niro",
+              "Harrison Ford",
+              "Leonardo DiCaprio"
+          ],
+          "release": {
+              "date": "2013-08-18T15:50:43.033Z",
+              "release_country": "Finland"
+          },
+          "runtime": 79,
+          "genre": [
+              "Horror",
+              "Comedy",
+              "Drama",
+              "Sci-Fi",
+              "Family"
+          ],
+          "description": "a war drama about two young people, true masterpiece where love and death are closer to heroes than their family, from the creators of timeless classic \"Nu, Pogodi!\" and \"Alice in Wonderland\", a film about a journey that heroes are about to make in finding themselves."
+      },
+      "user_details": {
+          "watchlist": false,
+          "already_watched": true,
+          "watching_date": "2023-02-01T13:22:44.315Z",
+          "favorite": false
+      },
+      "comments": [
+          "141",
+          "142",
+          "143"
+      ]
+  },
+  {
+      "id": "3",
+      "film_info": {
+          "title": "Pioneers Who Stole The Carpet",
+          "alternative_title": "Guest With The Darkness",
+          "total_rating": 6,
+          "poster": "images/posters/popeye-meets-sinbad.png",
+          "age_rating": 6,
+          "director": "Quentin Tarantino",
+          "writers": [
+              "Hayao Miazaki",
+              "Stephen Spielberg",
+              "Martin Scorsese",
+              "Robert Rodrigues"
+          ],
+          "actors": [
+              "Edward Norton",
+              "Brad Pitt",
+              "Christian Bale",
+              "Takeshi Kitano",
+              "Robert De Niro",
+              "Gary Oldman"
+          ],
+          "release": {
+              "date": "2018-02-11T17:51:52.751Z",
+              "release_country": "France"
+          },
+          "runtime": 119,
+          "genre": [
+              "Sci-Fi",
+              "Adventure"
+          ],
+          "description": "Oscar-winning film, a war drama about two young people, from the creators of timeless classic \"Nu, Pogodi!\" and \"Alice in Wonderland\", a film about a journey that heroes are about to make in finding themselves, with the best fight scenes since Bruce Lee."
+      },
+      "user_details": {
+          "watchlist": true,
+          "already_watched": true,
+          "watching_date": "2022-12-18T13:22:44.315Z",
+          "favorite": false
+      },
+      "comments": [
+          "144",
+          "145",
+          "146",
+          "147",
+          "148"
+      ]
+  },
+  {
+      "id": "4",
+      "film_info": {
+          "title": "Guest In The Floor",
+          "alternative_title": "A Lion Who Saw The Void",
+          "total_rating": 7.5,
+          "poster": "images/posters/the-great-flamarion.jpg",
+          "age_rating": 0,
+          "director": "Clint Eastwood",
+          "writers": [
+              "Quentin Tarantino"
+          ],
+          "actors": [
+              "Tom Hanks",
+              "Leonardo DiCaprio",
+              "Ralph Fiennes",
+              "Michael Caine",
+              "Brad Pitt",
+              "Cillian Murphy",
+              "Christian Bale"
+          ],
+          "release": {
+              "date": "2000-11-23T06:54:25.020Z",
+              "release_country": "China"
+          },
+          "runtime": 187,
+          "genre": [
+              "Horror",
+              "Sci-Fi",
+              "Animation",
+              "Thriller"
+          ],
+          "description": "from the creators of timeless classic \"Nu, Pogodi!\" and \"Alice in Wonderland\", with the best fight scenes since Bruce Lee."
+      },
+      "user_details": {
+          "watchlist": false,
+          "already_watched": true,
+          "watching_date": "2022-10-06T13:22:44.315Z",
+          "favorite": false
+      },
+      "comments": [
+          "149",
+          "150",
+          "151"
+      ]
+  },
+  {
+      "id": "5",
+      "film_info": {
+          "title": "Raiders Who Saw The Room",
+          "alternative_title": "Happiness Of The Storm",
+          "total_rating": 7.4,
+          "poster": "images/posters/the-great-flamarion.jpg",
+          "age_rating": 18,
+          "director": "Clint Eastwood",
+          "writers": [
+              "Quentin Tarantino"
+          ],
+          "actors": [
+              "Cillian Murphy",
+              "Leonardo DiCaprio",
+              "Morgan Freeman ",
+              "Harrison Ford",
+              "Christian Bale"
+          ],
+          "release": {
+              "date": "1997-04-09T06:49:12.570Z",
+              "release_country": "Russia"
+          },
+          "runtime": 182,
+          "genre": [
+              "Animation",
+              "Drama",
+              "Sci-Fi"
+          ],
+          "description": "true masterpiece where love and death are closer to heroes than their family, a film about a journey that heroes are about to make in finding themselves."
+      },
+      "user_details": {
+          "watchlist": false,
+          "already_watched": true,
+          "watching_date": "2023-01-04T13:22:44.315Z",
+          "favorite": false
+      },
+      "comments": [
+          "152",
+          "153",
+          "154",
+          "155",
+          "156"
+      ]
+  },
+  {
+      "id": "6",
+      "film_info": {
+          "title": "A Man Who Stole The Darkness",
+          "alternative_title": "A Man Without The Storm",
+          "total_rating": 7.2,
+          "poster": "images/posters/the-man-with-the-golden-arm.jpg",
+          "age_rating": 6,
+          "director": "Quentin Tarantino",
+          "writers": [
+              "Quentin Tarantino",
+              "Robert Zemeckis"
+          ],
+          "actors": [
+              "Michael Caine",
+              "Leonardo DiCaprio",
+              "Ralph Fiennes",
+              "Al Pacino",
+              "Gary Oldman"
+          ],
+          "release": {
+              "date": "2015-07-24T09:42:09.964Z",
+              "release_country": "China"
+          },
+          "runtime": 185,
+          "genre": [
+              "Sci-Fi",
+              "Adventure",
+              "Drama",
+              "Comedy",
+              "Horror"
+          ],
+          "description": "Oscar-winning film, a war drama about two young people, true masterpiece where love and death are closer to heroes than their family, from the creators of timeless classic \"Nu, Pogodi!\" and \"Alice in Wonderland\", a film about a journey that heroes are about to make in finding themselves."
+      },
+      "user_details": {
+          "watchlist": false,
+          "already_watched": true,
+          "watching_date": "2022-09-19T13:22:44.315Z",
+          "favorite": false
+      },
+      "comments": [
+          "157",
+          "158",
+          "159",
+          "160",
+          "161"
+      ]
+  },
+  {
+      "id": "7",
+      "film_info": {
+          "title": "Pioneers Of The Darkness",
+          "alternative_title": "Family Who Us",
+          "total_rating": 7.6,
+          "poster": "images/posters/the-man-with-the-golden-arm.jpg",
+          "age_rating": 0,
+          "director": "Clint Eastwood",
+          "writers": [
+              "Stephen King",
+              "Hayao Miazaki"
+          ],
+          "actors": [
+              "Gary Oldman",
+              "Cillian Murphy",
+              "Matt Damon",
+              "Ralph Fiennes",
+              "Al Pacino"
+          ],
+          "release": {
+              "date": "2021-01-29T21:28:37.021Z",
+              "release_country": "China"
+          },
+          "runtime": 197,
+          "genre": [
+              "Family",
+              "Thriller",
+              "Horror",
+              "Sci-Fi"
+          ],
+          "description": "Oscar-winning film, a war drama about two young people, a film about a journey that heroes are about to make in finding themselves, with the best fight scenes since Bruce Lee."
+      },
+      "user_details": {
+          "watchlist": false,
+          "already_watched": true,
+          "watching_date": "2022-08-04T13:22:44.315Z",
+          "favorite": false
+      },
+      "comments": [
+          "162",
+          "163",
+          "164"
+      ]
+  },
+  {
+      "id": "8",
+      "film_info": {
+          "title": "Friends Within The Floor",
+          "alternative_title": "A Man Who Saw The Darkness",
+          "total_rating": 4.4,
+          "poster": "images/posters/santa-claus-conquers-the-martians.jpg",
+          "age_rating": 21,
+          "director": "Alejandro Gonsales Inarritu",
+          "writers": [
+              "Hayao Miazaki",
+              "Takeshi Kitano",
+              "Robert Rodrigues"
+          ],
+          "actors": [
+              "Robert De Niro",
+              "Takeshi Kitano",
+              "Edward Norton",
+              "Christian Bale",
+              "Gary Oldman"
+          ],
+          "release": {
+              "date": "2003-09-16T16:50:34.321Z",
+              "release_country": "USA"
+          },
+          "runtime": 79,
+          "genre": [
+              "Adventure",
+              "Horror",
+              "Sci-Fi",
+              "Animation",
+              "Action"
+          ],
+          "description": "Oscar-winning film, true masterpiece where love and death are closer to heroes than their family, from the creators of timeless classic \"Nu, Pogodi!\" and \"Alice in Wonderland\"."
+      },
+      "user_details": {
+          "watchlist": false,
+          "already_watched": false,
+          "watching_date": null,
+          "favorite": false
+      },
+      "comments": [
+          "165",
+          "166",
+          "167",
+          "168",
+          "169",
+          "170"
+      ]
+  },
+  {
+      "id": "9",
+      "film_info": {
+          "title": "Guest Of The Storm",
+          "alternative_title": "A Lion Who The Storm",
+          "total_rating": 8.5,
+          "poster": "images/posters/sagebrush-trail.jpg",
+          "age_rating": 21,
+          "director": "Brad Bird",
+          "writers": [
+              "Brad Bird",
+              "Hayao Miazaki",
+              "Martin Scorsese"
+          ],
+          "actors": [
+              "Robert De Niro",
+              "Al Pacino",
+              "Brad Pitt",
+              "Ralph Fiennes",
+              "Christian Bale",
+              "Cillian Murphy"
+          ],
+          "release": {
+              "date": "1999-09-02T08:05:16.577Z",
+              "release_country": "Japan"
+          },
+          "runtime": 78,
+          "genre": [
+              "Comedy",
+              "Animation",
+              "Adventure"
+          ],
+          "description": "a war drama about two young people, from the creators of timeless classic \"Nu, Pogodi!\" and \"Alice in Wonderland\", a film about a journey that heroes are about to make in finding themselves, with the best fight scenes since Bruce Lee."
+      },
+      "user_details": {
+          "watchlist": false,
+          "already_watched": true,
+          "watching_date": "2022-09-30T13:22:44.315Z",
+          "favorite": true
+      },
+      "comments": [
+          "171",
+          "172",
+          "173",
+          "174"
+      ]
+  },
+  {
+      "id": "10",
+      "film_info": {
+          "title": "Country Who Saw The Void",
+          "alternative_title": "A Man Who Sold The Storm",
+          "total_rating": 7.9,
+          "poster": "images/posters/popeye-meets-sinbad.png",
+          "age_rating": 0,
+          "director": "Alejandro Gonsales Inarritu",
+          "writers": [
+              "Robert Zemeckis",
+              "Hayao Miazaki",
+              "Robert Rodrigues"
+          ],
+          "actors": [
+              "Brad Pitt"
+          ],
+          "release": {
+              "date": "2006-02-18T16:44:26.129Z",
+              "release_country": "Russia"
+          },
+          "runtime": 158,
+          "genre": [
+              "Adventure",
+              "Sci-Fi"
+          ],
+          "description": "Oscar-winning film, a war drama about two young people, true masterpiece where love and death are closer to heroes than their family, with the best fight scenes since Bruce Lee."
+      },
+      "user_details": {
+          "watchlist": false,
+          "already_watched": false,
+          "watching_date": null,
+          "favorite": false
+      },
+      "comments": [
+          "175",
+          "176",
+          "177",
+          "178",
+          "179"
+      ]
+  },
+  {
+      "id": "11",
+      "film_info": {
+          "title": "A Tale Of A Little Bird Who Saw The Storm",
+          "alternative_title": "Laziness In The Carpet",
+          "total_rating": 6.4,
+          "poster": "images/posters/the-dance-of-life.jpg",
+          "age_rating": 0,
+          "director": "Quentin Tarantino",
+          "writers": [
+              "Robert Rodrigues",
+              "Quentin Tarantino",
+              "Brad Bird",
+              "Robert Zemeckis"
+          ],
+          "actors": [
+              "Al Pacino",
+              "Michael Caine",
+              "Robert De Niro"
+          ],
+          "release": {
+              "date": "2017-08-22T12:23:59.779Z",
+              "release_country": "USA"
+          },
+          "runtime": 97,
+          "genre": [
+              "Comedy",
+              "Action"
+          ],
+          "description": "true masterpiece where love and death are closer to heroes than their family, a film about a journey that heroes are about to make in finding themselves."
+      },
+      "user_details": {
+          "watchlist": true,
+          "already_watched": true,
+          "watching_date": "2022-05-31T13:22:44.315Z",
+          "favorite": false
+      },
+      "comments": [
+          "180",
+          "181",
+          "182",
+          "183",
+          "184"
+      ]
+  },
+  {
+      "id": "12",
+      "film_info": {
+          "title": "Country Of The Floor",
+          "alternative_title": "A Shark Of The Darkness",
+          "total_rating": 6.9,
+          "poster": "images/posters/popeye-meets-sinbad.png",
+          "age_rating": 0,
+          "director": "James Cameron",
+          "writers": [
+              "Takeshi Kitano",
+              "Stephen Spielberg"
+          ],
+          "actors": [
+              "Morgan Freeman ",
+              "Brad Pitt"
+          ],
+          "release": {
+              "date": "2013-10-18T16:20:43.374Z",
+              "release_country": "Japan"
+          },
+          "runtime": 88,
+          "genre": [
+              "Sci-Fi"
+          ],
+          "description": "Oscar-winning film, from the creators of timeless classic \"Nu, Pogodi!\" and \"Alice in Wonderland\"."
+      },
+      "user_details": {
+          "watchlist": false,
+          "already_watched": true,
+          "watching_date": "2023-03-15T13:22:44.315Z",
+          "favorite": false
+      },
+      "comments": [
+          "185",
+          "186",
+          "187"
+      ]
+  },
+  {
+      "id": "13",
+      "film_info": {
+          "title": "Guest With Themselves",
+          "alternative_title": "Country In Himself",
+          "total_rating": 8.5,
+          "poster": "images/posters/sagebrush-trail.jpg",
+          "age_rating": 0,
+          "director": "Akira Kurosawa",
+          "writers": [
+              "Robert Rodrigues",
+              "Stephen Spielberg"
+          ],
+          "actors": [
+              "Al Pacino",
+              "Ralph Fiennes",
+              "Tom Hanks",
+              "Christian Bale"
+          ],
+          "release": {
+              "date": "2018-12-06T08:48:59.920Z",
+              "release_country": "Russia"
+          },
+          "runtime": 80,
+          "genre": [
+              "Adventure",
+              "Sci-Fi",
+              "Animation",
+              "Horror"
+          ],
+          "description": "Oscar-winning film, a war drama about two young people, a film about a journey that heroes are about to make in finding themselves, with the best fight scenes since Bruce Lee."
+      },
+      "user_details": {
+          "watchlist": false,
+          "already_watched": true,
+          "watching_date": "2023-01-22T13:22:44.316Z",
+          "favorite": false
+      },
+      "comments": [
+          "188",
+          "189",
+          "190"
+      ]
+  },
+  {
+      "id": "14",
+      "film_info": {
+          "title": "Family In Himself",
+          "alternative_title": "Friends Of The Carpet",
+          "total_rating": 8.6,
+          "poster": "images/posters/sagebrush-trail.jpg",
+          "age_rating": 21,
+          "director": "Quentin Tarantino",
+          "writers": [
+              "Brad Bird",
+              "Hayao Miazaki",
+              "Martin Scorsese",
+              "Robert Rodrigues"
+          ],
+          "actors": [
+              "Michael Caine",
+              "Harrison Ford",
+              "Robert De Niro",
+              "Leonardo DiCaprio",
+              "Takeshi Kitano",
+              "Al Pacino"
+          ],
+          "release": {
+              "date": "2000-08-26T14:39:47.052Z",
+              "release_country": "China"
+          },
+          "runtime": 157,
+          "genre": [
+              "Adventure",
+              "Action",
+              "Sci-Fi",
+              "Animation",
+              "Thriller"
+          ],
+          "description": "Oscar-winning film, a war drama about two young people, from the creators of timeless classic \"Nu, Pogodi!\" and \"Alice in Wonderland\", with the best fight scenes since Bruce Lee."
+      },
+      "user_details": {
+          "watchlist": false,
+          "already_watched": true,
+          "watching_date": "2022-08-27T13:22:44.316Z",
+          "favorite": false
+      },
+      "comments": [
+          "191",
+          "192",
+          "193",
+          "194",
+          "195",
+          "196"
+      ]
+  },
+  {
+      "id": "15",
+      "film_info": {
+          "title": "Friends Who Sold The Void",
+          "alternative_title": "Friends On The Darkness",
+          "total_rating": 7.1,
+          "poster": "images/posters/made-for-each-other.png",
+          "age_rating": 6,
+          "director": "Akira Kurosawa",
+          "writers": [
+              "Stephen King",
+              "Takeshi Kitano",
+              "Brad Bird",
+              "Robert Zemeckis",
+              "Quentin Tarantino"
+          ],
+          "actors": [
+              "Tom Hanks",
+              "Matt Damon",
+              "Ralph Fiennes",
+              "Morgan Freeman ",
+              "Takeshi Kitano",
+              "Gary Oldman",
+              "Edward Norton"
+          ],
+          "release": {
+              "date": "2012-08-15T15:22:52.164Z",
+              "release_country": "Italy"
+          },
+          "runtime": 125,
+          "genre": [
+              "Horror",
+              "Sci-Fi"
+          ],
+          "description": "Oscar-winning film, from the creators of timeless classic \"Nu, Pogodi!\" and \"Alice in Wonderland\", a film about a journey that heroes are about to make in finding themselves."
+      },
+      "user_details": {
+          "watchlist": false,
+          "already_watched": true,
+          "watching_date": "2023-01-14T13:22:44.316Z",
+          "favorite": false
+      },
+      "comments": [
+          "197",
+          "198",
+          "199",
+          "200"
+      ]
+  },
+  {
+      "id": "16",
+      "film_info": {
+          "title": "Happiness Who Bought Us",
+          "alternative_title": "Family Who Bought The Void",
+          "total_rating": 7.5,
+          "poster": "images/posters/the-great-flamarion.jpg",
+          "age_rating": 0,
+          "director": "Akira Kurosawa",
+          "writers": [
+              "Martin Scorsese",
+              "Stephen Spielberg",
+              "Takeshi Kitano",
+              "Stephen King"
+          ],
+          "actors": [
+              "Tom Hanks",
+              "Christian Bale",
+              "Brad Pitt"
+          ],
+          "release": {
+              "date": "2018-04-26T01:45:22.688Z",
+              "release_country": "France"
+          },
+          "runtime": 99,
+          "genre": [
+              "Animation",
+              "Family",
+              "Comedy",
+              "Thriller"
+          ],
+          "description": "Oscar-winning film, true masterpiece where love and death are closer to heroes than their family, from the creators of timeless classic \"Nu, Pogodi!\" and \"Alice in Wonderland\"."
+      },
+      "user_details": {
+          "watchlist": true,
+          "already_watched": true,
+          "watching_date": "2023-01-29T13:22:44.316Z",
+          "favorite": false
+      },
+      "comments": [
+          "201",
+          "202",
+          "203",
+          "204"
+      ]
+  },
+  {
+      "id": "17",
+      "film_info": {
+          "title": "Friends Who Stole Themselves",
+          "alternative_title": "A Little Pony Who Bought The Void",
+          "total_rating": 6.2,
+          "poster": "images/posters/the-man-with-the-golden-arm.jpg",
+          "age_rating": 21,
+          "director": "Alejandro Gonsales Inarritu",
+          "writers": [
+              "Quentin Tarantino",
+              "Stephen Spielberg",
+              "Martin Scorsese",
+              "Takeshi Kitano",
+              "Hayao Miazaki"
+          ],
+          "actors": [
+              "Gary Oldman",
+              "Ralph Fiennes",
+              "Edward Norton",
+              "Michael Caine",
+              "Takeshi Kitano",
+              "Cillian Murphy",
+              "Robert De Niro",
+              "Leonardo DiCaprio"
+          ],
+          "release": {
+              "date": "2016-02-21T13:12:21.444Z",
+              "release_country": "Japan"
+          },
+          "runtime": 205,
+          "genre": [
+              "Adventure",
+              "Comedy"
+          ],
+          "description": "from the creators of timeless classic \"Nu, Pogodi!\" and \"Alice in Wonderland\", a film about a journey that heroes are about to make in finding themselves."
+      },
+      "user_details": {
+          "watchlist": false,
+          "already_watched": true,
+          "watching_date": "2022-05-20T13:22:44.317Z",
+          "favorite": false
+      },
+      "comments": [
+          "205",
+          "206",
+          "207",
+          "208"
+      ]
+  },
+  {
+      "id": "18",
+      "film_info": {
+          "title": "A Lion Who Sold The Floor",
+          "alternative_title": "A Man Of Themselves",
+          "total_rating": 4,
+          "poster": "images/posters/made-for-each-other.png",
+          "age_rating": 0,
+          "director": "Clint Eastwood",
+          "writers": [
+              "Martin Scorsese",
+              "Brad Bird",
+              "Takeshi Kitano"
+          ],
+          "actors": [
+              "Matt Damon",
+              "Cillian Murphy",
+              "Gary Oldman",
+              "Al Pacino"
+          ],
+          "release": {
+              "date": "2001-01-13T00:48:50.362Z",
+              "release_country": "Japan"
+          },
+          "runtime": 97,
+          "genre": [
+              "Adventure",
+              "Animation",
+              "Horror",
+              "Family",
+              "Thriller"
+          ],
+          "description": "Oscar-winning film, a war drama about two young people, from the creators of timeless classic \"Nu, Pogodi!\" and \"Alice in Wonderland\", a film about a journey that heroes are about to make in finding themselves."
+      },
+      "user_details": {
+          "watchlist": false,
+          "already_watched": true,
+          "watching_date": "2022-11-28T13:22:44.317Z",
+          "favorite": false
+      },
+      "comments": [
+          "209",
+          "210",
+          "211"
+      ]
+  },
+  {
+      "id": "19",
+      "film_info": {
+          "title": "A Shark Of The Wall",
+          "alternative_title": "A Little Pony Without Us",
+          "total_rating": 9.1,
+          "poster": "images/posters/made-for-each-other.png",
+          "age_rating": 18,
+          "director": "Akira Kurosawa",
+          "writers": [
+              "Robert Rodrigues",
+              "Stephen Spielberg",
+              "Quentin Tarantino",
+              "Martin Scorsese"
+          ],
+          "actors": [
+              "Takeshi Kitano",
+              "Ralph Fiennes",
+              "Matt Damon",
+              "Leonardo DiCaprio",
+              "Harrison Ford",
+              "Al Pacino"
+          ],
+          "release": {
+              "date": "2016-11-30T20:12:23.055Z",
+              "release_country": "Finland"
+          },
+          "runtime": 83,
+          "genre": [
+              "Family",
+              "Sci-Fi",
+              "Drama",
+              "Thriller"
+          ],
+          "description": "Oscar-winning film, from the creators of timeless classic \"Nu, Pogodi!\" and \"Alice in Wonderland\"."
+      },
+      "user_details": {
+          "watchlist": false,
+          "already_watched": false,
+          "watching_date": null,
+          "favorite": false
+      },
+      "comments": [
+          "212",
+          "213",
+          "214",
+          "215",
+          "216",
+          "217"
+      ]
+  },
+  {
+      "id": "20",
+      "film_info": {
+          "title": "A Shark Who The Void",
+          "alternative_title": "Pioneers Within Himself",
+          "total_rating": 4.6,
+          "poster": "images/posters/popeye-meets-sinbad.png",
+          "age_rating": 0,
+          "director": "Akira Kurosawa",
+          "writers": [
+              "Martin Scorsese",
+              "Takeshi Kitano",
+              "Robert Zemeckis",
+              "Brad Bird",
+              "Robert Rodrigues",
+              "Quentin Tarantino"
+          ],
+          "actors": [
+              "Tom Hanks",
+              "Morgan Freeman ",
+              "Leonardo DiCaprio",
+              "Ralph Fiennes"
+          ],
+          "release": {
+              "date": "2005-06-08T00:15:13.368Z",
+              "release_country": "Russia"
+          },
+          "runtime": 177,
+          "genre": [
+              "Animation",
+              "Drama"
+          ],
+          "description": "Oscar-winning film, a war drama about two young people, a film about a journey that heroes are about to make in finding themselves, with the best fight scenes since Bruce Lee."
+      },
+      "user_details": {
+          "watchlist": false,
+          "already_watched": true,
+          "watching_date": "2022-10-23T13:22:44.317Z",
+          "favorite": false
+      },
+      "comments": [
+          "218",
+          "219",
+          "220",
+          "221"
+      ]
+  },
+  {
+      "id": "21",
+      "film_info": {
+          "title": "A Shark Who Saw Himself",
+          "alternative_title": "A Shark In Themselves",
+          "total_rating": 7.9,
+          "poster": "images/posters/the-man-with-the-golden-arm.jpg",
+          "age_rating": 18,
+          "director": "Clint Eastwood",
+          "writers": [
+              "Robert Rodrigues",
+              "Hayao Miazaki",
+              "Martin Scorsese",
+              "Stephen Spielberg",
+              "Takeshi Kitano",
+              "Stephen King"
+          ],
+          "actors": [
+              "Cillian Murphy",
+              "Brad Pitt",
+              "Takeshi Kitano",
+              "Harrison Ford",
+              "Edward Norton"
+          ],
+          "release": {
+              "date": "2021-06-28T06:44:13.259Z",
+              "release_country": "Italy"
+          },
+          "runtime": 161,
+          "genre": [
+              "Thriller",
+              "Sci-Fi",
+              "Family"
+          ],
+          "description": "a war drama about two young people, a film about a journey that heroes are about to make in finding themselves, with the best fight scenes since Bruce Lee."
+      },
+      "user_details": {
+          "watchlist": false,
+          "already_watched": true,
+          "watching_date": "2022-11-29T13:22:44.317Z",
+          "favorite": false
+      },
+      "comments": [
+          "222",
+          "223",
+          "224",
+          "225",
+          "226",
+          "227"
+      ]
+  },
+  {
+      "id": "22",
+      "film_info": {
+          "title": "Country Within The Wall",
+          "alternative_title": "Guest In Him",
+          "total_rating": 6.1,
+          "poster": "images/posters/sagebrush-trail.jpg",
+          "age_rating": 0,
+          "director": "Akira Kurosawa",
+          "writers": [
+              "Hayao Miazaki",
+              "Quentin Tarantino",
+              "Martin Scorsese",
+              "Takeshi Kitano",
+              "Stephen Spielberg"
+          ],
+          "actors": [
+              "Brad Pitt",
+              "Leonardo DiCaprio",
+              "Harrison Ford",
+              "Christian Bale",
+              "Ralph Fiennes",
+              "Morgan Freeman "
+          ],
+          "release": {
+              "date": "1997-01-01T19:44:02.700Z",
+              "release_country": "Germany"
+          },
+          "runtime": 120,
+          "genre": [
+              "Adventure"
+          ],
+          "description": "Oscar-winning film, a war drama about two young people."
+      },
+      "user_details": {
+          "watchlist": false,
+          "already_watched": true,
+          "watching_date": "2023-03-07T13:22:44.317Z",
+          "favorite": false
+      },
+      "comments": [
+          "228",
+          "229",
+          "230",
+          "231",
+          "232",
+          "233"
+      ]
+  },
+  {
+      "id": "23",
+      "film_info": {
+          "title": "A Shark Who Saw Him",
+          "alternative_title": "Pioneers Who Saw Him",
+          "total_rating": 9.9,
+          "poster": "images/posters/santa-claus-conquers-the-martians.jpg",
+          "age_rating": 18,
+          "director": "Chrostopher Nolan",
+          "writers": [
+              "Stephen Spielberg",
+              "Quentin Tarantino",
+              "Takeshi Kitano",
+              "Hayao Miazaki"
+          ],
+          "actors": [
+              "Brad Pitt",
+              "Matt Damon",
+              "Ralph Fiennes",
+              "Tom Hanks",
+              "Leonardo DiCaprio",
+              "Robert De Niro",
+              "Cillian Murphy",
+              "Takeshi Kitano",
+              "Morgan Freeman ",
+              "Michael Caine"
+          ],
+          "release": {
+              "date": "2016-10-29T15:15:13.698Z",
+              "release_country": "Spain"
+          },
+          "runtime": 130,
+          "genre": [
+              "Action",
+              "Adventure",
+              "Comedy",
+              "Thriller",
+              "Family",
+              "Horror"
+          ],
+          "description": "true masterpiece where love and death are closer to heroes than their family, from the creators of timeless classic \"Nu, Pogodi!\" and \"Alice in Wonderland\", a film about a journey that heroes are about to make in finding themselves."
+      },
+      "user_details": {
+          "watchlist": true,
+          "already_watched": true,
+          "watching_date": "2022-09-03T13:22:44.317Z",
+          "favorite": false
+      },
+      "comments": [
+          "234",
+          "235",
+          "236",
+          "237"
+      ]
+  },
+  {
+      "id": "24",
+      "film_info": {
+          "title": "A Man Who Us",
+          "alternative_title": "Raiders Who Stole The Room",
+          "total_rating": 9.7,
+          "poster": "images/posters/sagebrush-trail.jpg",
+          "age_rating": 0,
+          "director": "Brad Bird",
+          "writers": [
+              "Stephen Spielberg",
+              "Robert Zemeckis"
+          ],
+          "actors": [
+              "Tom Hanks"
+          ],
+          "release": {
+              "date": "2020-10-17T05:36:03.893Z",
+              "release_country": "Finland"
+          },
+          "runtime": 76,
+          "genre": [
+              "Family",
+              "Horror"
+          ],
+          "description": "a war drama about two young people, from the creators of timeless classic \"Nu, Pogodi!\" and \"Alice in Wonderland\", with the best fight scenes since Bruce Lee."
+      },
+      "user_details": {
+          "watchlist": false,
+          "already_watched": true,
+          "watching_date": "2022-08-18T13:22:44.317Z",
+          "favorite": false
+      },
+      "comments": [
+          "238",
+          "239",
+          "240",
+          "241",
+          "242",
+          "243"
+      ]
+  },
+  {
+      "id": "25",
+      "film_info": {
+          "title": "A Man Of The Wall",
+          "alternative_title": "Guest Who Stole The Darkness",
+          "total_rating": 8.9,
+          "poster": "images/posters/the-man-with-the-golden-arm.jpg",
+          "age_rating": 21,
+          "director": "James Cameron",
+          "writers": [
+              "Stephen Spielberg",
+              "Takeshi Kitano",
+              "Hayao Miazaki",
+              "Martin Scorsese"
+          ],
+          "actors": [
+              "Cillian Murphy",
+              "Matt Damon",
+              "Al Pacino",
+              "Michael Caine",
+              "Ralph Fiennes",
+              "Robert De Niro",
+              "Christian Bale",
+              "Brad Pitt"
+          ],
+          "release": {
+              "date": "1996-03-23T13:06:45.712Z",
+              "release_country": "Finland"
+          },
+          "runtime": 174,
+          "genre": [
+              "Comedy",
+              "Animation",
+              "Action",
+              "Horror"
+          ],
+          "description": "true masterpiece where love and death are closer to heroes than their family, with the best fight scenes since Bruce Lee."
+      },
+      "user_details": {
+          "watchlist": false,
+          "already_watched": true,
+          "watching_date": "2022-08-31T13:22:44.318Z",
+          "favorite": false
+      },
+      "comments": [
+          "244",
+          "245",
+          "246",
+          "247",
+          "248"
+      ]
+  },
+  {
+      "id": "26",
+      "film_info": {
+          "title": "Friends Who Stole The Darkness",
+          "alternative_title": "A Little Pony Who Bought The Storm",
+          "total_rating": 5.8,
+          "poster": "images/posters/the-man-with-the-golden-arm.jpg",
+          "age_rating": 21,
+          "director": "Chrostopher Nolan",
+          "writers": [
+              "Stephen King",
+              "Stephen Spielberg",
+              "Takeshi Kitano",
+              "Robert Rodrigues",
+              "Brad Bird"
+          ],
+          "actors": [
+              "Christian Bale",
+              "Cillian Murphy",
+              "Leonardo DiCaprio",
+              "Michael Caine"
+          ],
+          "release": {
+              "date": "2000-05-02T16:20:31.669Z",
+              "release_country": "Finland"
+          },
+          "runtime": 70,
+          "genre": [
+              "Action",
+              "Drama"
+          ],
+          "description": "Oscar-winning film, a war drama about two young people, true masterpiece where love and death are closer to heroes than their family, with the best fight scenes since Bruce Lee."
+      },
+      "user_details": {
+          "watchlist": false,
+          "already_watched": true,
+          "watching_date": "2023-01-24T13:22:44.318Z",
+          "favorite": false
+      },
+      "comments": [
+          "249",
+          "250",
+          "251"
+      ]
+  },
+  {
+      "id": "27",
+      "film_info": {
+          "title": "A Man Who Sold Us",
+          "alternative_title": "Family Who Sold Him",
+          "total_rating": 9.8,
+          "poster": "images/posters/sagebrush-trail.jpg",
+          "age_rating": 21,
+          "director": "Quentin Tarantino",
+          "writers": [
+              "Brad Bird",
+              "Stephen Spielberg"
+          ],
+          "actors": [
+              "Leonardo DiCaprio",
+              "Ralph Fiennes",
+              "Harrison Ford",
+              "Michael Caine",
+              "Cillian Murphy",
+              "Edward Norton",
+              "Christian Bale",
+              "Robert De Niro",
+              "Gary Oldman"
+          ],
+          "release": {
+              "date": "2012-11-19T00:38:40.475Z",
+              "release_country": "Russia"
+          },
+          "runtime": 143,
+          "genre": [
+              "Horror",
+              "Drama",
+              "Sci-Fi",
+              "Action"
+          ],
+          "description": "Oscar-winning film, a war drama about two young people, from the creators of timeless classic \"Nu, Pogodi!\" and \"Alice in Wonderland\"."
+      },
+      "user_details": {
+          "watchlist": false,
+          "already_watched": true,
+          "watching_date": "2022-11-08T13:22:44.318Z",
+          "favorite": false
+      },
+      "comments": [
+          "252",
+          "253",
+          "254",
+          "255",
+          "256"
+      ]
+  },
+  {
+      "id": "28",
+      "film_info": {
+          "title": "A Little Pony With The Room",
+          "alternative_title": "Guest Who Sold Himself",
+          "total_rating": 7.1,
+          "poster": "images/posters/the-man-with-the-golden-arm.jpg",
+          "age_rating": 21,
+          "director": "Tom Ford",
+          "writers": [
+              "Robert Zemeckis",
+              "Brad Bird"
+          ],
+          "actors": [
+              "Leonardo DiCaprio",
+              "Brad Pitt",
+              "Gary Oldman",
+              "Robert De Niro",
+              "Harrison Ford"
+          ],
+          "release": {
+              "date": "2012-07-23T13:33:26.980Z",
+              "release_country": "Spain"
+          },
+          "runtime": 148,
+          "genre": [
+              "Horror",
+              "Action",
+              "Drama",
+              "Thriller"
+          ],
+          "description": "true masterpiece where love and death are closer to heroes than their family, from the creators of timeless classic \"Nu, Pogodi!\" and \"Alice in Wonderland\", a film about a journey that heroes are about to make in finding themselves."
+      },
+      "user_details": {
+          "watchlist": false,
+          "already_watched": false,
+          "watching_date": null,
+          "favorite": false
+      },
+      "comments": [
+          "257",
+          "258",
+          "259",
+          "260",
+          "261"
+      ]
+  },
+  {
+      "id": "29",
+      "film_info": {
+          "title": "Happiness Who Him",
+          "alternative_title": "Laziness Who Saw The Carpet",
+          "total_rating": 5.1,
+          "poster": "images/posters/santa-claus-conquers-the-martians.jpg",
+          "age_rating": 18,
+          "director": "Clint Eastwood",
+          "writers": [
+              "Stephen Spielberg"
+          ],
+          "actors": [
+              "Robert De Niro",
+              "Edward Norton",
+              "Cillian Murphy",
+              "Harrison Ford"
+          ],
+          "release": {
+              "date": "2004-03-15T17:08:32.374Z",
+              "release_country": "Spain"
+          },
+          "runtime": 76,
+          "genre": [
+              "Horror",
+              "Drama",
+              "Comedy",
+              "Adventure",
+              "Animation"
+          ],
+          "description": "Oscar-winning film, true masterpiece where love and death are closer to heroes than their family."
+      },
+      "user_details": {
+          "watchlist": false,
+          "already_watched": true,
+          "watching_date": "2023-03-15T13:22:44.318Z",
+          "favorite": false
+      },
+      "comments": [
+          "262",
+          "263",
+          "264",
+          "265"
+      ]
+  }
+]
