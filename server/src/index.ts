@@ -26,7 +26,7 @@ async function loadMovies() {
 
 const server = http.createServer(async(req, res) => {
   const parsedUrl= url.parse(req.url); 
-  console.log(parsedUrl);
+  // console.log(parsedUrl);
 
   const keys = parsedUrl.pathname.split('/').filter(it => it);
   const endpointKey = keys[0]; 
@@ -41,7 +41,7 @@ const server = http.createServer(async(req, res) => {
     const [key, value] = it.split('=');
     params[key] = value;
   });
-  console.log(params);
+  // console.log(params);
 
   res.writeHead(200, cors);
 
@@ -52,10 +52,30 @@ const server = http.createServer(async(req, res) => {
       break;
     }
     case 'comments': {
-      const comments = await loadComments();
-      const id = keys[1];
-      const filmComments = comments[id];
-      res.end(JSON.stringify(filmComments));
+      console.log(req.method);
+      switch(req.method) {
+        case 'GET': {
+          const comments = await loadComments();
+          const id = keys[1];
+          const filmComments = comments[id];
+          res.end(JSON.stringify(filmComments));
+          break;
+        }
+        case 'DELETE': {
+          console.log('delete');
+          res.end(JSON.stringify({}));
+          break;
+        }
+        case 'POST': {
+          console.log('post');
+          res.end(JSON.stringify({}));
+          break;
+        }
+        default: {
+          res.end('default');
+        }
+      }
+     
       break;
     }
     default: {
