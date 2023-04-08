@@ -3,6 +3,13 @@ import * as url from 'url';
 import * as fs from 'fs/promises';
 import * as path from 'path';
 
+const cors = {
+  'Content-Type': 'text/plain',
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'POST, PUT, GET, DELETE, OPTIONS',
+  'Access-Control-Allow-Headers': 'X-PINGOTHER, Content-Type',
+}
+
 async function loadComments() {
   const comments = JSON.parse(await fs.readFile(path.join(__dirname, '../../src/data-comments.json'), {
     encoding: 'utf8',
@@ -21,7 +28,10 @@ const server = http.createServer(async(req, res) => {
   const parsedUrl= url.parse(req.url); 
   console.log(parsedUrl);
 
-  const endpointKey = parsedUrl.pathname.slice(1);
+  const keys = parsedUrl.pathname.split('/').filter(it => it);
+  const endpointKey = keys[0]; 
+
+  // const endpointKey = parsedUrl.pathname.slice(1);
   console.log(endpointKey);
   // const endpoint = this.endpoints[endpointKey];
   // console.log(endpoint);
@@ -33,6 +43,8 @@ const server = http.createServer(async(req, res) => {
   });
   console.log(params);
 
+  res.writeHead(200, cors);
+
   switch(endpointKey) {
     case 'movies': {
       const movies = await loadMovies();
@@ -41,7 +53,9 @@ const server = http.createServer(async(req, res) => {
     }
     case 'comments': {
       const comments = await loadComments();
-      res.end(JSON.stringify(comments));
+      const id = keys[1];
+      const filmComments = comments[id];
+      res.end(JSON.stringify(filmComments));
       break;
     }
     default: {

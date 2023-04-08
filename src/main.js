@@ -11,7 +11,8 @@ import CommentsApiService from './services/comments-api-service.js';
 // import HackModel from './model/hack-model';
 
 const AUTORIZATION = 'Basic 68jfdgisjw9508jdkgkl';
-const END_POINT = 'https://17.ecmascript.pages.academy/cinemaddict/';
+// const END_POINT = 'https://17.ecmascript.pages.academy/cinemaddict/';
+const END_POINT = 'http://localhost:4005';
 
 const headerElement = document.querySelector('.header');
 const siteMainElement = document.querySelector('.main');
