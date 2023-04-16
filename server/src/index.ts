@@ -81,7 +81,22 @@ const server = http.createServer(async(req, res) => {
         }
         case 'POST': {
           console.log('post');
-          res.end(JSON.stringify({}));
+          let comment = '';
+          req.on('data', (chunk) => {
+            comment += chunk.toString('utf8');
+          })
+          req.on('end', () => {
+            console.log(comment);
+            const filmId = Number(keys[1]);
+            const filmComments = comments[filmId];
+            filmComments.push({
+              ...JSON.parse(comment), 
+              date: new Date().toISOString(),              
+              author: 'guest', 
+              id: (Date.now() * 1000 + Math.floor(Math.random() * 1000)).toString()
+            }) 
+            res.end(JSON.stringify({movie: {}, comments: filmComments}));
+          })         
           break;
         }
         default: {
