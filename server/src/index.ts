@@ -23,6 +23,8 @@ async function loadMovies() {
   }))
   return movies;
 }
+let comments: Array<Array<any>>;
+loadComments().then(res => comments = res);
 
 const server = http.createServer(async(req, res) => {
   const parsedUrl= url.parse(req.url); 
@@ -41,7 +43,6 @@ const server = http.createServer(async(req, res) => {
     const [key, value] = it.split('=');
     params[key] = value;
   });
-  // console.log(params);
 
   res.writeHead(200, cors);
 
@@ -55,14 +56,26 @@ const server = http.createServer(async(req, res) => {
       console.log(req.method);
       switch(req.method) {
         case 'GET': {
-          const comments = await loadComments();
-          const id = keys[1];
+          const id = Number(keys[1]);
           const filmComments = comments[id];
           res.end(JSON.stringify(filmComments));
           break;
         }
         case 'DELETE': {
-          console.log('delete');
+          const id = Number(keys[1]);
+          const deleted = comments.find(film => {
+            const commentIndex = film.findIndex(comment => comment.id == id);
+            if(commentIndex != -1) {
+              film.splice(commentIndex, 1);
+              return true;
+            }
+            return false;
+          });
+          if(deleted) {
+            console.log('deleted', id);
+          } else {
+            console.log('wrong id', id);
+          }
           res.end(JSON.stringify({}));
           break;
         }
