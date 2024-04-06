@@ -26,7 +26,7 @@ async function loadMovies() {
 let comments: Array<Array<any>>;
 loadComments().then(res => comments = res);
 
-const server = http.createServer(async(req, res) => {
+export const handleRequest = async(req: http.IncomingMessage, res: http.ServerResponse) => {
   const parsedUrl= url.parse(req.url); 
   // console.log(parsedUrl);
 
@@ -110,7 +110,9 @@ const server = http.createServer(async(req, res) => {
       res.end('ok');
     }
   }
-})
+}
+
+const server = http.createServer(handleRequest)
 
 server.listen(4005);
 

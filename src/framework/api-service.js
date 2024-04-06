@@ -1,3 +1,5 @@
+import { mockFetch } from '../services/mock-service';
+
 /**
  * Класс для отправки запросов к серверу
  */
@@ -28,7 +30,8 @@ export default class ApiService {
   }) => {
     // headers.append('Authorization', this._authorization);
 
-    const response = await fetch(
+    const mock = !this._endPoint;
+    const response = await mock ? mockFetch(url, method, body) : fetch(
       `${this._endPoint}/${url}`,
       {method, body, headers},
     );
