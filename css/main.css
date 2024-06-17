@@ -284,7 +284,7 @@ button {
   background: none;
   border: 0;
   color: #687fad;
-  cursor: pointer;
+  cursor: default;
   font-family: var(--font);
   font-size: var(--font-size);
   margin: 0;
@@ -293,9 +293,6 @@ button {
   transition: opacity 0.1s ease-out;
 }
 
-.film-card__comments:hover {
-  opacity: 0.7;
-}
 
 .film-card__controls {
   align-items: flex-end;
@@ -364,6 +361,13 @@ button {
 .film-card .film-card__poster {
   bottom: calc(100% - 340px);
 }
+
+
+.film-card .film-card__poster:focus,
+.film-card .film-card__poster:hover {
+  cursor: pointer;
+}
+
 
 .film-card .film-card__controls {
   height: 50px;
